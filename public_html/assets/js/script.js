@@ -1,56 +1,46 @@
 $( document ).ready(function () {
 
-    // Admin Script Starts here
-    $(document).on('click', '#admin-logout', function () {
+    // Email Validation
+    function IsEmail(email) {
+        var regex =
+        /^([a-zA-Z0-9_\.\-\+])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+        if (!regex.test(email)) {
+            return false;
+        } else {
+            return true;
+        }
+    }    
 
-        $.ajax({
-            url: '/admin_logout',
-            type: 'POST',
-            beforeSend: function (xhr) {
-                var token = $('meta[name="csrf_token"]').attr('content');
-                if (token) {
-                    return xhr.setRequestHeader('X-CSRF-TOKEN', token);
-                }
-            },
-            success: function (response) {
-
-                window.location.assign('/admin');
-
-            },
-            error: function (result) {
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Some error',
-                })
-                return false;
-            }
+    $(document).on('click', '#toggle-password', function () {
+        $('#toggle-password').toggleClass('fa-eye-slash fa-eye');
+        $('#user-password').attr('type', function (_, attr) {
+            return attr === 'password' ? 'text' : 'password';
         });
-    });
-
+    });    
     
+    $(document).on('click', '#user-login-btn', function (e) {
+        e.preventDefault();
 
-    $(document).on('click', '#admin-login-btn', function () {
-
-        var getAdminEmail = $('#admin-email').val();
-        var getAdminPass = $('#admin-password').val();
+        var getUserEmail = $('#user-email').val();
+        var getUserPass = $('#user-password').val();
 
 
-        if (getAdminEmail == '') {
+        if (getUserEmail == '') {
             Swal.fire({
                 icon: 'error',
                 title: "Email can't be empty",
             })
             return false;
         }
-        if (getAdminPass == '') {
+        if (getUserPass == '') {
             Swal.fire({
                 icon: 'error',
-                title: "Pass can't be empty",
+                title: "Password can't be empty",
             })
             return false;
         }
 
-        if (isValidEmail(getAdminEmail) == false) {
+        if (IsEmail(getUserEmail) == false) {
             Swal.fire({
                 icon: 'error',
                 title: 'InValid Email',
@@ -60,13 +50,13 @@ $( document ).ready(function () {
         }
 
         data = {
-            'adminEmail_val' : getAdminEmail,
-            'adminPass_val' : getAdminPass,
+            'userEmail_val' : getUserEmail,
+            'userPass_val' : getUserPass,
+            'login_process_val' : 'login',
         }
 
-
         $.ajax({
-            url: '/admin_login',
+            url: '/login_process',
             type: 'POST',
             beforeSend: function (xhr) {
                 var token = $('meta[name="csrf_token"]').attr('content');
@@ -77,25 +67,25 @@ $( document ).ready(function () {
             data: data,
             success: function (response) {
 
-                if(response == "account closed") {
+                if(response == "Wrong email") {
                     Swal.fire({
-                        title: 'Account Closed!',
-                        text: "The account you are trying to access has been closed if you have a question please contact us.",
+                        title: 'Wrong Email!',
+                        text: "The Email you provided doesn't exist, please enter correct Email and then try again.",
                         icon: 'error',
                     })
                     return false;
                 }
 
-                if(response == "Wrong email or password") {
+                if(response == "Wrong password") {
                     Swal.fire({
-                        title: 'Wrong Creds!',
-                        text: "The Credentials you provided doesn't exist in our database, please enter correct credentials and then try again.",
+                        title: 'Wrong Password!',
+                        text: "The Credentials you provided doesn't match any account, please enter correct credentials and then try again.",
                         icon: 'error',
                     })
                     return false;
                 }
 
-                window.location.assign('/admin/dashboard');
+                window.location.assign('/dashboard');
 
             },
             error: function (result) {

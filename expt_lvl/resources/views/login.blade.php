@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
+    <meta name="csrf_token" content="{{ csrf_token() }}" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
     <title>Login - Expense Tracker</title>
 
@@ -53,10 +54,10 @@
               <h3 class="account-title text-dark">Login</h3>
               <p class="account-subtitle">Access to your account</p>
 
-              <form action="{{ URL('/dashboard') }}">
+              <form action="javascript.void(0);">
                 <div class="form-group">
                   <label>Email Address</label>
-                  <input class="form-control" type="text" value="">
+                  <input class="form-control" type="email" value="" id="user-email">
                 </div>
                 <div class="form-group">
                   <div class="row">
@@ -70,12 +71,12 @@
                     </div>
                   </div>
                   <div class="position-relative">
-                    <input class="form-control" type="password" value="" id="password">
+                    <input class="form-control" type="password" value="" id="user-password">
                     <span class="fa fa-eye-slash" id="toggle-password"></span>
                   </div>
                 </div>
                 <div class="form-group text-center">
-                  <button class="btn btn-primary account-btn" type="submit">Login</button>
+                  <button class="btn btn-primary account-btn" type="submit" id="user-login-btn">Login</button>
                 </div>
                 <div class="account-footer">
                   <p>Don't have an account yet? <a href="{{ URL('/register') }}">Register</a></p>
