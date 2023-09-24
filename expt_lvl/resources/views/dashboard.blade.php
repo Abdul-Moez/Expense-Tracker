@@ -155,19 +155,8 @@
                 <div class="card-body">
                   <span class="dash-widget-icon"><i class="fa fa-coins"></i></span>
                   <div class="dash-widget-info">
-                    <h3>44</h3>
+                    <h3>{{ $totalBalance < 0 ? 0 : $totalBalance }}</h3>
                     <span>Total Balance</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="col-md-6 col-sm-6 col-lg-6 col-xl-3">
-              <div class="card dash-widget">
-                <div class="card-body">
-                  <span class="dash-widget-icon text-danger"><i class="fas fa-angles-down"></i></span>
-                  <div class="dash-widget-info">
-                    <h3>112</h3>
-                    <span>Monthly Expense</span>
                   </div>
                 </div>
               </div>
@@ -177,8 +166,19 @@
                 <div class="card-body">
                   <span class="dash-widget-icon text-success"><i class="fa fa-angles-up"></i></span>
                   <div class="dash-widget-info">
-                    <h3>37</h3>
+                    <h3>{{ $totalMonthlyIncomeValue }}</h3>
                     <span>Monthly Income</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6 col-sm-6 col-lg-6 col-xl-3">
+              <div class="card dash-widget">
+                <div class="card-body">
+                  <span class="dash-widget-icon text-danger"><i class="fas fa-angles-down"></i></span>
+                  <div class="dash-widget-info">
+                    <h3>{{ $totalMonthlyExpenseValue }}</h3>
+                    <span>Monthly Expense</span>
                   </div>
                 </div>
               </div>
@@ -208,46 +208,24 @@
                       <thead>
                         <tr>
                           <th>ID</th>
-                          <th>Account</th>
-                          <th>Category</th>
+                          <th>Account Name</th>
+                          <th>Category Name</th>
                           <th>Amount</th>
                           <th>Date</th>
                         </tr>
                       </thead>
                       <tbody>
-                        <tr>
-                          <td><a href="invoice-view.html">#INV-0001</a></td>
-                          <td>
-                            <h2><a href="#">Global Technologies</a></h2>
-                          </td>
-                          <td>11 Mar 2019</td>
-                          <td>$380</td>
-                          <td>
-                            <span class="badge bg-inverse-warning">Partially Paid</span>
-                          </td>
-                        </tr>
-                        <tr>
-                          <td><a href="invoice-view.html">#INV-0002</a></td>
-                          <td>
-                            <h2><a href="#">Delta Infotech</a></h2>
-                          </td>
-                          <td>8 Feb 2019</td>
-                          <td>$500</td>
-                          <td>
-                            <span class="badge bg-inverse-success">Paid</span>
-                          </td>
-                        </tr>
-                        <tr>
-                          <td><a href="invoice-view.html">#INV-0003</a></td>
-                          <td>
-                            <h2><a href="#">Cream Inc</a></h2>
-                          </td>
-                          <td>23 Jan 2019</td>
-                          <td>$60</td>
-                          <td>
-                            <span class="badge bg-inverse-danger">Unpaid</span>
-                          </td>
-                        </tr>
+                        <?php $expenseId = 1; ?>
+                        @foreach ($recentExpense as $rsRecentExpense)
+                          <tr>
+                            <td>{{ $expenseId }}</td>
+                            <td>{{ \App\Http\Controllers\DashboardController::decrypt( $rsRecentExpense->account_name ) }}</td>
+                            <td>{{ $rsRecentExpense->category_name }}</td>
+                            <td>{{ \App\Http\Controllers\DashboardController::decrypt( $rsRecentExpense->amount ) }} Rs</td>
+                            <td>{{ $rsRecentExpense->date }}</td>
+                          </tr>
+                          <?php $expenseId++; ?>
+                        @endforeach
                       </tbody>
                     </table>
                   </div>
@@ -272,33 +250,17 @@
                         </tr>
                       </thead>
                       <tbody>
-                        <tr>
-                          <td><a href="invoice-view.html">#INV-0001</a></td>
-                          <td>
-                            <h2><a href="#">Global Technologies</a></h2>
-                          </td>
-                          <td>Paypal</td>
-                          <td>11 Mar 2019</td>
-                          <td>$380</td>
-                        </tr>
-                        <tr>
-                          <td><a href="invoice-view.html">#INV-0002</a></td>
-                          <td>
-                            <h2><a href="#">Delta Infotech</a></h2>
-                          </td>
-                          <td>Paypal</td>
-                          <td>8 Feb 2019</td>
-                          <td>$500</td>
-                        </tr>
-                        <tr>
-                          <td><a href="invoice-view.html">#INV-0003</a></td>
-                          <td>
-                            <h2><a href="#">Cream Inc</a></h2>
-                          </td>
-                          <td>Paypal</td>
-                          <td>23 Jan 2019</td>
-                          <td>$60</td>
-                        </tr>
+                        <?php $incomeId = 1; ?>
+                        @foreach ($recentIncome as $rsRecentIncome)
+                          <tr>
+                            <td>{{ $incomeId }}</td>
+                            <td>{{ \App\Http\Controllers\DashboardController::decrypt( $rsRecentIncome->account_name ) }}</td>
+                            <td>{{ \App\Http\Controllers\DashboardController::decrypt( $rsRecentIncome->source ) }}</td>
+                            <td>{{ \App\Http\Controllers\DashboardController::decrypt( $rsRecentIncome->amount ) }} Rs</td>
+                            <td>{{ $rsRecentIncome->date }}</td>
+                          </tr>
+                          <?php $incomeId++; ?>
+                        @endforeach
                       </tbody>
                     </table>
                   </div>
