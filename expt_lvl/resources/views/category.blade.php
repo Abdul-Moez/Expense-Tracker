@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <head>
     <meta charset="UTF-8">
+    <meta name="csrf_token" content="{{ csrf_token() }}" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Category - Expense Tracker</title>
@@ -45,7 +46,9 @@
 </head>
 <body>
 
-      
+    <div id="big_loader" class="d-none my-2 justify-content-center align-items-center loader-body w-100 h-100 position-fixed m-0 top-0 mt-0" style="z-index: 999999">
+      <img src="{{ URL("assets/img/loader.gif") }}" class="img-fluid" alt="">
+    </div>     
       
     <div class="content container-fluid">
 
@@ -95,63 +98,39 @@
       </div> --}}
 
 
-      <div class="row filter-">
-        <div class="col-sm-6 col-12 mb-3">
+      <form class="row" action="javascript:void(0)">
+        <div class="col-sm-4 col-12 mb-3">
           <div class="form-floating">
-            <input type="text" class="form-control">
+            <input type="text" class="form-control" id="filter_category_name">
             <label class="focus-label">Category Name</label>
           </div>
         </div>
-        <div class="col-sm-6 col-12 mb-3">
-          <button class="btn btn-success h-100 w-100"> Search </button>
-        </div>
-      </div>
-
-      <div class="row">
-        <div class="col-md-12">
-          <div class="table-responsive">
-            <table class="table table-striped custom-table mb-0 datatable">
-              <thead>
-                <tr>
-                  <th>#</th>
-                  <th>Category Name</th>
-                  <th>Active</th>
-                  <th class="text-end">Actions</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                    <td>1</td>
-                    <td>
-                        <h2 class="table-avatar">
-                        <a href="profile.html" class="avatar"><img alt src="assets/img/profiles/avatar-09.jpg"></a>
-                        <a href="#">Richard Miles <span>Web Developer</span></a>
-                        </h2>
-                    </td>
-                    <td>Casual Leave</td>
-                    <td class="text-end">
-                        <div class="dropdown dropdown-action">
-                            <a href="#" class="action-icon dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false"><i class="material-icons">more_vert</i></a>
-                            <div class="dropdown-menu dropdown-menu-right">
-                                <a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#edit_leave"><i class="fa fa-pencil m-r-5"></i> Edit</a>
-                                <a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#delete_approve"><i class="fa fa-trash-o m-r-5"></i> Delete</a>
-                            </div>
-                        </div>
-                    </td>
-                </tr>
-              </tbody>
-            </table>
+        <div class="col-sm-4 col-12 mb-3">
+          <div class="form-floating">
+            <select class="form-select" id="filter_category_active" name="filter_category_active">
+                <option value="">Select Active</option>
+                <option value="1">Yes</option>
+                <option value="0">No</option>
+            </select>
+            <label class="focus-label">Active</label>
           </div>
         </div>
+        <div class="col-sm-4 col-12 mb-3">
+          <button class="btn btn-success h-100 w-100" id="filter_category_btn" type="submit"> Search </button>
+        </div>
+      </form>
+
+      <div class="row category_filter_body">
+        @include('ajax/ajax_category_body')
       </div>
     </div>
 
 
-    <div id="add_leave" class="modal custom-modal fade" role="dialog">
+    <div id="add_category" class="modal custom-modal fade" role="dialog">
       <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title">Add Leave</h5>
+            <h5 class="modal-title">Add Category</h5>
             <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
               <span aria-hidden="true">&times;</span>
             </button>
@@ -159,40 +138,11 @@
           <div class="modal-body">
             <form>
               <div class="form-group">
-                <label>Leave Type <span class="text-danger">*</span></label>
-                <select class="select">
-                  <option>Select Leave Type</option>
-                  <option>Casual Leave 12 Days</option>
-                  <option>Medical Leave</option>
-                  <option>Loss of Pay</option>
-                </select>
+                <label for="category-name">Categpry Name <span class="text-danger">*</span></label>
+                <input class="form-control" type="text" id="category-name">
               </div>
-              <div class="form-group">
-                <label>From <span class="text-danger">*</span></label>
-                <div class="cal-icon">
-                  <input class="form-control datetimepicker" type="text">
-                </div>
-              </div>
-              <div class="form-group">
-                <label>To <span class="text-danger">*</span></label>
-                <div class="cal-icon">
-                  <input class="form-control datetimepicker" type="text">
-                </div>
-              </div>
-              <div class="form-group">
-                <label>Number of days <span class="text-danger">*</span></label>
-                <input class="form-control" readonly type="text">
-              </div>
-              <div class="form-group">
-                <label>Remaining Leaves <span class="text-danger">*</span></label>
-                <input class="form-control" readonly value="12" type="text">
-              </div>
-              <div class="form-group">
-                <label>Leave Reason <span class="text-danger">*</span></label>
-                <textarea rows="4" class="form-control"></textarea>
-              </div>
-              <div class="submit-section">
-                <button class="btn btn-primary submit-btn">Submit</button>
+              <div class="w-100 d-flex justify-content-center">
+                <button class="btn btn-primary submit-btn" id="category-add">Submit</button>
               </div>
             </form>
           </div>
@@ -201,7 +151,7 @@
     </div>
 
 
-    <div id="edit_leave" class="modal custom-modal fade" role="dialog">
+    <div id="edit_category" class="modal custom-modal fade" role="dialog">
       <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
           <div class="modal-header">
@@ -210,43 +160,7 @@
               <span aria-hidden="true">&times;</span>
             </button>
           </div>
-          <div class="modal-body">
-            <form>
-              <div class="form-group">
-                <label>Leave Type <span class="text-danger">*</span></label>
-                <select class="select">
-                  <option>Select Leave Type</option>
-                  <option>Casual Leave 12 Days</option>
-                </select>
-              </div>
-              <div class="form-group">
-                <label>From <span class="text-danger">*</span></label>
-                <div class="cal-icon">
-                  <input class="form-control datetimepicker" value="01-01-2019" type="text">
-                </div>
-              </div>
-              <div class="form-group">
-                <label>To <span class="text-danger">*</span></label>
-                <div class="cal-icon">
-                  <input class="form-control datetimepicker" value="01-01-2019" type="text">
-                </div>
-              </div>
-              <div class="form-group">
-                <label>Number of days <span class="text-danger">*</span></label>
-                <input class="form-control" readonly type="text" value="2">
-              </div>
-              <div class="form-group">
-                <label>Remaining Leaves <span class="text-danger">*</span></label>
-                <input class="form-control" readonly value="12" type="text">
-              </div>
-              <div class="form-group">
-                <label>Leave Reason <span class="text-danger">*</span></label>
-                <textarea rows="4" class="form-control">Going to hospital</textarea>
-              </div>
-              <div class="submit-section">
-                <button class="btn btn-primary submit-btn">Save</button>
-              </div>
-            </form>
+          <div class="modal-body edit_category_body">
           </div>
         </div>
       </div>
