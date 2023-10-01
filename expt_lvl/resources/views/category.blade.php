@@ -58,7 +58,7 @@
             <h3 class="page-title">Category</h3>
           </div>
           <div class="col-auto float-end ms-auto">
-            <a href="#" class="btn add-btn" data-bs-toggle="modal" data-bs-target="#add_leave"><i class="fa fa-plus"></i> Add Category</a>
+            <a href="#" class="btn add-btn" data-bs-toggle="modal" data-bs-target="#add_category"><i class="fa fa-plus"></i> Add Category</a>
           </div>
         </div>
       </div>

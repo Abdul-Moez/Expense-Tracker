@@ -17,7 +17,7 @@
                 <td>{{ $catId }}</td>
                 <td>{{ $rsCategoryList->category_name }}</td>
                 <td>{{ $rsCategoryList->active == 1 ? 'Yes' : 'No' }}</td>
-                <td>{{ date('Y-m-d (l)', strtotime($rsCategoryList->created_at)) }}</td>
+                <td>{{ date('Y-M-d (l)', strtotime($rsCategoryList->created_at)) }}</td>
                 <td class="text-end">
                     <div class="dropdown dropdown-action">
                         <a href="#" class="action-icon dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false"><i class="material-icons">more_vert</i></a>

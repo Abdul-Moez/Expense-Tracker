@@ -53,6 +53,12 @@ class CategoryController extends BaseController{
 
         $cat_name = $request->category_name_val;
 
+        $checkCatExists = ExptCategory::select('id', 'category_name')->where('user_id', session::get('normalUserId'))->where('category_name', $cat_name)->first();
+
+        if ($checkCatExists != '') {
+            return 'category exists';
+        }
+
         $InsertCat = new ExptCategory();
         $InsertCat->user_id = session::get('normalUserId');
         $InsertCat->category_name = $cat_name;
@@ -75,6 +81,12 @@ class CategoryController extends BaseController{
         $catId = $request->update_category_id_val;
         $catName = $request->update_category_name_val;
         $catActive = $request->update_category_active_val;
+
+        $checkCatExists = ExptCategory::select('id', 'category_name')->where('user_id', session::get('normalUserId'))->where('category_name', $catName)->first();
+
+        if ($checkCatExists != '') {
+            return 'category exists';
+        }
 
         ExptCategory::where('id', $catId)->update(array(
 
