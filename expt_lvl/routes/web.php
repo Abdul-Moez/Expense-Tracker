@@ -5,6 +5,7 @@ use App\Http\Controllers\LoginController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\BankAccountsController;
+use App\Http\Controllers\IncomeController;
 
 /*
 |--------------------------------------------------------------------------
@@ -30,16 +31,11 @@ Route::group(['middleware' => ['normaluserlogin']], function () {
 
     Route::get('/dashboard', [DashboardController::class, 'dashboard'])->name('dashboard');
 
-    Route::get('/income', function () {
-        return view('income');
-    });
+    Route::get('/income', [IncomeController::class, 'income'])->name('income');
+    Route::post('/income_process', [IncomeController::class, 'incomeProcess'])->name('income_process');
 
     Route::get('/expense', function () {
         return view('expense');
-    });
-
-    Route::get('/bank_accounts', function () {
-        return view('bank_accounts');
     });
 
     Route::get('/bank_accounts', [BankAccountsController::class, 'bankAccounts'])->name('bank_accounts');

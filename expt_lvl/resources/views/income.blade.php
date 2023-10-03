@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <head>
     <meta charset="UTF-8">
+    <meta name="csrf_token" content="{{ csrf_token() }}" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Income - Expense Tracker</title>
@@ -55,7 +56,7 @@
             <h3 class="page-title">Income</h3>
           </div>
           <div class="col-auto float-end ms-auto">
-            <a href="#" class="btn add-btn" data-bs-toggle="modal" data-bs-target="#add_leave"><i class="fa fa-plus"></i> Add Income</a>
+            <a href="#" class="btn add-btn" data-bs-toggle="modal" data-bs-target="#add_income"><i class="fa fa-plus"></i> Add Income</a>
           </div>
         </div>
       </div>
@@ -65,47 +66,43 @@
         <div class="col-md-4">
           <div class="stats-info">
             <h6>Recent Income</h6>
-            <h4>12 / 60</h4>
+            @foreach ($incomeList as $rsIncomeList)
+              <h4><span>Rs </span>{{ \App\ASPLibraries\CustomFunctions::decrypt( $rsIncomeList->amount ) }}</h4>
+              <?php break; ?>
+            @endforeach
           </div>
         </div>
         <div class="col-md-4">
           <div class="stats-info">
-            <h6>Monthly Income</h6>
-            <h4>8 <span>Today</span></h4>
+            <h6>Total Current Month Income</h6>
+            <h4><span>Rs </span>{{ $currentMonthsTotalIncome }}</h4>
           </div>
         </div>
         <div class="col-md-4">
           <div class="stats-info">
             <h6>Total Income</h6>
-            <h4>8 <span>Today</span></h4>
+            <h4><span>Rs </span>{{ $totalIncome }}</h4>
           </div>
         </div>
-        {{-- <div class="col-md-3">
-          <div class="stats-info">
-            <h6>Unplanned Leaves</h6>
-            <h4>0 <span>Today</span></h4>
-          </div>
-        </div>
-        <div class="col-md-3">
-          <div class="stats-info">
-            <h6>Pending Requests</h6>
-            <h4>12</h4>
-          </div>
-        </div> --}}
       </div>
 
 
-      <div class="row filter-row">
-        <div class="col-sm-6 col-md-3 col-lg-3 col-xl-2 col-12 mb-3">
+      <form class="row filter-row" action="javascript:void(0);">
+        <div class="col-sm-6 col-md-3 col-lg-3 col-xl-3 col-12 mb-3">
           <div class="form-floating">
-            <input type="text" class="form-control">
-            <label class="focus-label">Income Name</label>
+            <select class="form-select" id="filter_income_account" name="filter_income_account">
+              <option value="">Select Bank Account</option>
+              @foreach ($bankAccountsName as $rsBankAccountsName)
+                <option value="{{ $rsBankAccountsName->id }}">{{ \App\ASPLibraries\CustomFunctions::decrypt( $rsBankAccountsName->account_name ) }}</option>
+              @endforeach
+            </select>
+            <label class="focus-label">Select Bank Account</label>
           </div>
         </div>
-        <div class="col-sm-6 col-md-3 col-lg-3 col-xl-2 col-12 mb-3">
+        <div class="col-sm-6 col-md-3 col-lg-3 col-xl-3 col-12 mb-3">
           <div class="form-floating">
-            <select class="form-select">
-                <option value="">-</option>
+            <select class="form-select" id="filter_income_month" name="filter_income_month">
+                <option value="">Select Income Month</option>
                 <option value="1">Jan</option>
                 <option value="2">Feb</option>
                 <option value="3">Mar</option>
@@ -119,13 +116,13 @@
                 <option value="11">Nov</option>
                 <option value="12">Dec</option>
             </select>
-            <label class="focus-label">Income Month</label>
+            <label class="focus-label">Select Income Month</label>
           </div>
         </div>
-        <div class="col-sm-6 col-md-3 col-lg-3 col-xl-2 col-12 mb-3">
+        <div class="col-sm-6 col-md-3 col-lg-3 col-xl-3 col-12 mb-3">
           <div class="form-floating">
-            <select class="form-select">
-                <option value="">-</option>
+            <select class="form-select" id="filter_income_year" name="filter_income_year">
+                <option value="">Select Income Year</option>
                 <?php
                     $current_year = date('Y');
                     for ($i = 0; $i <= 10; $i++) {
@@ -136,116 +133,66 @@
                     }
                 ?>
             </select>
-            <label class="focus-label">Income Year</label>
+            <label class="focus-label">Select Income Year</label>
+          </div>
+        </div>
+        {{-- <div class="col-sm-6 col-md-3 col-lg-3 col-xl-2 col-12 mb-3">
+          <div class="form-floating">
+            <input class="form-control" placeholder="Search Income Source" type="test" id="filter_income_source" name="filter_income_source">
+            <label class="focus-label">Search Income Source</label>
           </div>
         </div>
         <div class="col-sm-6 col-md-3 col-lg-3 col-xl-2 col-12 mb-3">
           <div class="form-floating">
-            <input class="form-control" type="date">
-            <label class="focus-label">From</label>
+            <input class="form-control" placeholder="Search Income Amount" type="text" id="filter_income_amount" name="filter_income_amount">
+            <label class="focus-label">Search Income Amount</label>
           </div>
+        </div> --}}
+        <div class="col-sm-6 col-md-3 col-lg-3 col-xl-23col-12 mb-3">
+          <button class="btn btn-success h-100 w-100"  id="filter_income_btn" name="filter_income_btn"> Search </button>
         </div>
-        <div class="col-sm-6 col-md-3 col-lg-3 col-xl-2 col-12 mb-3">
-          <div class="form-floating">
-            <input class="form-control" type="date">
-            <label class="focus-label">To</label>
-          </div>
-        </div>
-        <div class="col-sm-6 col-md-3 col-lg-3 col-xl-2 col-12 mb-3">
-          <button class="btn btn-success h-100 w-100"> Search </button>
-        </div>
-      </div>
+      </form>
 
-      <div class="row">
-        <div class="col-md-12">
-          <div class="table-responsive">
-            <table class="table table-striped custom-table mb-0 datatable">
-              <thead>
-                <tr>
-                  <th>Account Type</th>
-                  <th>Income Source</th>
-                  <th>Income Amount</th>
-                  <th>Description</th>
-                  <th>Date</th>
-                  <th class="text-end">Actions</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>
-                    <h2 class="table-avatar">
-                      <a href="profile.html" class="avatar"><img alt src="assets/img/profiles/avatar-09.jpg"></a>
-                      <a href="#">Richard Miles <span>Web Developer</span></a>
-                    </h2>
-                  </td>
-                  <td>Casual Leave</td>
-                  <td>8 Mar 2019</td>
-                  <td>Going to Hospital</td>
-                  <td>9 Mar 2019</td>
-                  <td class="text-end">
-                    <div class="dropdown dropdown-action">
-                      <a href="#" class="action-icon dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false"><i class="material-icons">more_vert</i></a>
-                      <div class="dropdown-menu dropdown-menu-right">
-                        <a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#edit_leave"><i class="fa fa-pencil m-r-5"></i> Edit</a>
-                        <a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#delete_approve"><i class="fa fa-trash-o m-r-5"></i> Delete</a>
-                      </div>
-                    </div>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
+      <div class="row income_body">
+        @include('ajax/ajax_income_body')
       </div>
     </div>
 
 
-    <div id="add_leave" class="modal custom-modal fade" role="dialog">
+    <div id="add_income" class="modal custom-modal fade" role="dialog">
       <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title">Add Leave</h5>
+            <h5 class="modal-title">Add Income</h5>
             <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
               <span aria-hidden="true">&times;</span>
             </button>
           </div>
           <div class="modal-body">
-            <form>
-              <div class="form-group">
-                <label>Leave Type <span class="text-danger">*</span></label>
-                <select class="select">
-                  <option>Select Leave Type</option>
-                  <option>Casual Leave 12 Days</option>
-                  <option>Medical Leave</option>
-                  <option>Loss of Pay</option>
+            <form action="javascript:void(0);">
+              <div class="form-floating mb-3">
+                <select class="form-select" id="add_income_account" name="add_income_account">
+                  <option value="">Select Bank Account</option>
+                  @foreach ($bankAccountsName as $rsBankAccountsName)
+                    <option value="{{ $rsBankAccountsName->id }}">{{ \App\ASPLibraries\CustomFunctions::decrypt( $rsBankAccountsName->account_name ) }}</option>
+                  @endforeach
                 </select>
+                <label class="focus-label">Select Bank Account</label>
               </div>
-              <div class="form-group">
-                <label>From <span class="text-danger">*</span></label>
-                <div class="cal-icon">
-                  <input class="form-control datetimepicker" type="text">
-                </div>
+              <div class="form-floating mb-3">
+                <input type="text" class="form-control" placeholder="Enter Income Source" id="add_income_source" name="add_income_source">
+                <label class="focus-label">Enter Income Source</label>
               </div>
-              <div class="form-group">
-                <label>To <span class="text-danger">*</span></label>
-                <div class="cal-icon">
-                  <input class="form-control datetimepicker" type="text">
-                </div>
+              <div class="form-floating mb-3">
+                <input type="number" class="form-control" placeholder="Enter Income Amount" id="add_income_amount" name="add_income_amount">
+                <label class="focus-label">Enter Income Amount</label>
               </div>
-              <div class="form-group">
-                <label>Number of days <span class="text-danger">*</span></label>
-                <input class="form-control" readonly type="text">
+              <div class="form-floating mb-3">
+                <textarea id="add_income_description" name="add_income_description" cols="30" rows="5" class="form-control h-auto" placeholder="Enter Income Description"></textarea>
+                <label class="focus-label">Enter Income Description</label>
               </div>
-              <div class="form-group">
-                <label>Remaining Leaves <span class="text-danger">*</span></label>
-                <input class="form-control" readonly value="12" type="text">
-              </div>
-              <div class="form-group">
-                <label>Leave Reason <span class="text-danger">*</span></label>
-                <textarea rows="4" class="form-control"></textarea>
-              </div>
-              <div class="submit-section">
-                <button class="btn btn-primary submit-btn">Submit</button>
+              <div class="w-100 d-flex justify-content-center">
+                <button type="submit" class="btn btn-primary submit-btn" id="add_income_btn" name="add_income_btn">Submit</button>
               </div>
             </form>
           </div>
@@ -254,52 +201,16 @@
     </div>
 
 
-    <div id="edit_leave" class="modal custom-modal fade" role="dialog">
+    <div id="edit_income" class="modal custom-modal fade" role="dialog">
       <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title">Edit Leave</h5>
+            <h5 class="modal-title">Edit Income</h5>
             <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
               <span aria-hidden="true">&times;</span>
             </button>
           </div>
-          <div class="modal-body">
-            <form>
-              <div class="form-group">
-                <label>Leave Type <span class="text-danger">*</span></label>
-                <select class="select">
-                  <option>Select Leave Type</option>
-                  <option>Casual Leave 12 Days</option>
-                </select>
-              </div>
-              <div class="form-group">
-                <label>From <span class="text-danger">*</span></label>
-                <div class="cal-icon">
-                  <input class="form-control datetimepicker" value="01-01-2019" type="text">
-                </div>
-              </div>
-              <div class="form-group">
-                <label>To <span class="text-danger">*</span></label>
-                <div class="cal-icon">
-                  <input class="form-control datetimepicker" value="01-01-2019" type="text">
-                </div>
-              </div>
-              <div class="form-group">
-                <label>Number of days <span class="text-danger">*</span></label>
-                <input class="form-control" readonly type="text" value="2">
-              </div>
-              <div class="form-group">
-                <label>Remaining Leaves <span class="text-danger">*</span></label>
-                <input class="form-control" readonly value="12" type="text">
-              </div>
-              <div class="form-group">
-                <label>Leave Reason <span class="text-danger">*</span></label>
-                <textarea rows="4" class="form-control">Going to hospital</textarea>
-              </div>
-              <div class="submit-section">
-                <button class="btn btn-primary submit-btn">Save</button>
-              </div>
-            </form>
+          <div class="modal-body income_body_edit">
           </div>
         </div>
       </div>
