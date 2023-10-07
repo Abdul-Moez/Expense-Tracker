@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <head>
     <meta charset="UTF-8">
+    <meta name="csrf_token" content="{{ csrf_token() }}" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Expense - Expense Tracker</title>
@@ -45,280 +46,202 @@
 </head>
 <body>
 
-      
-      
+    <div id="big_loader" class="d-none my-2 justify-content-center align-items-center loader-body w-100 h-100 position-fixed m-0 top-0 mt-0" style="z-index: 999999">
+      <img src="{{ URL("assets/img/loader.gif") }}" class="img-fluid" alt="">
+    </div>
+
     <div class="content container-fluid">
 
-      <div class="page-header my-3">
-        <div class="row align-items-center">
-          <div class="col">
-            <h3 class="page-title">Expense</h3>
-          </div>
-          <div class="col-auto float-end ms-auto">
-            <a href="#" class="btn add-btn" data-bs-toggle="modal" data-bs-target="#add_leave"><i class="fa fa-plus"></i> Add Expense</a>
-          </div>
+        <div class="page-header my-3">
+            <div class="row align-items-center">
+                <div class="col">
+                    <h3 class="page-title">Expense</h3>
+                </div>
+                <div class="col-auto float-end ms-auto">
+                    <a href="#" class="btn add-btn" data-bs-toggle="modal" data-bs-target="#add_expense"><i class="fa fa-plus"></i> Add Expense</a>
+                </div>
+            </div>
         </div>
-      </div>
 
 
-      <div class="row">
-        <div class="col-md-4">
-          <div class="stats-info">
-            <h6>Recent Expense</h6>
-            <h4>12 / 60</h4>
-          </div>
+        <div class="row">
+            <div class="col-md-4">
+                <div class="stats-info">
+                    <h6>Recent Expense</h6>
+                    @foreach ($expenseList as $rsExpenseList)
+                        <h4><span>Rs </span>{{ \App\ASPLibraries\CustomFunctions::decrypt( $rsExpenseList->amount ) }}</h4>
+                        <?php break; ?>
+                    @endforeach
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="stats-info">
+                    <h6>Total Current Month Expense</h6>
+                    <h4><span>Rs </span>{{ $currentMonthsTotalExpense }}</h4>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="stats-info">
+                    <h6>Total Expense</h6>
+                    <h4><span>Rs </span>{{ $totalExpense }}</h4>
+                </div>
+            </div>
         </div>
-        <div class="col-md-4">
-          <div class="stats-info">
-            <h6>Monthly Expense</h6>
-            <h4>8 <span>Today</span></h4>
-          </div>
-        </div>
-        <div class="col-md-4">
-          <div class="stats-info">
-            <h6>Total Expense</h6>
-            <h4>8 <span>Today</span></h4>
-          </div>
-        </div>
-      </div>
 
 
-      <div class="row filter-row">
-        <div class="col-sm-6 col-md-3 col-lg-3 col-xl-2 col-12 mb-3">
-          <div class="form-floating">
-            <input type="text" class="form-control">
-            <label class="focus-label">Expense Name</label>
-          </div>
-        </div>
-        <div class="col-sm-6 col-md-3 col-lg-3 col-xl-2 col-12 mb-3">
-          <div class="form-floating">
-            <select class="form-select">
-                <option value="">-</option>
-                <option value="1">Jan</option>
-                <option value="2">Feb</option>
-                <option value="3">Mar</option>
-                <option value="4">Apr</option>
-                <option value="5">May</option>
-                <option value="6">Jun</option>
-                <option value="7">Jul</option>
-                <option value="8">Aug</option>
-                <option value="9">Sep</option>
-                <option value="10">Oct</option>
-                <option value="11">Nov</option>
-                <option value="12">Dec</option>
-            </select>
-            <label class="focus-label">Expense Month</label>
-          </div>
-        </div>
-        <div class="col-sm-6 col-md-3 col-lg-3 col-xl-2 col-12 mb-3">
-          <div class="form-floating">
-            <select class="form-select">
-                <option value="">-</option>
-                <?php
-                    $current_year = date('Y');
-                    for ($i = 0; $i <= 10; $i++) {
-                        $year = $current_year - $i;
-                ?>
-                    <option value="{{ $year }}">{{ $year }}</option>
-                <?php
-                    }
-                ?>
-            </select>
-            <label class="focus-label">Expense Year</label>
-          </div>
-        </div>
-        <div class="col-sm-6 col-md-3 col-lg-3 col-xl-2 col-12 mb-3">
-          <div class="form-floating">
-            <input class="form-control" type="date">
-            <label class="focus-label">From</label>
-          </div>
-        </div>
-        <div class="col-sm-6 col-md-3 col-lg-3 col-xl-2 col-12 mb-3">
-          <div class="form-floating">
-            <input class="form-control" type="date">
-            <label class="focus-label">To</label>
-          </div>
-        </div>
-        <div class="col-sm-6 col-md-3 col-lg-3 col-xl-2 col-12 mb-3">
-          <button class="btn btn-success h-100 w-100"> Search </button>
-        </div>
-      </div>
+        <form class="row filter-row" action="javascript:void(0);">
+            <div class="col-sm-6 col-md-3 col-lg-3 col-xl-3 col-12 mb-3">
+                <div class="form-floating">
+                    <select class="form-select" id="filter_expense_account" name="filter_expense_account">
+                        <option value="">Select Bank Account</option>
+                        @foreach ($bankAccountsName as $rsBankAccountsName)
+                            <option value="{{ $rsBankAccountsName->id }}">{{ \App\ASPLibraries\CustomFunctions::decrypt( $rsBankAccountsName->account_name ) }}</option>
+                        @endforeach
+                    </select>
+                    <label class="focus-label">Select Bank Account</label>
+                </div>
+            </div>
+            <div class="col-sm-6 col-md-3 col-lg-3 col-xl-3 col-12 mb-3">
+                <div class="form-floating">
+                    <select class="form-select" id="filter_expense_month" name="filter_expense_month">
+                        <option value="">Select Expense Month</option>
+                        <option value="1">Jan</option>
+                        <option value="2">Feb</option>
+                        <option value="3">Mar</option>
+                        <option value="4">Apr</option>
+                        <option value="5">May</option>
+                        <option value="6">Jun</option>
+                        <option value="7">Jul</option>
+                        <option value="8">Aug</option>
+                        <option value="9">Sep</option>
+                        <option value="10">Oct</option>
+                        <option value="11">Nov</option>
+                        <option value="12">Dec</option>
+                    </select>
+                    <label class="focus-label">Select Expense Month</label>
+                </div>
+            </div>
+            <div class="col-sm-6 col-md-3 col-lg-3 col-xl-3 col-12 mb-3">
+                <div class="form-floating">
+                    <select class="form-select" id="filter_expense_year" name="filter_expense_year">
+                        <option value="">Select Expense Year</option>
+                        <?php
+                            $current_year = date('Y');
+                            for ($i = 0; $i <= 10; $i++) {
+                                $year = $current_year - $i;
+                        ?>
+                            <option value="{{ $year }}">{{ $year }}</option>
+                        <?php
+                            }
+                        ?>
+                    </select>
+                    <label class="focus-label">Select Expense Year</label>
+                </div>
+            </div>
+            {{-- <div class="col-sm-6 col-md-3 col-lg-3 col-xl-2 col-12 mb-3">
+            <div class="form-floating">
+                    <input class="form-control" placeholder="Search Expense Source" type="test" id="filter_expense_source" name="filter_expense_source">
+                    <label class="focus-label">Search Expense Source</label>
+                </div>
+            </div>
+            <div class="col-sm-6 col-md-3 col-lg-3 col-xl-2 col-12 mb-3">
+                <div class="form-floating">
+                    <input class="form-control" placeholder="Search Expense Amount" type="text" id="filter_expense_amount" name="filter_expense_amount">
+                    <label class="focus-label">Search Expense Amount</label>
+                </div>
+            </div> --}}
+            <div class="col-sm-6 col-md-3 col-lg-3 col-xl-23col-12 mb-3">
+                <button class="btn btn-success h-100 w-100"  id="filter_expense_btn" name="filter_expense_btn"> Search </button>
+            </div>
+        </form>
 
-      <div class="row">
-        <div class="col-md-12">
-          <div class="table-responsive">
-            <table class="table table-striped custom-table mb-0 datatable">
-              <thead>
-                <tr>
-                  <th>Account Type</th>
-                  <th>Category Type</th>
-                  <th>Amount</th>
-                  <th>Description</th>
-                  <th>Date</th>
-                  <th class="text-end">Actions</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>
-                    <h2 class="table-avatar">
-                      <a href="profile.html" class="avatar"><img alt src="assets/img/profiles/avatar-09.jpg"></a>
-                      <a href="#">Richard Miles <span>Web Developer</span></a>
-                    </h2>
-                  </td>
-                  <td>Casual Leave</td>
-                  <td>8 Mar 2019</td>
-                  <td>Going to Hospital</td>
-                  <td>9 Mar 2019</td>
-                  <td class="text-end">
-                    <div class="dropdown dropdown-action">
-                      <a href="#" class="action-icon dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false"><i class="material-icons">more_vert</i></a>
-                      <div class="dropdown-menu dropdown-menu-right">
-                        <a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#edit_leave"><i class="fa fa-pencil m-r-5"></i> Edit</a>
-                        <a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#delete_approve"><i class="fa fa-trash-o m-r-5"></i> Delete</a>
-                      </div>
-                    </div>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
+        <div class="row expense_body">
+            @include('ajax/ajax_expense_body')
         </div>
-      </div>
     </div>
 
 
-    <div id="add_leave" class="modal custom-modal fade" role="dialog">
-      <div class="modal-dialog modal-dialog-centered" role="document">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title">Add Leave</h5>
-            <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
-              <span aria-hidden="true">&times;</span>
-            </button>
-          </div>
-          <div class="modal-body">
-            <form>
-              <div class="form-group">
-                <label>Leave Type <span class="text-danger">*</span></label>
-                <select class="select">
-                  <option>Select Leave Type</option>
-                  <option>Casual Leave 12 Days</option>
-                  <option>Medical Leave</option>
-                  <option>Loss of Pay</option>
-                </select>
-              </div>
-              <div class="form-group">
-                <label>From <span class="text-danger">*</span></label>
-                <div class="cal-icon">
-                  <input class="form-control datetimepicker" type="text">
+    <div id="add_expense" class="modal custom-modal fade" role="dialog">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Add Expense</h5>
+                    <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                 </div>
-              </div>
-              <div class="form-group">
-                <label>To <span class="text-danger">*</span></label>
-                <div class="cal-icon">
-                  <input class="form-control datetimepicker" type="text">
+                <div class="modal-body">
+                    <form action="javascript:void(0);">
+                        <div class="form-floating mb-3">
+                            <select class="form-select" id="add_expense_account" name="add_expense_account">
+                                <option value="">Select Bank Account</option>
+                                @foreach ($bankAccountsName as $rsBankAccountsName)
+                                    <option value="{{ $rsBankAccountsName->id }}">{{ \App\ASPLibraries\CustomFunctions::decrypt( $rsBankAccountsName->account_name ) }}</option>
+                                @endforeach
+                            </select>
+                          <label class="focus-label">Select Bank Account</label>
+                        </div>
+                        <div class="form-floating mb-3">
+                            <select class="form-select" id="add_expense_category" name="add_expense_category">
+                                <option value="">Select Category</option>
+                                @foreach ($categoryName as $rsCategoryName)
+                                    <option value="{{ $rsCategoryName->id }}">{{ $rsCategoryName->category_name }}</option>
+                                @endforeach
+                            </select>
+                          <label class="focus-label">Select Category</label>
+                        </div>
+                        <div class="form-floating mb-3">
+                            <input type="number" class="form-control" placeholder="Enter Expense Amount" id="add_expense_amount" name="add_expense_amount">
+                            <label class="focus-label">Enter Expense Amount</label>
+                        </div>
+                        <div class="form-floating mb-3">
+                            <textarea id="add_expense_description" name="add_expense_description" cols="30" rows="5" class="form-control h-auto" placeholder="Enter Expense Description"></textarea>
+                            <label class="focus-label">Enter Expense Description</label>
+                        </div>
+                        <div class="w-100 d-flex justify-content-center">
+                            <button type="submit" class="btn btn-primary submit-btn" id="add_expense_btn" name="add_expense_btn">Submit</button>
+                        </div>
+                    </form>
                 </div>
-              </div>
-              <div class="form-group">
-                <label>Number of days <span class="text-danger">*</span></label>
-                <input class="form-control" readonly type="text">
-              </div>
-              <div class="form-group">
-                <label>Remaining Leaves <span class="text-danger">*</span></label>
-                <input class="form-control" readonly value="12" type="text">
-              </div>
-              <div class="form-group">
-                <label>Leave Reason <span class="text-danger">*</span></label>
-                <textarea rows="4" class="form-control"></textarea>
-              </div>
-              <div class="submit-section">
-                <button class="btn btn-primary submit-btn">Submit</button>
-              </div>
-            </form>
-          </div>
+            </div>
         </div>
-      </div>
     </div>
 
 
-    <div id="edit_leave" class="modal custom-modal fade" role="dialog">
-      <div class="modal-dialog modal-dialog-centered" role="document">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title">Edit Leave</h5>
-            <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
-              <span aria-hidden="true">&times;</span>
-            </button>
-          </div>
-          <div class="modal-body">
-            <form>
-              <div class="form-group">
-                <label>Leave Type <span class="text-danger">*</span></label>
-                <select class="select">
-                  <option>Select Leave Type</option>
-                  <option>Casual Leave 12 Days</option>
-                </select>
-              </div>
-              <div class="form-group">
-                <label>From <span class="text-danger">*</span></label>
-                <div class="cal-icon">
-                  <input class="form-control datetimepicker" value="01-01-2019" type="text">
+    <div id="edit_expense" class="modal custom-modal fade" role="dialog">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Edit Expense</h5>
+                    <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                 </div>
-              </div>
-              <div class="form-group">
-                <label>To <span class="text-danger">*</span></label>
-                <div class="cal-icon">
-                  <input class="form-control datetimepicker" value="01-01-2019" type="text">
+                <div class="modal-body expense_body_edit">
                 </div>
-              </div>
-              <div class="form-group">
-                <label>Number of days <span class="text-danger">*</span></label>
-                <input class="form-control" readonly type="text" value="2">
-              </div>
-              <div class="form-group">
-                <label>Remaining Leaves <span class="text-danger">*</span></label>
-                <input class="form-control" readonly value="12" type="text">
-              </div>
-              <div class="form-group">
-                <label>Leave Reason <span class="text-danger">*</span></label>
-                <textarea rows="4" class="form-control">Going to hospital</textarea>
-              </div>
-              <div class="submit-section">
-                <button class="btn btn-primary submit-btn">Save</button>
-              </div>
-            </form>
-          </div>
+            </div>
         </div>
-      </div>
     </div>
 
 
     <div class="modal custom-modal fade" id="delete_approve" role="dialog">
-      <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-          <div class="modal-body">
-            <div class="form-header">
-              <h3>Delete Leave</h3>
-              <p>Are you sure want to delete this leave?</p>
-            </div>
-            <div class="modal-btn delete-action">
-              <div class="row">
-                <div class="col-6">
-                  <a href="javascript:void(0);" class="btn btn-primary continue-btn">Delete</a>
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <div class="form-header">
+                        <h3>Delete Leave</h3>
+                        <p>Are you sure want to delete this leave?</p>
+                    </div>
+                    <div class="modal-btn delete-action">
+                        <div class="row">
+                            <div class="col-6">
+                                <a href="javascript:void(0);" class="btn btn-primary continue-btn">Delete</a>
+                            </div>
+                            <div class="col-6">
+                                <a href="javascript:void(0);" data-bs-dismiss="modal" class="btn btn-primary cancel-btn">Cancel</a>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <div class="col-6">
-                  <a href="javascript:void(0);" data-bs-dismiss="modal" class="btn btn-primary cancel-btn">Cancel</a>
-                </div>
-              </div>
             </div>
-          </div>
         </div>
-      </div>
-    </div>
-      
-      
-      
+    </div>      
 
 <!-- Bootstrap JS -->
 <script src="{{ URL('/assets/bootstrap/bootstrap.bundle.min.js') }}"></script>

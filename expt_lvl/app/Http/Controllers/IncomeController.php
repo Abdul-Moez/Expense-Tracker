@@ -27,10 +27,11 @@ class IncomeController extends BaseController{
         if(!session::has('normalUserId')){
             return redirect('/');
         };
-
+        
         $incomeList = ExptIncome::select('expt_income.id', 'expt_bank_accounts.account_name', 'expt_income.source', 'expt_income.amount', 'expt_income.description', 'expt_income.date')
                                         ->join('expt_bank_accounts', 'expt_bank_accounts.id', '=', 'expt_income.account_id')
                                         ->where('expt_income.user_id', session::get('normalUserId'))
+                                        ->where('expt_bank_accounts.user_id', session::get('normalUserId'))
                                         ->orderBy('expt_income.id', 'DESC')
                                         ->get();
 
