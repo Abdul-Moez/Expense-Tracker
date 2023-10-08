@@ -64,11 +64,11 @@
                     <div class="col">
                       <label>Password</label>
                     </div>
-                    <div class="col-auto">
+                    {{-- <div class="col-auto">
                       <a class="text-muted" href="forgot-password.html">
                         Forgot password?
                       </a>
-                    </div>
+                    </div> --}}
                   </div>
                   <div class="position-relative">
                     <input class="form-control" type="password" value="" id="user-password">
