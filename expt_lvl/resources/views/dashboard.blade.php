@@ -150,7 +150,7 @@
           </div>
 
           <div class="row">
-            <div class="col-md-6 col-sm-6 col-lg-6 col-xl-3">
+            <div class="col-md-6 col-sm-6 col-lg-6 col-xl-4">
               <div class="card dash-widget">
                 <div class="card-body">
                   <span class="dash-widget-icon"><i class="fa fa-coins"></i></span>
@@ -161,7 +161,7 @@
                 </div>
               </div>
             </div>
-            <div class="col-md-6 col-sm-6 col-lg-6 col-xl-3">
+            <div class="col-md-6 col-sm-6 col-lg-6 col-xl-4">
               <div class="card dash-widget">
                 <div class="card-body">
                   <span class="dash-widget-icon text-success"><i class="fa fa-angles-up"></i></span>
@@ -172,7 +172,7 @@
                 </div>
               </div>
             </div>
-            <div class="col-md-6 col-sm-6 col-lg-6 col-xl-3">
+            <div class="col-md-6 col-sm-6 col-lg-6 col-xl-4">
               <div class="card dash-widget">
                 <div class="card-body">
                   <span class="dash-widget-icon text-danger"><i class="fas fa-angles-down"></i></span>
@@ -183,7 +183,7 @@
                 </div>
               </div>
             </div>
-            <div class="col-md-6 col-sm-6 col-lg-6 col-xl-3">
+            {{-- <div class="col-md-6 col-sm-6 col-lg-6 col-xl-3">
               <div class="card dash-widget">
                 <div class="card-body">
                   <span class="dash-widget-icon"><i class="fa fa-wallet"></i></span>
@@ -193,7 +193,7 @@
                   </div>
                 </div>
               </div>
-            </div>
+            </div> --}}
           </div>
 
           <div class="row">
@@ -271,7 +271,7 @@
         </div>
 
         <div class="dashboard-iframe content container-fluid d-none" style="margin:0px;padding:0px;overflow:hidden;">              
-          <iframe class="rounded-0" name="dashboard-iframe" frameborder="0" style="padding-top: 5.1rem !important;overflow:hidden;overflow-x:hidden;overflow-y:hidden;height:100%;width:100%;position:absolute;top:0px;left:0px;right:0px;bottom:0px" height="100%" width="100%">
+          <iframe class="rounded-0" name="dashboard-iframe" frameborder="0" style="padding-top: 3.7rem !important;overflow:hidden;overflow-x:hidden;overflow-y:hidden;height:100%;width:100%;position:absolute;top:0px;left:0px;right:0px;bottom:0px" height="100%" width="100%">
           </iframe>
         </div>
 

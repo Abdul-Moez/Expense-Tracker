@@ -44,3 +44,17 @@ Route::group(['middleware' => ['normaluserlogin']], function () {
     Route::post('/category_process', [CategoryController::class, 'categoryProcess'])->name('category_process');
 
 });
+
+Route::get('/configcachecleared', function() {
+    $exitCode = Artisan::call('config:cache');
+    return '<h1>Clear Config cleared</h1>';
+});
+//Clear Cache facade value:
+Route::get('/clearcached', function() {
+    $exitCode = Artisan::call('cache:clear');
+    return '<h1>Cache facade value cleared</h1>';
+});
+Route::get('/clearviewed', function() {
+    $exitCode = Artisan::call('view:clear');
+    return '<h1>Cache view value cleared</h1>';
+});
