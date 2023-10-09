@@ -10,27 +10,39 @@ Follow these steps to set up the project on your local machine.
 
 Create a folder named **expense-tracker** in that folder open **CMD** then type the following command, </br>
 
-`git clone https://github.com/Abdul-Moez/Expense-Tracker.git` </br>
-`cd expt_lvl` </br>
+```
+git clone https://github.com/Abdul-Moez/Expense-Tracker.git
+```
+
+```
+cd expt_lvl
+```
+
 
 ### Step 2: Install Composer Dependencies
 
 Use Composer to install the required PHP dependencies for the project. This will create the vendor folder.
 </br>
 
-`composer install`
+```
+composer install
+```
 
 ### Step 3: Create a .env File
 
 Copy the .env.example file to create a new .env file, which you can customize with your environment settings.
 
-`cp .env.example .env`
+```
+cp .env.example .env
+```
 
 ### Step 4: Generate an Application Key
 
 Laravel requires an application key for security purposes. Generate one with this command:
 
-`php artisan key:generate`
+```
+php artisan key:generate
+```
 
 ## Step 5: Configure Database Connection
 
@@ -57,7 +69,9 @@ php artisan migrate
 
 Launch the Laravel development server to run the application locally:
 
-`php artisan serve`
+```
+php artisan serve
+```
 
 The application will be accessible at `http://localhost:8000` in your web browser.
 
