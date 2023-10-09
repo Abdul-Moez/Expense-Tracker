@@ -11,6 +11,7 @@ Follow these steps to set up the project on your local machine.
 Create a folder named **expense-tracker** in that folder open **CMD** then type the following command, </br>
 
 `git clone https://github.com/Abdul-Moez/Expense-Tracker.git` </br>
+`cd expt_lvl` </br>
 
 ### Step 2: Install Composer Dependencies
 
@@ -61,10 +62,6 @@ Launch the Laravel development server to run the application locally:
 
 The application will be accessible at `http://localhost:8000` in your web browser.
 
-
-### License
-This project is open-source and available under the MIT License.
-
 ### To Do
 
 <ul>
@@ -73,3 +70,6 @@ This project is open-source and available under the MIT License.
   <li>Allow user to edit their profile</li>
   <li>Allow user to reset their password</li>
 </ul>
+
+### License
+This project is open-source and available under the MIT License.
