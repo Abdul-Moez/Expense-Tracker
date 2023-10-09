@@ -47,11 +47,10 @@ DB_PASSWORD=your_database_password
 
 ### Step 6: Run Migrations and Seed the Database
 
-Run the following commands to create the database schema and populate it with initial data:
+Run the following commands to create the database schema:
 
 ```
 php artisan migrate
-php artisan db:seed
 ```
 
 ### Step 7: Start the Development Server
