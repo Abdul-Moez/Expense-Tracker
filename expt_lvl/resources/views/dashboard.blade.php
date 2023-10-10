@@ -84,7 +84,7 @@
                     <span>{{ session::get('normalUserName') }}</span>
                 </a>
                 <div class="dropdown-menu">
-                    <a class="dropdown-item" href="profile.html">My Profile</a>
+                    <!-- <a class="dropdown-item" href="profile.html">My Profile</a> -->
                     <a class="dropdown-item logout-btn" href="javascript:void(0)">Logout</a>
                 </div>
             </li>
