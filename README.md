@@ -9,10 +9,10 @@ Follow these steps to set up the project on your local machine.
 ### Step 1: Clone the Repository
 
 In **XAMPP**: </br>
-Go to your **'htdocs'** folder and open cmd there and clone the repository. </br>
+Go to your **'htdocs'** folder and open **CMD** there and clone the repository. </br>
 
 In **Laragon**: </br>
-Go to your **'www '** folder and open cmd there and clone the repository. </br>
+Go to your **'www '** folder and open **CMD** there and clone the repository. </br>
 
 
 ```
@@ -20,7 +20,7 @@ git clone https://github.com/Abdul-Moez/Expense-Tracker.git
 ```
 
 ```
-cd expt_lvl
+cd Expense-Tracker/expt_lvl
 ```
 
 
