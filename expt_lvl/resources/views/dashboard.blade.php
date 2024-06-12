@@ -1,6 +1,8 @@
+<?php use Illuminate\Support\Facades\Session;; ?>
 <!DOCTYPE html>
 <head>
     <meta charset="utf-8">
+    <meta name="csrf_token" content="{{ csrf_token() }}" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
     <title>Dashboard - Expense Tracker</title>
 
@@ -39,15 +41,19 @@
 
   <body>
 
+    <div id="big_loader" class="d-none my-2 justify-content-center align-items-center loader-body w-100 h-100 position-fixed m-0 top-0 mt-0" style="z-index: 999999">
+      <img src="{{ URL("assets/img/loader.gif") }}" class="img-fluid" alt="">
+    </div>
+
     <div class="main-wrapper">
 
       <div class="header">
 
         <div class="header-left">
-          <a href="admin-dashboard.html" class="logo">
+          <a href="{{ URL('/dashboard') }}" class="logo">
             <img src="assets/img/logo.png" width="40" height="40" alt="">
           </a>
-          <a href="admin-dashboard.html" class="logo2">
+          <a href="{{ URL('/dashboard') }}" class="logo2">
             <img src="assets/img/logo.png" width="40" height="40" alt="">
           </a>
         </div>
@@ -74,12 +80,12 @@
                         <img src="{{ URL('assets/img/user_image.jpg') }}" alt="">
                         <span class="status online"></span>
                     </span>
-                    <span>Admin</span>
+                    {{-- <span>Admin</span> --}}
+                    <span>{{ session::get('normalUserName') }}</span>
                 </a>
                 <div class="dropdown-menu">
                     <a class="dropdown-item" href="profile.html">My Profile</a>
-                    <a class="dropdown-item" href="settings.html">Settings</a>
-                    <a class="dropdown-item" href="{{ URL('/') }}">Logout</a>
+                    <a class="dropdown-item logout-btn" href="javascript:void(0)">Logout</a>
                 </div>
             </li>
         </ul>
@@ -88,9 +94,9 @@
         <div class="dropdown mobile-user-menu">
           <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false"><i class="fa fa-ellipsis-v"></i></a>
           <div class="dropdown-menu dropdown-menu-right">
-            <a class="dropdown-item" href="profile.html">My Profile</a>
-            <a class="dropdown-item" href="settings.html">Settings</a>
-            <a class="dropdown-item" href="index.html">Logout</a>
+            {{-- <a class="dropdown-item" href="profile.html">My Profile</a> --}}
+            <a class="dropdown-item" href="profile.html">{{ session::get('normalUserName') }}</a>
+            <a class="dropdown-item logout-btn" href="javascript:void(0)">Logout</a>
           </div>
         </div>
 
@@ -114,16 +120,16 @@
                 <a href="{{ URL('/dashboard') }}"><i class="fas fa-dashboard fa-xl"></i> <span>Dashboard</span></a>
               </li>
               <li class="">
-                <a href="{{ URL('/income') }}"><i class="fas fa-money-bill-trend-up fa-xl"></i> <span>Income</span></a>
+                <a class="dashboard-iframe-links" target="dashboard-iframe" href="{{ URL('/income') }}"><i class="fas fa-money-bill-trend-up fa-xl"></i> <span>Income</span></a>
               </li>
               <li class="">
-                <a href="{{ URL('/expense') }}"><i class="fas fa-money-bill-transfer fa-xl"></i> <span>Expense</span></a>
+                <a class="dashboard-iframe-links" target="dashboard-iframe" href="{{ URL('/expense') }}"><i class="fas fa-money-bill-transfer fa-xl"></i> <span>Expense</span></a>
               </li>
               <li class="">
-                <a href="{{ URL('/bank_accounts') }}"><i class="fas fa-building-columns fa-xl"></i> <span>Bank Accounts</span></a>
+                <a class="dashboard-iframe-links" target="dashboard-iframe" href="{{ URL('/bank_accounts') }}"><i class="fas fa-building-columns fa-xl"></i> <span>Bank Accounts</span></a>
               </li>
               <li class="">
-                <a href="{{ URL('/category') }}"><i class="fas fa-shapes fa-xl"></i> <span>Category</span></a>
+                <a class="dashboard-iframe-links" target="dashboard-iframe" href="{{ URL('/category') }}"><i class="fas fa-shapes fa-xl"></i> <span>Category</span></a>
               </li>
             </ul>
           </div>
@@ -133,7 +139,7 @@
 
       <div class="page-wrapper">
 
-        <div class="content container-fluid">
+        <div class="dashboard-content content container-fluid">
 
           <div class="page-header">
             <div class="row">
@@ -302,6 +308,11 @@
           </div>
         </div>
 
+        <div class="dashboard-iframe content container-fluid d-none" style="margin:0px;padding:0px;overflow:hidden;">              
+          <iframe class="rounded-0" name="dashboard-iframe" frameborder="0" style="padding-top: 5.1rem !important;overflow:hidden;overflow-x:hidden;overflow-y:hidden;height:100%;width:100%;position:absolute;top:0px;left:0px;right:0px;bottom:0px" height="100%" width="100%">
+          </iframe>
+        </div>
+
       </div>
 
     </div>
@@ -336,6 +347,59 @@
     <script src="{{ URL('assets/template_assets/js/chart.js') }}"></script>
     <!-- Template Assets App Js -->
     <script src="{{ URL('assets/template_assets/js/app.js') }}"></script>
+
+    <script>
+
+      $(document).on('click', "#sidebar-menu > ul > li", function () {
+        var firstLi = $(this);
+        var firstLiAnchor = firstLi.find("a");
+        if (firstLiAnchor.find("span.menu-arrow").length == 0) {
+          firstLi.addClass("active").siblings().removeClass("active");
+          firstLi.prev().removeClass("active");
+        }
+        if ($(firstLi).hasClass('submenu')) {
+          
+        } else {
+          $('.dashboard-content').addClass('d-none');
+          $('.dashboard-iframe').removeClass('d-none');
+        }
+      });
+
+      // $(document).on('click', ".submenu ul li a", function () {
+      //   var $this = $(this);
+      //   var $parentLi = $this.parent("li");
+      //   var $siblingsLi = $parentLi.siblings("li");
+
+      //   $('.dashboard-content').addClass('d-none');
+      //   $('.dashboard-iframe').removeClass('d-none');
+
+      //   // Check if the clicked element's siblings have active class
+      //   if ($siblingsLi.children("a").hasClass("active")) {
+      //     // Remove active class from all siblings
+      //     $siblingsLi.children("a").removeClass("active");
+      //   }
+
+      //   // Check if the clicked element's siblings have active class
+      //   if ($('#sidebar-menu > ul > li').hasClass("active")) {
+      //     // Remove active class from all siblings
+      //     $('#sidebar-menu > ul > li').removeClass("active");
+      //   }
+
+      //   // Check if the clicked element's parent has active class
+      //   if ($('.submenu').each(function () {
+      //     $('.submenu ul li a').hasClass("active")
+      //   })) {
+      //     // Remove active class from parent
+      //     $('.submenu').each(function () {
+      //       $('.submenu ul li a').removeClass("active")
+      //     });
+      //   }
+
+      //   // Add active class to clicked element
+      //   $this.addClass("active");
+      // });
+
+    </script>
 
   </body>
 

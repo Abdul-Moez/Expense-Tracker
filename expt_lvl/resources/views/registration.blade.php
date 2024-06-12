@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
+    <meta name="csrf_token" content="{{ csrf_token() }}" /> 
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
     <title>Register - Expense Tracker</title>
 
@@ -53,25 +54,25 @@
               <h3 class="account-title text-dark">Register</h3>
               <p class="account-subtitle">Access to our dashboard</p>
 
-              <form action="{{ URL('/') }}">
+              <form action="javascript:void(0)">
                 <div class="form-group">
                   <label>Name<span class="mandatory">*</span></label>
-                  <input class="form-control" type="text">
+                  <input class="form-control" type="text" id="user-register-name">
                 </div>
                 <div class="form-group">
                   <label>Email<span class="mandatory">*</span></label>
-                  <input class="form-control" type="text">
+                  <input class="form-control" type="email" id="user-register-email">
                 </div>
                 <div class="form-group">
                   <label>Password<span class="mandatory">*</span></label>
-                  <input class="form-control" type="password">
+                  <input class="form-control" type="password" id="user-register-pass">
                 </div>
                 <div class="form-group">
                   <label>Repeat Password<span class="mandatory">*</span></label>
-                  <input class="form-control" type="password">
+                  <input class="form-control" type="password" id="user-register-repass">
                 </div>
                 <div class="form-group text-center">
-                  <button class="btn btn-primary account-btn" type="submit">Register</button>
+                  <button class="btn btn-primary account-btn" id="user-register-btn" type="submit">Register</button>
                 </div>
                 <div class="account-footer">
                   <p>Already have an account? <a href="{{ URL('/') }}">Login</a></p>

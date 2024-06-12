@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\LoginController;
+use App\Http\Controllers\DashboardController;
 
 /*
 |--------------------------------------------------------------------------
@@ -19,17 +20,13 @@ use App\Http\Controllers\LoginController;
 // });
 
 Route::get('/', [LoginController::class, 'login'])->name('login');
+Route::get('/register', [LoginController::class, 'register'])->name('register');
 Route::post('/login_process', [LoginController::class, 'loginProcess'])->name('login_process');
 
 Route::group(['middleware' => ['normaluserlogin']], function () {
 
-    Route::get('/register', function () {
-        return view('registration');
-    });
 
-    Route::get('/dashboard', function () {
-        return view('dashboard');
-    });
+    Route::get('/dashboard', [DashboardController::class, 'dashboard'])->name('dashboard');
 
     Route::get('/income', function () {
         return view('income');

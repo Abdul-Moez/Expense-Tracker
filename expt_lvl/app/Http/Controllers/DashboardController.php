@@ -15,9 +15,9 @@ Use Mail;
 use Session;
 
 
-class LoginController extends BaseController{
+class DashboardController extends BaseController{
 
-    public function login() {
+    public function dashboard() {
 
         // dd(Crypt::encrypt('moez123'));
 
@@ -25,28 +25,16 @@ class LoginController extends BaseController{
         //     return redirect('login');
         // }
 
-        if(session::has('normalUserId')){
-            return redirect('/dashboard');
+        if(!session::has('normalUserId')){
+            return redirect('/');
         };
 
-        return view('login');
-    }
-
-    public function register() {
-
-        if(session::has('normalUserId')){
-            return redirect('/dashboard');
-        };
-
-        return view('registration');
+        return view('dashboard');
     }
 
     public function loginProcess(Request $request) {
         if ($request->login_process_val == "login") {
             return $this->sendLogin($request);
-        }
-        else if ($request->login_process_val == "register") {
-            return $this->sendRegister($request);
         }
         else if ($request->login_process_val == "forgot_pass") {
             return $this->sendForgotPass($request);
@@ -54,30 +42,6 @@ class LoginController extends BaseController{
         else if ($request->login_process_val == "reset_pass") {
             return $this->sendResetPass($request);
         }
-        else if ($request->login_process_val == "logout") {
-            return $this->sendLogoutUser($request);
-        }
-    }
-
-    public function sendRegister(Request $request) {
-        
-        $accountCheck = ExptUsers::select('id', 'user_name', 'user_email', 'user_role', 'user_password')
-                        ->where('user_email', $request->getRegisterUserEmail_val)
-                        ->where('active', 1)
-                        ->first();
-
-        if ($accountCheck != null) {
-            return "email exists";
-        } else {
-
-            $InerContact = new ExptUsers();
-            $InerContact->user_name = $request->getRegisterUserName_val;
-            $InerContact->user_email = $request->getRegisterUserEmail_val;
-            $InerContact->user_password = md5($request->getRegisterUserPass_val);
-            $InerContact->save();
-
-        }        
-
     }
 
     public function sendLogin(Request $request) {
@@ -203,13 +167,14 @@ class LoginController extends BaseController{
     //     return 'Password Updated';
     // }
     
-    public function sendLogoutUser(Request $request) {
-        Session::forget('normalUserId');
-        Session::forget('normalUserName');
-        Session::forget('normalUserEmail');
-        Session::forget('normalUserRole');
+    // public function sendLogotUser(Request $request) {
+    //     Session::forget('emportalUserId');
+    //     Session::forget('emportalUserName');
+    //     Session::forget('emportalUserEmail');
+    //     Session::forget('emportalUserRole');
+    //     Session::forget('emportalUserImage');
 
-        return 'logout successfull';
-    }
+    //     return 'logout successfull';
+    // }
 
 }
