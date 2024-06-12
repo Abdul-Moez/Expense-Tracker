@@ -230,7 +230,7 @@
                                             </tbody>
                                         </table>
                                     @else
-                                        <div class="pt-3 text-center">No Data To Show.</div>
+                                        <div class="py-3 text-center">No Data To Show.</div>
                                     @endif
                                 </div>
                             </div>
@@ -269,7 +269,7 @@
                                             </tbody>
                                         </table>
                                     @else
-                                        <div class="pt-3 text-center">No Data To Show.</div>
+                                        <div class="py-3 text-center">No Data To Show.</div>
                                     @endif
                                 </div>
                             </div>
