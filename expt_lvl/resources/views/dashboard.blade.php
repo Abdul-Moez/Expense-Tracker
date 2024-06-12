@@ -116,16 +116,16 @@
                             <a href="{{ URL('/dashboard') }}"><i class="fas fa-dashboard fa-xl"></i><span>Dashboard</span></a>
                         </li>
                         <li class="">
-                            <a class="dashboard-iframe-links" target="dashboard-iframe" href="{{ URL('/dashboard/income') }}"><i class="fas fa-money-bill-trend-up fa-xl"></i> <span>Income</span></a>
+                            <a class="dashboard-iframe-links" target="dashboard-iframe" href="{{ URL('/dashboard/income?dsh=1') }}"><i class="fas fa-money-bill-trend-up fa-xl"></i> <span>Income</span></a>
                         </li>
                         <li class="">
-                            <a class="dashboard-iframe-links" target="dashboard-iframe" href="{{ URL('/dashboard/expense') }}"><i class="fas fa-money-bill-transfer fa-lg"></i> <span>Expense</span></a>
+                            <a class="dashboard-iframe-links" target="dashboard-iframe" href="{{ URL('/dashboard/expense?dsh=1') }}"><i class="fas fa-money-bill-transfer fa-lg"></i> <span>Expense</span></a>
                         </li>
                         <li class="">
-                            <a class="dashboard-iframe-links" target="dashboard-iframe" href="{{ URL('/dashboard/bank_accounts') }}"><i class="fas fa-building-columns fa-xl"></i><span>Bank Accounts</span></a>
+                            <a class="dashboard-iframe-links" target="dashboard-iframe" href="{{ URL('/dashboard/bank_accounts?dsh=1') }}"><i class="fas fa-building-columns fa-xl"></i><span>Bank Accounts</span></a>
                         </li>
                         <li class="">
-                            <a class="dashboard-iframe-links" target="dashboard-iframe" href="{{ URL('/dashboard/category') }}"><i class="fas fa-shapes fa-xl"></i><span>Category</span></a>
+                            <a class="dashboard-iframe-links" target="dashboard-iframe" href="{{ URL('/dashboard/category?dsh=1') }}"><i class="fas fa-shapes fa-xl"></i><span>Category</span></a>
                         </li>
                     </ul>
                 </div>
@@ -204,30 +204,34 @@
                             </div>
                             <div class="card-body">
                                 <div class="table-responsive">
-                                    <table class="table table-nowrap custom-table mb-0">
-                                        <thead>
-                                            <tr>
-                                                <th>ID</th>
-                                                <th>Account Name</th>
-                                                <th>Category Name</th>
-                                                <th>Amount</th>
-                                                <th>Date</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                        <?php $expenseId = 1; ?>
-                                            @foreach ($recentExpense as $rsRecentExpense)
+                                    @if (count($recentExpense) > 0)
+                                        <table class="table table-nowrap custom-table mb-0">
+                                            <thead>
                                                 <tr>
-                                                    <td>{{ $expenseId }}</td>
-                                                    <td>{{ \App\ASPLibraries\CustomFunctions::decrypt( $rsRecentExpense->account_name ) }}</td>
-                                                    <td>{{ $rsRecentExpense->category_name }}</td>
-                                                    <td>{{ \App\ASPLibraries\CustomFunctions::decrypt( $rsRecentExpense->amount ) }} Rs</td>
-                                                    <td>{{ $rsRecentExpense->date }}</td>
+                                                    <th>ID</th>
+                                                    <th>Account Name</th>
+                                                    <th>Category Name</th>
+                                                    <th>Amount</th>
+                                                    <th>Date</th>
                                                 </tr>
-                                                <?php $expenseId++; ?>
-                                            @endforeach
-                                        </tbody>
-                                    </table>
+                                            </thead>
+                                            <tbody>
+                                                <?php $expenseId = 1; ?>
+                                                @foreach ($recentExpense as $rsRecentExpense)
+                                                    <tr>
+                                                        <td>{{ $expenseId }}</td>
+                                                        <td>{{ \App\ASPLibraries\CustomFunctions::decrypt( $rsRecentExpense->account_name ) }}</td>
+                                                        <td>{{ $rsRecentExpense->category_name }}</td>
+                                                        <td>{{ \App\ASPLibraries\CustomFunctions::decrypt( $rsRecentExpense->amount ) }} Rs</td>
+                                                        <td>{{ $rsRecentExpense->date }}</td>
+                                                    </tr>
+                                                    <?php $expenseId++; ?>
+                                                @endforeach
+                                            </tbody>
+                                        </table>
+                                    @else
+                                        <div class="pt-3 text-center">No Data To Show.</div>
+                                    @endif
                                 </div>
                             </div>
                         </div>
@@ -239,30 +243,34 @@
                             </div>
                             <div class="card-body">
                                 <div class="table-responsive">
-                                <table class="table custom-table table-nowrap mb-0">
-                                    <thead>
-                                    <tr>
-                                        <th>ID</th>
-                                        <th>Account</th>
-                                        <th>Source</th>
-                                        <th>Amount</th>
-                                        <th>Date</th>
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-                                    <?php $incomeId = 1; ?>
-                                    @foreach ($recentIncome as $rsRecentIncome)
-                                        <tr>
-                                        <td>{{ $incomeId }}</td>
-                                        <td>{{ \App\ASPLibraries\CustomFunctions::decrypt( $rsRecentIncome->account_name ) }}</td>
-                                        <td>{{ \App\ASPLibraries\CustomFunctions::decrypt( $rsRecentIncome->source ) }}</td>
-                                        <td>{{ \App\ASPLibraries\CustomFunctions::decrypt( $rsRecentIncome->amount ) }} Rs</td>
-                                        <td>{{ $rsRecentIncome->date }}</td>
-                                        </tr>
-                                        <?php $incomeId++; ?>
-                                    @endforeach
-                                    </tbody>
-                                </table>
+                                    @if (count($recentIncome) > 0)
+                                        <table class="table custom-table table-nowrap mb-0">
+                                            <thead>
+                                                <tr>
+                                                    <th>ID</th>
+                                                    <th>Account</th>
+                                                    <th>Source</th>
+                                                    <th>Amount</th>
+                                                    <th>Date</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <?php $incomeId = 1; ?>
+                                                @foreach ($recentIncome as $rsRecentIncome)
+                                                    <tr>
+                                                    <td>{{ $incomeId }}</td>
+                                                    <td>{{ \App\ASPLibraries\CustomFunctions::decrypt( $rsRecentIncome->account_name ) }}</td>
+                                                    <td>{{ \App\ASPLibraries\CustomFunctions::decrypt( $rsRecentIncome->source ) }}</td>
+                                                    <td>{{ \App\ASPLibraries\CustomFunctions::decrypt( $rsRecentIncome->amount ) }} Rs</td>
+                                                    <td>{{ $rsRecentIncome->date }}</td>
+                                                    </tr>
+                                                    <?php $incomeId++; ?>
+                                                @endforeach
+                                            </tbody>
+                                        </table>
+                                    @else
+                                        <div class="pt-3 text-center">No Data To Show.</div>
+                                    @endif
                                 </div>
                             </div>
                         </div>
@@ -324,6 +332,14 @@
                 $('.dashboard-content').addClass('d-none');
                 $('.dashboard-iframe').removeClass('d-none');
             }
+        });
+
+        $(document).on('click', ".dashboard-iframe-links", function() {
+            var urlLink = $(this).attr('href');
+            var lastIndex = urlLink.lastIndexOf("?");
+            var newUrl = urlLink.substring(0, lastIndex);
+
+            window.history.pushState('', '', newUrl)
         });
 
         // $(document).on('click', ".submenu ul li a", function () {

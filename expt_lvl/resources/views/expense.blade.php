@@ -47,10 +47,12 @@
 <body>
 
     <div id="big_loader" class="d-none my-2 justify-content-center align-items-center loader-body w-100 h-100 position-fixed m-0 top-0 mt-0" style="z-index: 999999">
-      <img src="{{ URL("assets/img/loader.gif") }}" class="img-fluid" alt="">
+        <img src="{{ URL("assets/img/loader.gif") }}" class="img-fluid" alt="">
     </div>
 
-    <div class="content container-fluid">
+    @include('includes/dynamic_sidebar')
+
+    <div class="dashboard-content container-fluid">
 
         <div class="page-header my-3">
             <div class="row align-items-center">
@@ -164,6 +166,11 @@
         </div>
     </div>
 
+    <div class="dashboard-iframe content container-fluid d-none" style="margin:0px;padding:0px;overflow:hidden;">
+        <iframe class="rounded-0" name="dashboard-iframe" frameborder="0" style="padding-top: 3.7rem !important;overflow:hidden;overflow-x:hidden;overflow-y:hidden;height:100%;width:100%;position:absolute;top:0px;left:0px;right:0px;bottom:0px" height="100%" width="100%"></iframe>
+    </div>
+
+    @include('includes/dynamic_sidebar_footer')
 
     <div id="add_expense" class="modal custom-modal fade" role="dialog">
         <div class="modal-dialog modal-dialog-centered" role="document">
@@ -287,6 +294,31 @@
 <script src="{{ URL('assets/template_assets/js/moment.min.js') }}"></script>
 <!-- Template Assets Bootstrap Datetimepicker Js -->
 <script src="{{ URL('assets/template_assets/js/bootstrap-datetimepicker.min.js') }}"></script>
+
+<script>
+    $(document).on('click', "#sidebar-menu > ul > li", function() {
+        var firstLi = $(this);
+        var firstLiAnchor = firstLi.find("a");
+        if (firstLiAnchor.find("span.menu-arrow").length == 0) {
+            firstLi.addClass("active").siblings().removeClass("active");
+            firstLi.prev().removeClass("active");
+        }
+        if ($(firstLi).hasClass('submenu')) {
+
+        } else {
+            $('.dashboard-content').addClass('d-none');
+            $('.dashboard-iframe').removeClass('d-none');
+        }
+    });
+
+    $(document).on('click', ".dashboard-iframe-links", function() {
+        var urlLink = $(this).attr('href');
+        var lastIndex = urlLink.lastIndexOf("?");
+        var newUrl = urlLink.substring(0, lastIndex);
+
+        window.history.pushState('', '', newUrl)
+    });
+</script>
 
 </body>
 </html>
