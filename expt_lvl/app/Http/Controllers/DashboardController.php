@@ -19,11 +19,9 @@ Use DB;
 Use Mail;
 use Session;
 
-
 class DashboardController extends BaseController{
-    public function dashboard() {
 
-        // dd(Crypt::encrypt('Test'));
+    public function dashboard() {
 
         if(!session::has('normalUserId')){
             return redirect('/');

@@ -76,7 +76,7 @@
     <!-- jQuery File -->
     <script src="{{ asset('assets/js/jquery_3.6.3.min.js') }}"></script>
     <!-- Custom JavaScript -->
-    <script src="{{ asset('assets/js/script.js') }}"></script>
+    <script src="{{ asset('assets/js/authHandler.js') }}"></script>
     <!-- Sweet Alert Js -->
     <script src="{{ asset('assets/sweet_alert/sweetalert2.min.js') }}"></script>
 

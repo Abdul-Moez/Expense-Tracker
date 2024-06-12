@@ -23,8 +23,6 @@ class IncomeController extends BaseController{
 
     public function income() {
 
-        // dd(Crypt::encrypt('Test'));
-
         if(!session::has('normalUserId')){
             return redirect('/');
         };
@@ -68,6 +66,10 @@ class IncomeController extends BaseController{
 
     public function addNewIncome(Request $request) {
 
+        if (!preg_match('/^[0-9]+$/', $request->add_income_amount_val)) {
+            return 'invalid amount';
+        }
+
         $income_bank_account_id = $request->add_income_bank_account_val;
         $income_source = CustomFunctions::customEncrypt($request->add_income_source_val, Session::get('normalUserEncryptKey'));
         $income_amount = CustomFunctions::customEncrypt($request->add_income_amount_val, Session::get('normalUserEncryptKey'));
@@ -81,7 +83,6 @@ class IncomeController extends BaseController{
         $InsertIncome->description = $income_desciption;
         $InsertIncome->date = date('Y-m-d');
         $InsertIncome->save();
-
     }
     
     public function getIncomeData(Request $request) {
@@ -101,6 +102,10 @@ class IncomeController extends BaseController{
     }
 
     public function updateIncomeData(Request $request) {
+
+        if (!preg_match('/^[0-9]+$/', $request->update_income_amount_val)) {
+            return 'invalid amount';
+        }
  
         $income_Id = $request->update_income_id_val;
         $income_bank_account_id = $request->update_income_bankAccount_val;

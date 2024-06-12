@@ -53,7 +53,7 @@
                     <h6>Recent Income</h6>
                     @if (count($incomeList) > 0)
                         @foreach ($incomeList as $rsIncomeList)
-                            <h4><span>Rs </span>{{ \App\ASPLibraries\CustomFunctions::customDecrypt($rsIncomeList->amount, Session::get('normalUserEncryptKey')) }}</h4>
+                            <h4><span>Rs </span>{{ number_format(\App\ASPLibraries\CustomFunctions::customDecrypt($rsIncomeList->amount, Session::get('normalUserEncryptKey')), 2, ".", ",") }}</h4>
                             <?php break; ?>
                         @endforeach
                     @else
@@ -64,13 +64,13 @@
             <div class="col-md-4">
                 <div class="stats-info">
                     <h6>Total Current Month Income</h6>
-                    <h4><span>Rs </span>{{ $currentMonthsTotalIncome }}</h4>
+                    <h4><span>Rs </span>{{ number_format($currentMonthsTotalIncome, 2, ".", ",") }}</h4>
                 </div>
             </div>
             <div class="col-md-4">
                 <div class="stats-info">
                     <h6>Total Income</h6>
-                    <h4><span>Rs </span>{{ $totalIncome }}</h4>
+                    <h4><span>Rs </span>{{ number_format($totalIncome, 2, ".", ",") }}</h4>
                 </div>
             </div>
         </div>
@@ -178,7 +178,7 @@
                             <label class="focus-label">Enter Income Source</label>
                         </div>
                         <div class="form-floating mb-3">
-                            <input type="number" class="form-control" placeholder="Enter Income Amount" id="add_income_amount" name="add_income_amount">
+                            <input type="text" class="form-control" placeholder="Enter Income Amount" id="add_income_amount" name="add_income_amount">
                             <label class="focus-label">Enter Income Amount</label>
                         </div>
                         <div class="form-floating mb-3">
@@ -240,6 +240,8 @@
     <script src="{{ URL('/assets/fontawesome/all.min.js') }}"></script>
     <!-- jQuery File -->
     <script src="{{ URL('/assets/js/jquery_3.6.3.min.js') }}"></script>
+    <!-- Income JavaScript -->
+    <script src="{{ URL('/assets/js/inc.js') }}"></script>
     <!-- Custom JavaScript -->
     <script src="{{ URL('/assets/js/script.js') }}"></script>
     <!-- Sweet Alert Js -->
@@ -251,34 +253,5 @@
     <script src="{{ URL('assets/template_assets/js/jquery.dataTables.min.js') }}"></script>
     <!-- Template Assets Bootstrap Datatables Js -->
     <script src="{{ URL('assets/template_assets/js/dataTables.bootstrap4.min.js') }}"></script>
-
-	<script>
-        $(document).ready(function () {
-            $('#big_loader').addClass('d-none');
-        });
-        $(document).on('click', "#sidebar-menu > ul > li", function() {
-            var firstLi = $(this);
-            var firstLiAnchor = firstLi.find("a");
-            if (firstLiAnchor.find("span.menu-arrow").length == 0) {
-                firstLi.addClass("active").siblings().removeClass("active");
-                firstLi.prev().removeClass("active");
-            }
-            if ($(firstLi).hasClass('submenu')) {
-
-            } else {
-                $('.dashboard-content').addClass('d-none');
-                $('.dashboard-iframe').removeClass('d-none');
-            }
-        });
-
-		$(document).on('click', ".dashboard-iframe-links", function() {
-			var urlLink = $(this).attr('href');
-			var lastIndex = urlLink.lastIndexOf("?");
-			var newUrl = urlLink.substring(0, lastIndex);
-
-			window.history.pushState('', '', newUrl)
-		});
-	</script>
-
 </body>
 </html>

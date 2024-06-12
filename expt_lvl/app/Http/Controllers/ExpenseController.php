@@ -23,8 +23,6 @@ class ExpenseController extends BaseController{
 
     public function expense() {
 
-        // dd(Crypt::encrypt('Test'));
-
         if(!session::has('normalUserId')){
             return redirect('/');
         };
@@ -72,6 +70,10 @@ class ExpenseController extends BaseController{
 
     public function addNewExpense(Request $request) {
 
+        if (!preg_match('/^[0-9]+$/', $request->add_expense_amount_val)) {
+            return 'invalid amount';
+        }
+
         $expense_bank_account_id = $request->add_expense_bank_account_val;
         $expense_category = $request->add_expense_category_val;
         $expense_amount = CustomFunctions::customEncrypt($request->add_expense_amount_val, Session::get('normalUserEncryptKey'));
@@ -111,6 +113,10 @@ class ExpenseController extends BaseController{
     }
 
     public function updateExpenseData(Request $request) {
+
+        if (!preg_match('/^[0-9]+$/', $request->update_expense_amount_val)) {
+            return 'invalid amount';
+        }
 
         $expense_Id = $request->update_expense_id_val;
         $expense_bank_account_id = $request->update_expense_bankAccount_val;
@@ -178,5 +184,4 @@ class ExpenseController extends BaseController{
         return view('ajax/ajax_expense_body', ['expenseList' => $expenseListData]);
 
     }
-
 }

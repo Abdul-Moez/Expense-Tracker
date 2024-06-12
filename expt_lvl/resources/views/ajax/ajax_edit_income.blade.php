@@ -15,7 +15,7 @@
             <label class="focus-label">Enter Income Source</label>
         </div>
         <div class="form-floating mb-3">
-            <input type="number" class="form-control" placeholder="Enter Income Amount" id="update_income_amount" name="update_income_amount" value="{{ \App\ASPLibraries\CustomFunctions::customDecrypt($incomeData->amount, Session::get('normalUserEncryptKey')) }}">
+            <input type="text" class="form-control" placeholder="Enter Income Amount" id="update_income_amount" name="update_income_amount" value="{{ \App\ASPLibraries\CustomFunctions::customDecrypt($incomeData->amount, Session::get('normalUserEncryptKey')) }}">
             <label class="focus-label">Enter Income Amount</label>
         </div>
         <div class="form-floating mb-3">

@@ -20,7 +20,7 @@
           <label class="focus-label">Select Category</label>
         </div>
         <div class="form-floating mb-3">
-            <input type="number" class="form-control" placeholder="Enter Expense Amount" id="update_expense_amount" name="update_expense_amount" value="{{ \App\ASPLibraries\CustomFunctions::customDecrypt($expenseData->amount, Session::get('normalUserEncryptKey')) }}">
+            <input type="text" class="form-control" placeholder="Enter Expense Amount" id="update_expense_amount" name="update_expense_amount" value="{{ \App\ASPLibraries\CustomFunctions::customDecrypt($expenseData->amount, Session::get('normalUserEncryptKey')) }}">
             <label class="focus-label">Enter Expense Amount</label>
         </div>
         <div class="form-floating mb-3">

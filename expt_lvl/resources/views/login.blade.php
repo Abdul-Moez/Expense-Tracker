@@ -54,7 +54,7 @@
                                 </div>
                             </div>
                             <div id="login-loader" class="my-2 d-none loader-body">
-								<img src="{{ URL('assets/img/custom_loader.svg') }}" class="loader-img" alt="">
+								<img src="{{ URL('assets/img/custom_loader.svg') }}" class="img-fluid">
 							</div>
 							<div id="login-success" class="alert alert-success mt-2 d-none">Login Successfull redirecting</div>
                             <div class="form-group text-center">
@@ -77,7 +77,7 @@
     <!-- jQuery File -->
     <script src="{{ URL('/assets/js/jquery_3.6.3.min.js') }}"></script>
     <!-- Custom JavaScript -->
-    <script src="{{ URL('/assets/js/script.js') }}"></script>
+    <script src="{{ URL('/assets/js/authHandler.js') }}"></script>
     <!-- Sweet Alert Js -->
     <script src="{{ URL('/assets/sweet_alert/sweetalert2.min.js') }}"></script>
 

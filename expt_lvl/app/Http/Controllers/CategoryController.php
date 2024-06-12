@@ -24,8 +24,6 @@ class CategoryController extends BaseController{
 
     public function category() {
 
-        // dd(Crypt::encrypt('Test'));
-
         if(!session::has('normalUserId')){
             return redirect('/');
         };

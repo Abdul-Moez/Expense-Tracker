@@ -117,6 +117,10 @@ class BankAccountsController extends BaseController{
 
     public function addNewBankAccount(Request $request) {
 
+        if (!preg_match('/^[0-9]+$/', $request->add_bank_bccount_number_val)) {
+            return 'invalid account number';
+        }
+
         $bank_account_name = CustomFunctions::customEncrypt($request->add_bank_bccount_name_val, Session::get('normalUserEncryptKey'));
         $bank_account_type = CustomFunctions::customEncrypt($request->add_bank_bccount_type_val, Session::get('normalUserEncryptKey'));
         $bank_account_number = CustomFunctions::customEncrypt($request->add_bank_bccount_number_val, Session::get('normalUserEncryptKey'));
@@ -157,6 +161,10 @@ class BankAccountsController extends BaseController{
     }
 
     public function updateBankAccountData(Request $request) {
+
+        if (!preg_match('/^[0-9]+$/', $request->update_account_number_val)) {
+            return 'invalid account number';
+        }
  
         $bankAccountsId = $request->update_account_id_val;
         $bankAccountsName = CustomFunctions::customEncrypt($request->update_account_name_val, Session::get('normalUserEncryptKey'));

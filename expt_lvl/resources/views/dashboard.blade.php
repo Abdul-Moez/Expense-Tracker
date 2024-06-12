@@ -119,9 +119,9 @@
 
         <div class="page-wrapper">
 
-            <div class="dashboard-content content container-fluid">
+            <div class="dashboard-content container-fluid">
 
-                <div class="page-header">
+                <div class="page-header my-3">
                     <div class="row">
                         <div class="col-sm-12">
                             <h3 class="page-title">Welcome{{ Session::get('normalUserFsLgin') == 1 ? '' : ' back, ' }} {{ session::get('normalUserName') }}!</h3>
@@ -137,7 +137,7 @@
 									<div class="card-body">
 										<span class="dash-widget-icon"><i class="fas fa-coins"></i></span>
 										<div class="dash-widget-info">
-											<h3>{{ $totalBalance < 0 ? 0 : $totalBalance }}</h3>
+											<h3>Rs {{ $totalBalance < 0 ? 0 : number_format($totalBalance, 2, ".", ",") }}</h3>
 											<span>Total Balance</span>
 										</div>
 									</div>
@@ -148,10 +148,10 @@
 									<div class="card-body">
 										<span class="dash-widget-icon text-success"><i class="fas fa-angles-up"></i></span>
 										<div class="dash-widget-info">
-											<h3>{{ $totalMonthlyIncomeValue }}</h3>
+											<h3>Rs {{ number_format($totalMonthlyIncomeValue, 2, ".", ",") }}</h3>
 											<span>Monthly Income</span>
 										</div>
-									</div>
+                                    </div>
 								</div>
 							</div>
 							<div class="col-xxl-3 col-xl-4 col-lg-6 col-md-6 col-sm-6">
@@ -159,10 +159,10 @@
 									<div class="card-body">
 										<span class="dash-widget-icon text-danger"><i class="fas fa-angles-down"></i></span>
 										<div class="dash-widget-info">
-											<h3>{{ $totalMonthlyExpenseValue }}</h3>
+											<h3>Rs {{ number_format($totalMonthlyExpenseValue, 2, ".", ",") }}</h3>
 											<span>Monthly Expense</span>
 										</div>
-									</div>
+                                    </div>
 								</div>
 							</div>
 							{{-- <div class="col-md-6 col-sm-6 col-lg-6 col-xl-3">
@@ -206,7 +206,7 @@
                                                         <td>{{ $expenseId }}</td>
                                                         <td>{{ \App\ASPLibraries\CustomFunctions::customDecrypt($rsRecentExpense->account_name, Session::get('normalUserEncryptKey')) }}</td>
                                                         <td>{{ $rsRecentExpense->category_name }}</td>
-                                                        <td>{{ \App\ASPLibraries\CustomFunctions::customDecrypt($rsRecentExpense->amount, Session::get('normalUserEncryptKey')) }} Rs</td>
+                                                        <td>Rs {{ number_format(\App\ASPLibraries\CustomFunctions::customDecrypt($rsRecentExpense->amount, Session::get('normalUserEncryptKey')), 2, ".", ",") }}</td>
                                                         <td>{{ $rsRecentExpense->date }}</td>
                                                     </tr>
                                                     <?php $expenseId++; ?>
@@ -245,7 +245,7 @@
                                                     <td>{{ $incomeId }}</td>
                                                     <td>{{ \App\ASPLibraries\CustomFunctions::customDecrypt($rsRecentIncome->account_name, Session::get('normalUserEncryptKey')) }}</td>
                                                     <td>{{ \App\ASPLibraries\CustomFunctions::customDecrypt($rsRecentIncome->source, Session::get('normalUserEncryptKey')) }}</td>
-                                                    <td>{{ \App\ASPLibraries\CustomFunctions::customDecrypt($rsRecentIncome->amount, Session::get('normalUserEncryptKey')) }} Rs</td>
+                                                    <td>Rs {{ number_format(\App\ASPLibraries\CustomFunctions::customDecrypt($rsRecentIncome->amount, Session::get('normalUserEncryptKey')), 2, ".", ",") }}</td>
                                                     <td>{{ $rsRecentIncome->date }}</td>
                                                     </tr>
                                                     <?php $incomeId++; ?>
@@ -337,6 +337,8 @@
     <script src="{{ URL('/assets/fontawesome/all.min.js') }}"></script>
     <!-- jQuery File -->
     <script src="{{ URL('/assets/js/jquery_3.6.3.min.js') }}"></script>
+    <!-- Dashboard JavaScript -->
+    <script src="{{ URL('/assets/js/dash.js') }}"></script>
     <!-- Custom JavaScript -->
     <script src="{{ URL('/assets/js/script.js') }}"></script>
     <!-- Sweet Alert Js -->
@@ -344,70 +346,5 @@
 
     <!-- Template Assets App Js -->
     <script src="{{ asset('assets/template_assets/js/app.js') }}"></script>
-
-    <script>
-        $(document).ready(function () {
-            $('#big_loader').addClass('d-none');
-        });
-        $(document).on('click', "#sidebar-menu > ul > li", function() {
-            var firstLi = $(this);
-            var firstLiAnchor = firstLi.find("a");
-            if (firstLiAnchor.find("span.menu-arrow").length == 0) {
-                firstLi.addClass("active").siblings().removeClass("active");
-                firstLi.prev().removeClass("active");
-            }
-            if ($(firstLi).hasClass('submenu')) {
-
-            } else {
-                $('.dashboard-content').addClass('d-none');
-                $('.dashboard-iframe').removeClass('d-none');
-            }
-        });
-
-        $(document).on('click', ".dashboard-iframe-links", function() {
-            var urlLink = $(this).attr('href');
-            var lastIndex = urlLink.lastIndexOf("?");
-            var newUrl = urlLink.substring(0, lastIndex);
-
-            window.history.pushState('', '', newUrl)
-        });
-
-        // $(document).on('click', ".submenu ul li a", function () {
-        //   var $this = $(this);
-        //   var $parentLi = $this.parent("li");
-        //   var $siblingsLi = $parentLi.siblings("li");
-
-        //   $('.dashboard-content').addClass('d-none');
-        //   $('.dashboard-iframe').removeClass('d-none');
-
-        //   // Check if the clicked element's siblings have active class
-        //   if ($siblingsLi.children("a").hasClass("active")) {
-        //     // Remove active class from all siblings
-        //     $siblingsLi.children("a").removeClass("active");
-        //   }
-
-        //   // Check if the clicked element's siblings have active class
-        //   if ($('#sidebar-menu > ul > li').hasClass("active")) {
-        //     // Remove active class from all siblings
-        //     $('#sidebar-menu > ul > li').removeClass("active");
-        //   }
-
-        //   // Check if the clicked element's parent has active class
-        //   if ($('.submenu').each(function () {
-        //     $('.submenu ul li a').hasClass("active")
-        //   })) {
-        //     // Remove active class from parent
-        //     $('.submenu').each(function () {
-        //       $('.submenu ul li a').removeClass("active")
-        //     });
-        //   }
-
-        //   // Add active class to clicked element
-        //   $this.addClass("active");
-        // });
-
-    </script>
-
 </body>
-
 </html>
