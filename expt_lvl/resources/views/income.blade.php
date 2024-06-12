@@ -46,8 +46,10 @@
 </head>
 <body>
 
-      
-      
+  <div id="big_loader" class="d-none my-2 justify-content-center align-items-center loader-body w-100 h-100 position-fixed m-0 top-0 mt-0" style="z-index: 999999">
+    <img src="{{ URL("assets/img/loader.gif") }}" class="img-fluid" alt="">
+  </div>
+
     <div class="content container-fluid">
 
       <div class="page-header my-3">
