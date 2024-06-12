@@ -53,7 +53,7 @@
 								</div>
                             </div>
                             <div id="register-loader" class="my-2 d-none loader-body">
-                                <img src="{{ asset('assets/img/loader.gif') }}" class="loader-img" alt="">
+                                <img src="{{ asset('assets/img/custom_loader.svg') }}" class="loader-img" alt="">
                             </div>
                             <div id="register-success" class="alert alert-success mt-2 d-none">Registration Successfull redirecting</div>
                             <div class="form-group text-center">

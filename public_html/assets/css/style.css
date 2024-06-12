@@ -12,6 +12,14 @@
 	height: 30px;
 }
 /* Global styles Start here */
+#generate-key {
+  cursor: pointer;
+  margin-right: 1px;
+  position: absolute;
+  top: -3px;
+  right: 0;
+  padding: 1rem;
+}
 #toggle-rep-password-register,
 #toggle-password-register,
 #toggle-password {

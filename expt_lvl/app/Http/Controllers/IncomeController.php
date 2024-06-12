@@ -14,6 +14,7 @@ use App\Models\ExptBankAccounts;
 use App\Models\ExptCategory;
 use App\Models\ExptIncome;
 use App\Models\ExptExpense;
+use App\ASPLibraries\CustomFunctions;
 Use DB;
 Use Mail;
 use Session;
@@ -38,14 +39,14 @@ class IncomeController extends BaseController{
         $totalIncome = 0;
                                         
         foreach ($incomeList as $rsIncomeList):
-            $totalIncome += \App\ASPLibraries\CustomFunctions::decrypt( $rsIncomeList->amount );
+            $totalIncome += CustomFunctions::customDecrypt($rsIncomeList->amount, Session::get('normalUserEncryptKey'));
         endforeach;
 
         $currentMonthsTotalIncome = 0;
         $monthsFirstIncomeData = ExptIncome::select('date', 'amount')->where('user_id', session::get('normalUserId'))->whereMonth('date', date("m"))->get();
 
         foreach ($monthsFirstIncomeData as $rsMonthsFirstIncomeData) {
-            $currentMonthsTotalIncome += Crypt::decrypt( $rsMonthsFirstIncomeData->amount );
+            $currentMonthsTotalIncome += CustomFunctions::customDecrypt($rsMonthsFirstIncomeData->amount, Session::get('normalUserEncryptKey'));
         }
 
         $bankAccountsName = ExptBankAccounts::select('id', 'account_name')->where('user_id', session::get('normalUserId'))->where('active', 1)->get();
@@ -68,9 +69,9 @@ class IncomeController extends BaseController{
     public function addNewIncome(Request $request) {
 
         $income_bank_account_id = $request->add_income_bank_account_val;
-        $income_source = Crypt::encrypt( $request->add_income_source_val );
-        $income_amount = Crypt::encrypt( $request->add_income_amount_val );
-        $income_desciption = Crypt::encrypt( $request->add_income_description_val );
+        $income_source = CustomFunctions::customEncrypt($request->add_income_source_val, Session::get('normalUserEncryptKey'));
+        $income_amount = CustomFunctions::customEncrypt($request->add_income_amount_val, Session::get('normalUserEncryptKey'));
+        $income_desciption = CustomFunctions::customEncrypt($request->add_income_description_val, Session::get('normalUserEncryptKey'));
 
         $InsertIncome = new ExptIncome();
         $InsertIncome->user_id = session::get('normalUserId');
@@ -103,9 +104,9 @@ class IncomeController extends BaseController{
  
         $income_Id = $request->update_income_id_val;
         $income_bank_account_id = $request->update_income_bankAccount_val;
-        $income_source = Crypt::encrypt( $request->update_income_source_val );
-        $income_amount = Crypt::encrypt( $request->update_income_amount_val );
-        $income_desciption = Crypt::encrypt( $request->update_income_description_val );
+        $income_source = CustomFunctions::customEncrypt($request->update_income_source_val, Session::get('normalUserEncryptKey'));
+        $income_amount = CustomFunctions::customEncrypt($request->update_income_amount_val, Session::get('normalUserEncryptKey'));
+        $income_desciption = CustomFunctions::customEncrypt($request->update_income_description_val, Session::get('normalUserEncryptKey'));
 
         ExptIncome::where('id', $income_Id)->update(array(
 

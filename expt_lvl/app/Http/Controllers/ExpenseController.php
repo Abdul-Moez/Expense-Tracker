@@ -14,6 +14,7 @@ use App\Models\ExptBankAccounts;
 use App\Models\ExptCategory;
 use App\Models\ExptIncome;
 use App\Models\ExptExpense;
+use App\ASPLibraries\CustomFunctions;
 Use DB;
 Use Mail;
 use Session;
@@ -40,14 +41,14 @@ class ExpenseController extends BaseController{
         $totalExpense = 0;
                                         
         foreach ($expenseList as $rsExpenseList):
-            $totalExpense += \App\ASPLibraries\CustomFunctions::decrypt( $rsExpenseList->amount );
+            $totalExpense += CustomFunctions::customDecrypt($rsExpenseList->amount, Session::get('normalUserEncryptKey'));
         endforeach;
 
         $currentMonthsTotalExpense = 0;
         $monthsFirstExpenseData = ExptExpense::select('date', 'amount')->where('user_id', session::get('normalUserId'))->whereMonth('date', date("m"))->get();
 
         foreach ($monthsFirstExpenseData as $rsMonthsFirstExpenseData) {
-            $currentMonthsTotalExpense += Crypt::decrypt( $rsMonthsFirstExpenseData->amount );
+            $currentMonthsTotalExpense += CustomFunctions::customDecrypt($rsMonthsFirstExpenseData->amount, Session::get('normalUserEncryptKey'));
         }
 
         $bankAccountsName = ExptBankAccounts::select('id', 'account_name')->where('user_id', session::get('normalUserId'))->where('active', 1)->get();
@@ -73,8 +74,8 @@ class ExpenseController extends BaseController{
 
         $expense_bank_account_id = $request->add_expense_bank_account_val;
         $expense_category = $request->add_expense_category_val;
-        $expense_amount = Crypt::encrypt( $request->add_expense_amount_val );
-        $expense_desciption = Crypt::encrypt( $request->add_expense_description_val );
+        $expense_amount = CustomFunctions::customEncrypt($request->add_expense_amount_val, Session::get('normalUserEncryptKey'));
+        $expense_desciption = CustomFunctions::customEncrypt($request->add_expense_description_val, Session::get('normalUserEncryptKey'));
 
         $InsertExpense = new ExptExpense();
         $InsertExpense->user_id = session::get('normalUserId');
@@ -114,8 +115,8 @@ class ExpenseController extends BaseController{
         $expense_Id = $request->update_expense_id_val;
         $expense_bank_account_id = $request->update_expense_bankAccount_val;
         $expense_category = $request->update_expense_category_val;
-        $expense_amount = Crypt::encrypt( $request->update_expense_amount_val );
-        $expense_desciption = Crypt::encrypt( $request->update_expense_description_val );
+        $expense_amount = CustomFunctions::customEncrypt($request->update_expense_amount_val, Session::get('normalUserEncryptKey'));
+        $expense_desciption = CustomFunctions::customEncrypt($request->update_expense_description_val, Session::get('normalUserEncryptKey'));
 
         ExptExpense::where('id', $expense_Id)->update(array(
 
@@ -161,10 +162,8 @@ class ExpenseController extends BaseController{
         // // Filter the records based on the partial match
         // $expenseListDataDecrypted = $expenseListData->filter(function ($expenseData) use ($expenseFilterSource, $expenseFilterAmount) {
 
-        //     $decryptedexpenseSource = Crypt::decrypt($expenseData->source);
-        //     $decryptedexpenseAmount = Crypt::decrypt($expenseData->amount);
-
-        //     // Check if each filter is empty or matches the decrypted values
+        //     $decryptedexpenseSource = CustomFunctions::customDecrypt(expenseData->source, Session::get('normalUserEncryptKey'));
+        //     $decryptedexpenseAmount = CustomFunctions::customDecrypt(expenseData->amount, Session::get('normalUserEncryptKey'));        //     // Check if each filter is empty or matches the decrypted values
         //     $expenseSourceMatches = empty($expenseFilterSource) || str_contains(strtolower($decryptedexpenseSource), strtolower($expenseFilterSource));
         //     $expenseAmountMatches = empty($expenseFilterAmount) || str_contains(strtolower($decryptedexpenseAmount), strtolower($expenseFilterAmount));
 

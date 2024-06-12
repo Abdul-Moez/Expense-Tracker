@@ -27,7 +27,8 @@
 <body>
 
     <div id="big_loader" class="my-2 justify-content-center align-items-center loader-body w-100 h-100 position-fixed m-0 top-0 mt-0" style="z-index: 999999">
-        <img src="{{ URL('assets/img/loader_new.gif') }}" class="img-fluid" alt="">
+        {{-- <img src="{{ asset('assets/img/loader_new.gif') }}" class="img-fluid" alt=""> --}}
+        <img src="{{ asset('assets/img/custom_loader.svg') }}" class="img-fluid" alt="" style="width:8%;">
     </div>
 
     @include('includes/dynamic_sidebar')

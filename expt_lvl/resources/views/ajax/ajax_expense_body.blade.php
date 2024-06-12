@@ -17,10 +17,10 @@
                 @foreach ($expenseList as $rsExpenseList)
                     <tr>
                         <td>{{ $expenseId }}</td>
-                        <td>{{ \App\ASPLibraries\CustomFunctions::decrypt( $rsExpenseList->account_name ) }}</td>
+                        <td>{{ \App\ASPLibraries\CustomFunctions::customDecrypt($rsExpenseList->account_name, Session::get('normalUserEncryptKey')) }}</td>
                         <td>{{ $rsExpenseList->category_name }}</td>
-                        <td><span>Rs </span>{{ \App\ASPLibraries\CustomFunctions::decrypt( $rsExpenseList->amount ) }}</td>
-                        <td><textarea cols="20" rows="1" readonly disabled>{{ \App\ASPLibraries\CustomFunctions::decrypt( $rsExpenseList->description ) }}</textarea></td>
+                        <td><span>Rs </span>{{ \App\ASPLibraries\CustomFunctions::customDecrypt($rsExpenseList->amount, Session::get('normalUserEncryptKey')) }}</td>
+                        <td><textarea cols="20" rows="1" readonly disabled>{{ \App\ASPLibraries\CustomFunctions::customDecrypt($rsExpenseList->description, Session::get('normalUserEncryptKey')) }}</textarea></td>
                         <td>{{ date('Y-M-d (l)', strtotime($rsExpenseList->date)) }}</td>
                         <td class="text-end">
                             <div class="dropdown dropdown-action">

@@ -14,6 +14,7 @@ use App\Models\ExptBankAccounts;
 use App\Models\ExptCategory;
 use App\Models\ExptIncome;
 use App\Models\ExptExpense;
+use App\ASPLibraries\CustomFunctions;
 Use DB;
 Use Mail;
 use Session;
@@ -37,11 +38,11 @@ class DashboardController extends BaseController{
         $totalMonthlyIncomeValue = 0;
         $totalMonthlyExpenseValue = 0;
         foreach ($totalMonthlyIncome as $rsTotalMonthlyIncome) {
-            $totalMonthlyIncomeValue += Crypt::decrypt($rsTotalMonthlyIncome->amount);
+            $totalMonthlyIncomeValue += CustomFunctions::customDecrypt($rsTotalMonthlyIncome->amount, Session::get('normalUserEncryptKey'));
         }
 
         foreach ($totalMonthlyExpense as $rsTotalMonthlyExpense) {
-            $totalMonthlyExpenseValue += Crypt::decrypt($rsTotalMonthlyExpense->amount);
+            $totalMonthlyExpenseValue += CustomFunctions::customDecrypt($rsTotalMonthlyExpense->amount, Session::get('normalUserEncryptKey'));
         }
 
         $totalIncome = ExptIncome::select('amount')->where('user_id', session::get('normalUserId'))->get();
@@ -50,11 +51,11 @@ class DashboardController extends BaseController{
         $totalIncomeValue = 0;
         $totalExpenseValue = 0;
         foreach ($totalIncome as $rsTotalIncome) {
-            $totalIncomeValue += Crypt::decrypt($rsTotalIncome->amount);
+            $totalIncomeValue += CustomFunctions::customDecrypt($rsTotalIncome->amount, Session::get('normalUserEncryptKey'));
         }
 
         foreach ($totalExpense as $rsTotalExpense) {
-            $totalExpenseValue += Crypt::decrypt($rsTotalExpense->amount);
+            $totalExpenseValue += CustomFunctions::customDecrypt($rsTotalExpense->amount, Session::get('normalUserEncryptKey'));
         }
 
         // dd($recentTransactions);

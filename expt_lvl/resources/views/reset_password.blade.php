@@ -54,7 +54,7 @@
                             <input type="text" name="url_email" id="url_email" value="{{ $lastSegment }}" class="d-none">
 
                             <div id="resetPass-loader" class="my-2 d-none loader-body">
-                                <img src="{{ URL('assets/img/loader.gif') }}" class="loader-img" alt="">
+                                <img src="{{ URL('assets/img/custom_loader.svg') }}" class="loader-img" alt="">
                             </div>
                             <div id="resetPass-success" class="alert alert-success mt-2 d-none">Your password has been reset please <a href="/">login</a>.</div>
                             <div class="form-group text-center">

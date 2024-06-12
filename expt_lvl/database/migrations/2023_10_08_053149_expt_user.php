@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('user_name', 50); // Max length of 100 characters
             $table->string('user_email', 255); // Max length of 255 characters
             $table->string('user_password', 60); // Max length of 60 characters
+            $table->string('encryption_key', 60)->nullable(); // Max length of 60 characters
             $table->tinyInteger('user_role')->default(0); // Default value of 0
             $table->tinyInteger('first_login')->default(1); // Default value of 0
             $table->tinyInteger('is_pw_updated')->default(0); // Default value of 0
@@ -29,6 +30,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        //
+        Schema::dropIfExists('expt_user');
     }
 };

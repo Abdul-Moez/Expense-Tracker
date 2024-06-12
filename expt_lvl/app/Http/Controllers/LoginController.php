@@ -14,16 +14,9 @@ Use DB;
 Use Mail;
 use Session;
 
-
 class LoginController extends BaseController{
 
     public function login() {
-
-        // dd(Crypt::encrypt('moez123'));
-
-        // if(!session::has('PCAdminAuthenticated')){
-        //     return redirect('login');
-        // }
 
         if(session::has('normalUserId')){
             return redirect('/dashboard');
@@ -41,12 +34,25 @@ class LoginController extends BaseController{
         return view('registration');
     }
 
+    public function generate_key() {
+        if(!session::has('normalUserId')){
+            return redirect('/');
+        }else if (session::has('normalUserEncryptKey')) {
+            return redirect('/dashboard');
+        };
+
+        return view('encryption_key');
+    }
+
     public function loginProcess(Request $request) {
         if ($request->login_process_val == "login") {
             return $this->sendLogin($request);
         }
         else if ($request->login_process_val == "register") {
             return $this->sendRegister($request);
+        }
+        else if ($request->login_process_val == "encryption_key") {
+            return $this->encryptionKeyWorking($request);
         }
         else if ($request->login_process_val == "forgot_pass") {
             return $this->sendForgotPass($request);
@@ -127,7 +133,33 @@ class LoginController extends BaseController{
         }
 
     }
-    
+
+    public function encryptionKeyWorking(Request $request) {
+
+        if ($request->encryptionKey_val == null || $request->encryptionKey_val == '') {
+            return 'key empty';
+        }
+
+        $chckKeyExists = ExptUsers::select('*')->where('id', session::get('normalUserId'))->first();
+
+        if ($chckKeyExists->encryption_key == null && $chckKeyExists->encryption_key == '') {
+            ExptUsers::where('id', session::get('normalUserId'))->update(['encryption_key' => md5($request->encryptionKey_val)]);
+
+            Session::put('normalUserEncryptKey', $request->encryptionKey_val);
+        }else {
+
+            if ($chckKeyExists->encryption_key == md5($request->encryptionKey_val)) {
+                Session::put('normalUserEncryptKey', $request->encryptionKey_val);
+
+                return 'go to dashboard';
+            }else {
+                return 'wrong key';
+            }
+
+        }
+
+    }
+
     public function forgotPassword(Request $request) {
 
         if(session::has('normalUserId')){
@@ -215,7 +247,8 @@ class LoginController extends BaseController{
         Session::forget('normalUserRole');
         Session::forget('normalUserFsLgin');
 
+        Session::forget('normalUserEncryptKey');
+
         return 'logout successfull';
     }
-
 }

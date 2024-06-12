@@ -14,6 +14,7 @@ use App\Models\ExptBankAccounts;
 use App\Models\ExptCategory;
 use App\Models\ExptIncome;
 use App\Models\ExptExpense;
+use App\ASPLibraries\CustomFunctions;
 Use DB;
 Use Mail;
 use Session;
@@ -43,7 +44,7 @@ class BankAccountsController extends BaseController{
         $accountBalancesDesc = [];
         
         foreach ($bankAccounts as $account) {
-            $decryptedAmount = Crypt::decrypt($account->amount);
+            $decryptedAmount = CustomFunctions::customDecrypt($account->amount, Session::get('normalUserEncryptKey'));
             if (isset($accountBalancesDesc[$account->id])) {
                 $accountBalancesDesc[$account->id] += $decryptedAmount;
             } else {
@@ -62,7 +63,7 @@ class BankAccountsController extends BaseController{
                                                 ->where('id', $highestBalanceAccountId)
                                                 ->first();
 
-            $bankAccountNameDesc = Crypt::decrypt($bankAccountDataDesc->account_name);
+            $bankAccountNameDesc = CustomFunctions::customDecrypt($bankAccountDataDesc->account_name, Session::get('normalUserEncryptKey'));
 
         } else {
             // dd("No bank accounts found for the user.");
@@ -73,7 +74,7 @@ class BankAccountsController extends BaseController{
         $accountBalancesAsc = [];
         
         foreach ($bankAccounts as $account) {
-            $decryptedAmount = Crypt::decrypt($account->amount);
+            $decryptedAmount = CustomFunctions::customDecrypt($account->amount, Session::get('normalUserEncryptKey'));
             if (isset($accountBalancesAsc[$account->id])) {
                 $accountBalancesAsc[$account->id] += $decryptedAmount;
             } else {
@@ -92,7 +93,7 @@ class BankAccountsController extends BaseController{
                                                 ->where('id', $lowestBalanceAccountId)
                                                 ->first();
 
-            $bankAccountNameAsc = Crypt::decrypt($bankAccountDataAsc->account_name);
+            $bankAccountNameAsc = CustomFunctions::customDecrypt($bankAccountDataAsc->account_name, Session::get('normalUserEncryptKey'));
 
         } else {
             // dd("No bank accounts found for the user.");
@@ -116,19 +117,19 @@ class BankAccountsController extends BaseController{
 
     public function addNewBankAccount(Request $request) {
 
-        $bank_account_name = Crypt::encrypt( $request->add_bank_bccount_name_val );
-        $bank_account_type = Crypt::encrypt( $request->add_bank_bccount_type_val );
-        $bank_account_number = Crypt::encrypt( $request->add_bank_bccount_number_val );
+        $bank_account_name = CustomFunctions::customEncrypt($request->add_bank_bccount_name_val, Session::get('normalUserEncryptKey'));
+        $bank_account_type = CustomFunctions::customEncrypt($request->add_bank_bccount_type_val, Session::get('normalUserEncryptKey'));
+        $bank_account_number = CustomFunctions::customEncrypt($request->add_bank_bccount_number_val, Session::get('normalUserEncryptKey'));
 
         $CheckBankAccountExists = ExptBankAccounts::select('id', 'account_name', 'account_number')->where('user_id', session::get('normalUserId'))->get();
 
         foreach ($CheckBankAccountExists as $rsCheckBankAccountExists) {
 
-            if (Crypt::decrypt($rsCheckBankAccountExists->account_name) == $request->add_bank_bccount_name_val) {
+            if (CustomFunctions::customDecrypt($rsCheckBankAccountExists->account_name, Session::get('normalUserEncryptKey')) == $request->add_bank_bccount_name_val) {
                 return "account name exists";
             }
 
-            if (Crypt::decrypt($rsCheckBankAccountExists->account_number) == $request->add_bank_bccount_number_val) {
+            if (CustomFunctions::customDecrypt($rsCheckBankAccountExists->account_number, Session::get('normalUserEncryptKey')) == $request->add_bank_bccount_number_val) {
                 return "account number exists";
             }
         }
@@ -158,35 +159,32 @@ class BankAccountsController extends BaseController{
     public function updateBankAccountData(Request $request) {
  
         $bankAccountsId = $request->update_account_id_val;
-        $bankAccountsName = Crypt::encrypt( $request->update_account_name_val );
-        $bankAccountsType = Crypt::encrypt( $request->update_account_type_val );
-        $bankAccountsNumber = Crypt::encrypt( $request->update_account_number_val );
+        $bankAccountsName = CustomFunctions::customEncrypt($request->update_account_name_val, Session::get('normalUserEncryptKey'));
+        $bankAccountsType = CustomFunctions::customEncrypt($request->update_account_type_val, Session::get('normalUserEncryptKey'));
+        $bankAccountsNumber = CustomFunctions::customEncrypt($request->update_account_number_val, Session::get('normalUserEncryptKey'));
         $bankAccountsActive = $request->update_account_active_val;
 
         $CheckBankAccountExists = ExptBankAccounts::select('id', 'account_name', 'account_number')->where('user_id', session::get('normalUserId'))->where('id', '<>', $bankAccountsId)->get();
 
         foreach ($CheckBankAccountExists as $rsCheckBankAccountExists) {
 
-            if (Crypt::decrypt($rsCheckBankAccountExists->account_name) == $request->update_account_name_val) {
+            if (CustomFunctions::customDecrypt($rsCheckBankAccountExists->account_name, Session::get('normalUserEncryptKey')) == $request->update_account_name_val) {
                 return "account name exists";
             }
 
-            if (Crypt::decrypt($rsCheckBankAccountExists->account_number) == $request->update_account_number_val) {
+            if (CustomFunctions::customDecrypt($rsCheckBankAccountExists->account_number, Session::get('normalUserEncryptKey')) == $request->update_account_number_val) {
                 return "account number exists";
             }
         }
 
         ExptBankAccounts::where('id', $bankAccountsId)->update(array(
-
             'account_name' => $bankAccountsName,
             'account_type' => $bankAccountsType,
             'account_number' => $bankAccountsNumber,
             'active' => $bankAccountsActive,
-
         ));
 
         return 'Updated';
- 
     }
     
     public function filterBankAccountData(Request $request) {
@@ -205,9 +203,9 @@ class BankAccountsController extends BaseController{
         // Filter the records based on the partial match
         $filteredBankAccounts = $bankAccountsList->filter(function ($bankAccount) use ($accountFilterName, $accountFilterNumber, $accountFilterType, $accountFilterActive) {
             // Decrypt the account_name, account_number, and account_type
-            $decryptedAccountName = Crypt::decrypt($bankAccount->account_name);
-            $decryptedAccountNumber = Crypt::decrypt($bankAccount->account_number);
-            $decryptedAccountType = Crypt::decrypt($bankAccount->account_type);
+            $decryptedAccountName = CustomFunctions::customDecrypt($bankAccount->account_name, Session::get('normalUserEncryptKey'));
+            $decryptedAccountNumber = CustomFunctions::customDecrypt($bankAccount->account_number, Session::get('normalUserEncryptKey'));
+            $decryptedAccountType = CustomFunctions::customDecrypt($bankAccount->account_type, Session::get('normalUserEncryptKey'));
 
             // Check if each filter is empty or matches the decrypted values
             $nameMatches = empty($accountFilterName) || str_contains(strtolower($decryptedAccountName), strtolower($accountFilterName));

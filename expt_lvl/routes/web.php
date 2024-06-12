@@ -24,22 +24,27 @@ Route::get('/reset_password/{link}', 'LoginController@resetPassword')->name('res
 Route::post('/login_process', 'LoginController@loginProcess')->name('login_process');
 
 Route::group(['middleware' => ['normaluserlogin']], function () {
+    
+    Route::get('/encryption_key', 'LoginController@generate_key')->name('generate_key');
 
-    Route::get('/dashboard', 'DashboardController@dashboard')->name('dashboard');
-    Route::post('/dash_process', 'DashboardController@dashProcess')->name('dashboard_process');
+    Route::group(['middleware' => ['normaluserkey']], function () {
 
-    Route::get('/dashboard/income', 'IncomeController@income')->name('income');
-    Route::post('/income_process', 'IncomeController@incomeProcess')->name('income_process');
+        Route::get('/dashboard', 'DashboardController@dashboard')->name('dashboard');
+        Route::post('/dash_process', 'DashboardController@dashProcess')->name('dashboard_process');
 
-    Route::get('/dashboard/expense', 'ExpenseController@expense')->name('expense');
-    Route::post('/expense_process', 'ExpenseController@expenseProcess')->name('expense_process');
+        Route::get('/dashboard/income', 'IncomeController@income')->name('income');
+        Route::post('/income_process', 'IncomeController@incomeProcess')->name('income_process');
 
-    Route::get('/dashboard/bank_accounts', 'BankAccountsController@bankAccounts')->name('bank_accounts');
-    Route::post('/bank_accounts_process', 'BankAccountsController@bankAccountsProcess')->name('bank_accounts_process');
+        Route::get('/dashboard/expense', 'ExpenseController@expense')->name('expense');
+        Route::post('/expense_process', 'ExpenseController@expenseProcess')->name('expense_process');
 
-    Route::get('/dashboard/category', 'CategoryController@category')->name('category');
-    Route::post('/category_process', 'CategoryController@categoryProcess')->name('category_process');
+        Route::get('/dashboard/bank_accounts', 'BankAccountsController@bankAccounts')->name('bank_accounts');
+        Route::post('/bank_accounts_process', 'BankAccountsController@bankAccountsProcess')->name('bank_accounts_process');
 
+        Route::get('/dashboard/category', 'CategoryController@category')->name('category');
+        Route::post('/category_process', 'CategoryController@categoryProcess')->name('category_process');
+
+    });
 });
 
 Route::get('/configcachecleared', function() {

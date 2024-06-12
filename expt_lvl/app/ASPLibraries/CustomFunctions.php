@@ -18,15 +18,27 @@ use Illuminate\Support\Facades\Crypt;
 class CustomFunctions {
 
     public Static function encrypt($value) {
-
         return Crypt::encrypt($value);
-
     }
 
     public static function decrypt($value) {
-
         return Crypt::decrypt($value);
+    }
 
+    public static function customEncrypt($value, $salt) {
+        $method = 'AES-256-CBC';
+        $key = hash('sha256', $salt);
+        $iv = substr(hash('sha256', 'iv'), 0, 16);
+
+        return openssl_encrypt($value, $method, $key, 0, $iv);
+    }
+
+    public static function customDecrypt($value, $salt) {
+        $method = 'AES-256-CBC';
+        $key = hash('sha256', $salt);
+        $iv = substr(hash('sha256', 'iv'), 0, 16);
+
+        return openssl_decrypt($value, $method, $key, 0, $iv);
     }
 
 }

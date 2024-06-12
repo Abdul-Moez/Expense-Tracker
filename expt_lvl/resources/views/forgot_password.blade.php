@@ -43,7 +43,7 @@
                                 <input class="form-control" type="email" id="forgotPasswordEmail" name="forgotPasswordEmail" placeholder="Email Address">
                             </div>
                             <div id="forgotPass-loader" class="my-2 d-none loader-body">
-                                <img src="{{ URL('assets/img/loader.gif') }}" class="loader-img" alt="">
+                                <img src="{{ URL('assets/img/custom_loader.svg') }}" class="loader-img" alt="">
                             </div>
                             <div id="forgotPass-success" class="alert alert-success mt-2 d-none">We have sent you the link to reset your password on your registered email.</div>
                             <div class="form-group text-center">

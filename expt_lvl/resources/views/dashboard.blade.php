@@ -26,7 +26,8 @@
 <body>
 
     <div id="big_loader" class="my-2 justify-content-center align-items-center loader-body w-100 h-100 position-fixed m-0 top-0 mt-0" style="z-index: 999999">
-        <img src="{{ asset('assets/img/loader_new.gif') }}" class="img-fluid" alt="">
+        {{-- <img src="{{ asset('assets/img/loader_new.gif') }}" class="img-fluid" alt=""> --}}
+        <img src="{{ asset('assets/img/custom_loader.svg') }}" class="img-fluid" alt="" style="width:8%;">
     </div>
 
     <div class="main-wrapper">
@@ -203,9 +204,9 @@
                                                 @foreach ($recentExpense as $rsRecentExpense)
                                                     <tr>
                                                         <td>{{ $expenseId }}</td>
-                                                        <td>{{ \App\ASPLibraries\CustomFunctions::decrypt( $rsRecentExpense->account_name ) }}</td>
+                                                        <td>{{ \App\ASPLibraries\CustomFunctions::customDecrypt($rsRecentExpense->account_name, Session::get('normalUserEncryptKey')) }}</td>
                                                         <td>{{ $rsRecentExpense->category_name }}</td>
-                                                        <td>{{ \App\ASPLibraries\CustomFunctions::decrypt( $rsRecentExpense->amount ) }} Rs</td>
+                                                        <td>{{ \App\ASPLibraries\CustomFunctions::customDecrypt($rsRecentExpense->amount, Session::get('normalUserEncryptKey')) }} Rs</td>
                                                         <td>{{ $rsRecentExpense->date }}</td>
                                                     </tr>
                                                     <?php $expenseId++; ?>
@@ -242,9 +243,9 @@
                                                 @foreach ($recentIncome as $rsRecentIncome)
                                                     <tr>
                                                     <td>{{ $incomeId }}</td>
-                                                    <td>{{ \App\ASPLibraries\CustomFunctions::decrypt( $rsRecentIncome->account_name ) }}</td>
-                                                    <td>{{ \App\ASPLibraries\CustomFunctions::decrypt( $rsRecentIncome->source ) }}</td>
-                                                    <td>{{ \App\ASPLibraries\CustomFunctions::decrypt( $rsRecentIncome->amount ) }} Rs</td>
+                                                    <td>{{ \App\ASPLibraries\CustomFunctions::customDecrypt($rsRecentIncome->account_name, Session::get('normalUserEncryptKey')) }}</td>
+                                                    <td>{{ \App\ASPLibraries\CustomFunctions::customDecrypt($rsRecentIncome->source, Session::get('normalUserEncryptKey')) }}</td>
+                                                    <td>{{ \App\ASPLibraries\CustomFunctions::customDecrypt($rsRecentIncome->amount, Session::get('normalUserEncryptKey')) }} Rs</td>
                                                     <td>{{ $rsRecentIncome->date }}</td>
                                                     </tr>
                                                     <?php $incomeId++; ?>

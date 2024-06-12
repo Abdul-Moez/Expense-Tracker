@@ -17,10 +17,10 @@
                 @foreach ($incomeList as $rsIncomeList)
                     <tr>
                         <td>{{ $incomeId }}</td>
-                        <td>{{ \App\ASPLibraries\CustomFunctions::decrypt( $rsIncomeList->account_name ) }}</td>
-                        <td>{{ \App\ASPLibraries\CustomFunctions::decrypt( $rsIncomeList->source ) }}</td>
-                        <td><span>Rs </span>{{ \App\ASPLibraries\CustomFunctions::decrypt( $rsIncomeList->amount ) }}</td>
-                        <td><textarea cols="20" rows="1" readonly disabled>{{ \App\ASPLibraries\CustomFunctions::decrypt( $rsIncomeList->description ) }}</textarea></td>
+                        <td>{{ \App\ASPLibraries\CustomFunctions::customDecrypt($rsIncomeList->account_name, Session::get('normalUserEncryptKey')) }}</td>
+                        <td>{{ \App\ASPLibraries\CustomFunctions::customDecrypt($rsIncomeList->source, Session::get('normalUserEncryptKey')) }}</td>
+                        <td><span>Rs </span>{{ \App\ASPLibraries\CustomFunctions::customDecrypt($rsIncomeList->amount, Session::get('normalUserEncryptKey')) }}</td>
+                        <td><textarea cols="20" rows="1" readonly disabled>{{ \App\ASPLibraries\CustomFunctions::customDecrypt($rsIncomeList->description, Session::get('normalUserEncryptKey')) }}</textarea></td>
                         <td>{{ date('Y-M-d (l)', strtotime($rsIncomeList->date)) }}</td>
                         <td class="text-end">
                             <div class="dropdown dropdown-action">

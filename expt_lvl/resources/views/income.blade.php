@@ -28,7 +28,8 @@
 <body>
 
     <div id="big_loader" class="my-2 justify-content-center align-items-center loader-body w-100 h-100 position-fixed m-0 top-0 mt-0" style="z-index: 999999">
-        <img src="{{ URL('assets/img/loader_new.gif') }}" class="img-fluid" alt="">
+        {{-- <img src="{{ asset('assets/img/loader_new.gif') }}" class="img-fluid" alt=""> --}}
+        <img src="{{ asset('assets/img/custom_loader.svg') }}" class="img-fluid" alt="" style="width:8%;">
     </div>
 
     @include('includes/dynamic_sidebar')
@@ -52,7 +53,7 @@
                     <h6>Recent Income</h6>
                     @if (count($incomeList) > 0)
                         @foreach ($incomeList as $rsIncomeList)
-                            <h4><span>Rs </span>{{ \App\ASPLibraries\CustomFunctions::decrypt($rsIncomeList->amount) }}</h4>
+                            <h4><span>Rs </span>{{ \App\ASPLibraries\CustomFunctions::customDecrypt($rsIncomeList->amount, Session::get('normalUserEncryptKey')) }}</h4>
                             <?php break; ?>
                         @endforeach
                     @else
@@ -80,7 +81,7 @@
                     <select class="form-select" id="filter_income_account" name="filter_income_account">
                         <option value="">Select Bank Account</option>
                         @foreach ($bankAccountsName as $rsBankAccountsName)
-                            <option value="{{ $rsBankAccountsName->id }}">{{ \App\ASPLibraries\CustomFunctions::decrypt($rsBankAccountsName->account_name) }}</option>
+                            <option value="{{ $rsBankAccountsName->id }}">{{ \App\ASPLibraries\CustomFunctions::customDecrypt($rsBankAccountsName->account_name, Session::get('normalUserEncryptKey')) }}</option>
                         @endforeach
                     </select>
                     <label class="focus-label">Select Bank Account</label>
@@ -167,7 +168,7 @@
                             <select class="form-select" id="add_income_account" name="add_income_account">
                                 <option value="">Select Bank Account</option>
                                 @foreach ($bankAccountsName as $rsBankAccountsName)
-                                    <option value="{{ $rsBankAccountsName->id }}">{{ \App\ASPLibraries\CustomFunctions::decrypt($rsBankAccountsName->account_name) }}</option>
+                                    <option value="{{ $rsBankAccountsName->id }}">{{ \App\ASPLibraries\CustomFunctions::customDecrypt($rsBankAccountsName->account_name, Session::get('normalUserEncryptKey')) }}</option>
                                 @endforeach
                             </select>
                             <label class="focus-label">Select Bank Account</label>

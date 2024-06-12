@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <meta name="csrf_token" content="{{ csrf_token() }}" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
-    <title>Login - Expense Tracker</title>
+    <title>Generate Encryption Key - Expense Tracker</title>
 
     <!-- FavIcon -->
     <link rel="shortcut icon" type="image/x-icon" href="{{ URL('assets/img/logo.png') }}">
@@ -36,32 +36,23 @@
                 <div class="account-box">
                     <div class="account-wrapper">
                         <h3 class="account-title text-dark">Welcome,</h3>
-                        <p class="account-subtitle">Please Login!</p>
+                        <p class="account-subtitle">Please {{ Session::get('normalUserFsLgin') == 1 ? 'Generate' : 'Enter' }} Your Encryption Key To Continue.</p>
 
-                        <form action="javascript.void(0);">
-                            <div class="form-group">
-                                <input class="form-control" type="email" value="" id="user-email" placeholder="Email Address">
-                            </div>
+                        <form action="javascript:void(0);">
                             <div class="form-group">
                                 <div class="position-relative">
-                                    <input class="form-control" type="password" value="" id="user-password" placeholder="Password">
-                                    <span class="fa fa-eye-slash" id="toggle-password"></span>
-                                </div>
-                                <div class="text-end mt-1">
-                                    <a href="{{ URL('/forgot_password.htm') }}">
-                                        Forgot your password?
-                                    </a>
+                                    <input class="form-control" type="text" id="generatedKey" name="generatedKey" placeholder="Enter Your Encryption Key" autocomplete="off">
+                                    @if (Session::get('normalUserFsLgin') == 1)
+                                    <button type="button" class="bg-transparent border-0" id="generate-key" data-bs-toggle="tooltip" data-bs-title="Click to generate encryption key"> <span class="fas fa-refresh"></span> </button>
+                                    @endif
                                 </div>
                             </div>
-                            <div id="login-loader" class="my-2 d-none loader-body">
-								<img src="{{ URL('assets/img/custom_loader.svg') }}" class="loader-img" alt="">
-							</div>
-							<div id="login-success" class="alert alert-success mt-2 d-none">Login Successfull redirecting</div>
+                            <div id="encryptionKey-loader" class="my-2 d-none loader-body">
+                                <img src="{{ URL('assets/img/custom_loader.svg') }}" class="loader-img" alt="">
+                            </div>
+                            <div id="encryptionKey-success" class="mt-2 d-none alert alert-success"></div>
                             <div class="form-group text-center">
-                                <button class="btn btn-primary account-btn" type="submit" id="user-login-btn">Login</button>
-                            </div>
-                            <div class="account-footer">
-                                <p>Don't have an account yet? <a href="{{ URL('/register') }}">Register Now!</a></p>
+                                <button class="btn btn-primary account-btn" id="saveEncryptionKeyBtn" name="saveEncryptionKeyBtn" type="submit">{{ Session::get('normalUserFsLgin') == 1 ? 'Set Encryption Key' : 'Submit' }}</button>
                             </div>
                         </form>
                     </div>
