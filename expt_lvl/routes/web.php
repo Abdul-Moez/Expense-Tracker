@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\LoginController;
 
 /*
 |--------------------------------------------------------------------------
@@ -17,34 +18,33 @@ use Illuminate\Support\Facades\Route;
 //     return view('welcome');
 // });
 
-Route::get('/', function () {
-    return view('index');
-});
+Route::get('/', [LoginController::class, 'login'])->name('login');
+Route::post('/login_process', [LoginController::class, 'loginProcess'])->name('login_process');
 
-Route::get('/login', function () {
-    return view('login');
-});
+Route::group(['middleware' => ['normaluserlogin']], function () {
 
-Route::get('/register', function () {
-    return view('registration');
-});
+    Route::get('/register', function () {
+        return view('registration');
+    });
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-});
+    Route::get('/dashboard', function () {
+        return view('dashboard');
+    });
 
-Route::get('/income', function () {
-    return view('income');
-});
+    Route::get('/income', function () {
+        return view('income');
+    });
 
-Route::get('/expense', function () {
-    return view('expense');
-});
+    Route::get('/expense', function () {
+        return view('expense');
+    });
 
-Route::get('/bank_accounts', function () {
-    return view('bank_accounts');
-});
+    Route::get('/bank_accounts', function () {
+        return view('bank_accounts');
+    });
 
-Route::get('/category', function () {
-    return view('category');
+    Route::get('/category', function () {
+        return view('category');
+    });
+
 });
