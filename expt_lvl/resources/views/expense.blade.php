@@ -7,7 +7,7 @@
     <title>Expense - Expense Tracker</title>
 
     <!-- FavIcon -->
-    <link rel="shortcut icon" type="image/x-icon" href="{{ URL('assets/img/fav_icon.png') }}">
+    <link rel="shortcut icon" type="image/x-icon" href="{{ URL('assets/img/logo.png') }}">
 
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="{{ URL('assets/bootstrap/bootstrap.min.css') }}">

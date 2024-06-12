@@ -8,7 +8,7 @@
     <title>Register - Expense Tracker</title>
 
     <!-- FavIcon -->
-    <link rel="shortcut icon" type="image/x-icon" href="{{ asset('assets/img/fav_icon.png') }}">
+    <link rel="shortcut icon" type="image/x-icon" href="{{ asset('assets/img/logo.png') }}">
 
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="{{ asset('assets/bootstrap/bootstrap.min.css') }}">
