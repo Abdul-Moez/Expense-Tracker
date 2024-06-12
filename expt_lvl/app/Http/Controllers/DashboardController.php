@@ -29,8 +29,8 @@ class DashboardController extends BaseController{
             return redirect('/');
         };
 
-        $monthlyIncome = ExptIncome::select('*');
-        $monthlyExpense = ExptExpense::select('*');
+        $monthlyIncome = ExptIncome::select('*')->where('user_id', session::get('normalUserId'));
+        $monthlyExpense = ExptExpense::select('*')->where('user_id', session::get('normalUserId'));
 
         $totalMonthlyIncome = $monthlyIncome->whereMonth('date', date('m'))->get();
         $totalMonthlyExpense = $monthlyExpense->whereMonth('date', date('m'))->get();
@@ -45,8 +45,8 @@ class DashboardController extends BaseController{
             $totalMonthlyExpenseValue += $this->decrypt($rsTotalMonthlyExpense->amount);
         }
 
-        $recentIncome = ExptIncome::select('*')->join('expt_bank_accounts','expt_bank_accounts.id', '=', 'expt_income.account_id')->orderBy('expt_income.id', 'DESC')->get(3);
-        $recentExpense = ExptExpense::select('*')->join('expt_bank_accounts','expt_bank_accounts.id', '=', 'expt_expense.account_id')->join('expt_category','expt_category.id', '=', 'expt_expense.category_id')->orderBy('expt_expense.id', 'DESC')->get(3);
+        $recentIncome = ExptIncome::select('*')->where('expt_income.user_id', session::get('normalUserId'))->join('expt_bank_accounts','expt_bank_accounts.id', '=', 'expt_income.account_id')->orderBy('expt_income.id', 'DESC')->get(3);
+        $recentExpense = ExptExpense::select('*')->where('expt_expense.user_id', session::get('normalUserId'))->join('expt_bank_accounts','expt_bank_accounts.id', '=', 'expt_expense.account_id')->join('expt_category','expt_category.id', '=', 'expt_expense.category_id')->orderBy('expt_expense.id', 'DESC')->get(3);
 
         $totalBalance = $totalMonthlyIncomeValue - $totalMonthlyExpenseValue;
 

@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\CategoryController;
 
 /*
 |--------------------------------------------------------------------------
@@ -40,8 +41,7 @@ Route::group(['middleware' => ['normaluserlogin']], function () {
         return view('bank_accounts');
     });
 
-    Route::get('/category', function () {
-        return view('category');
-    });
+    Route::get('/category', [CategoryController::class, 'category'])->name('category');
+    Route::post('/category_process', [CategoryController::class, 'categoryProcess'])->name('category_process');
 
 });
