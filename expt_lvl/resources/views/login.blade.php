@@ -23,7 +23,6 @@
     <!-- Slick Slider CSS -->
     <link rel="stylesheet" href="{{ URL('assets/slick_slider/css/slick.css') }}">
 
-
     <!-- Template Assets Bootstrap CSS -->
     <link rel="stylesheet" href="{{ URL('assets/template_assets/css/bootstrap.min.css') }}">
     <!-- Template Assets Fontawesome CSS -->
@@ -44,37 +43,31 @@
 
     <div class="main-wrapper">
         <div class="account-content">
-            <div class="container">
+            <div class="container-fluid">
 
                 <div class="account-logo">
-                    <a href="{{ URL('/') }}"><img src="{{ URL('assets/img/logo.png') }}" alt="Expense Tracker"></a>
+                    <a href="{{ URL('/') }}"><img src="{{ URL('assets/img/logo.png') }}" alt="Expense Tracker Logo" class="img-fluid"></a>
                 </div>
 
                 <div class="account-box">
                     <div class="account-wrapper">
-                        <h3 class="account-title text-dark">Login</h3>
-                        <p class="account-subtitle">Access to your account</p>
+                        <h3 class="account-title text-dark">Welcome,</h3>
+                        <p class="account-subtitle">Please Login!</p>
 
                         <form action="javascript.void(0);">
                             <div class="form-group">
-                                <label>Email Address</label>
-                                <input class="form-control" type="email" value="" id="user-email">
+                                <input class="form-control" type="email" value="" id="user-email" placeholder="Email Address">
                             </div>
                             <div class="form-group">
-                                <div class="row">
-                                    <div class="col">
-                                        <label>Password</label>
-                                    </div>
-                                    {{-- <div class="col-auto">
-										<a class="text-muted" href="forgot-password.html">
-											Forgot password?
-										</a>
-                    				</div> --}}
-                                </div>
                                 <div class="position-relative">
-                                    <input class="form-control" type="password" value="" id="user-password">
+                                    <input class="form-control" type="password" value="" id="user-password" placeholder="Password">
                                     <span class="fa fa-eye-slash" id="toggle-password"></span>
                                 </div>
+                                {{-- <div class="text-end mt-1">
+                                    <a href="#">
+                                        Forgot your password?
+                                    </a>
+                                </div> --}}
                             </div>
                             <div id="login-loader" class="my-2 d-none loader-body">
 								<img src="{{ URL('assets/img/loader.gif') }}" class="loader-img" alt="">
@@ -84,7 +77,7 @@
                                 <button class="btn btn-primary account-btn" type="submit" id="user-login-btn">Login</button>
                             </div>
                             <div class="account-footer">
-                                <p>Don't have an account yet? <a href="{{ URL('/register') }}">Register</a></p>
+                                <p>Don't have an account yet? <a href="{{ URL('/register') }}">Register Now!</a></p>
                             </div>
                         </form>
                     </div>
@@ -119,5 +112,4 @@
     <!-- Template Assets App Js -->
     <script src="{{ URL('assets/template_assets/js/app.js') }}"></script>
 </body>
-
 </html>
