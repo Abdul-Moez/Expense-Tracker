@@ -3,7 +3,7 @@
       <table class="table table-striped custom-table mb-0 datatable">
         <thead>
           <tr>
-            <th>S No</th>
+            <th>#</th>
             <th>Account Name</th>
             <th>Account Type</th>
             <th>Account Number</th>

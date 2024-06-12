@@ -1,4 +1,4 @@
-<?php use Illuminate\Support\Facades\Session;; ?>
+<?php use Illuminate\Support\Facades\Session; ?>
 <!DOCTYPE html>
 <head>
     <meta charset="utf-8">
