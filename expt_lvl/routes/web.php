@@ -55,3 +55,7 @@ Route::get('/clearviewed', function() {
     $exitCode = Artisan::call('view:clear');
     return '<h1>Cache view value cleared</h1>';
 });
+Route::get('/clearroute', function() {
+    $exitCode = Artisan::call('route:clear');
+    return '<h1>Cache route value cleared</h1>';
+});
