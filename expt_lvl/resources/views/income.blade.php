@@ -68,10 +68,14 @@
         <div class="col-md-4">
           <div class="stats-info">
             <h6>Recent Income</h6>
-            @foreach ($incomeList as $rsIncomeList)
-              <h4><span>Rs </span>{{ \App\ASPLibraries\CustomFunctions::decrypt( $rsIncomeList->amount ) }}</h4>
-              <?php break; ?>
-            @endforeach
+            @if (count($incomeList) > 0)
+              @foreach ($incomeList as $rsIncomeList)
+                <h4><span>Rs </span>{{ \App\ASPLibraries\CustomFunctions::decrypt( $rsIncomeList->amount ) }}</h4>
+                <?php break; ?>
+              @endforeach
+            @else
+              <h4><span>Rs </span> 0</h4>
+            @endif
           </div>
         </div>
         <div class="col-md-4">

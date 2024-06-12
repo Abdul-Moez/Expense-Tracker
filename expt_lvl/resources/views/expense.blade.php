@@ -68,10 +68,14 @@
             <div class="col-md-4">
                 <div class="stats-info">
                     <h6>Recent Expense</h6>
-                    @foreach ($expenseList as $rsExpenseList)
-                        <h4><span>Rs </span>{{ \App\ASPLibraries\CustomFunctions::decrypt( $rsExpenseList->amount ) }}</h4>
-                        <?php break; ?>
-                    @endforeach
+                    @if (count($expenseList) > 0)
+                        @foreach ($expenseList as $rsExpenseList)
+                            <h4><span>Rs </span>{{ \App\ASPLibraries\CustomFunctions::decrypt( $rsExpenseList->amount ) }}</h4>
+                            <?php break; ?>
+                        @endforeach
+                    @else
+                        <h4><span>Rs </span> 0</h4>
+                    @endif
                 </div>
             </div>
             <div class="col-md-4">

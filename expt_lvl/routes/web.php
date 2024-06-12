@@ -31,16 +31,16 @@ Route::group(['middleware' => ['normaluserlogin']], function () {
 
     Route::get('/dashboard', [DashboardController::class, 'dashboard'])->name('dashboard');
 
-    Route::get('/income', [IncomeController::class, 'income'])->name('income');
+    Route::get('/dashboard/income', [IncomeController::class, 'income'])->name('income');
     Route::post('/income_process', [IncomeController::class, 'incomeProcess'])->name('income_process');
 
-    Route::get('/expense', [ExpenseController::class, 'expense'])->name('expense');
+    Route::get('/dashboard/expense', [ExpenseController::class, 'expense'])->name('expense');
     Route::post('/expense_process', [ExpenseController::class, 'expenseProcess'])->name('expense_process');
 
-    Route::get('/bank_accounts', [BankAccountsController::class, 'bankAccounts'])->name('bank_accounts');
+    Route::get('/dashboard/bank_accounts', [BankAccountsController::class, 'bankAccounts'])->name('bank_accounts');
     Route::post('/bank_accounts_process', [BankAccountsController::class, 'bankAccountsProcess'])->name('bank_accounts_process');
 
-    Route::get('/category', [CategoryController::class, 'category'])->name('category');
+    Route::get('/dashboard/category', [CategoryController::class, 'category'])->name('category');
     Route::post('/category_process', [CategoryController::class, 'categoryProcess'])->name('category_process');
 
 });

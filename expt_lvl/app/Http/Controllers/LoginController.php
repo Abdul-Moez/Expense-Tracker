@@ -85,7 +85,7 @@ class LoginController extends BaseController{
         // dd(\Illuminate\Support\Facades\Crypt::encrypt('admin'));
 
         // dd($request->email_val . ' ' . $request->pass_val);
-        $accountCheck = ExptUsers::select('id', 'user_name', 'user_email', 'user_role', 'user_password')
+        $accountCheck = ExptUsers::select('id', 'user_name', 'user_email', 'user_role', 'user_password', 'first_login')
                         ->where('user_email', $request->userEmail_val)
                         ->where('active', 1)
                         ->first();
@@ -102,6 +102,11 @@ class LoginController extends BaseController{
                 Session::put('normalUserName', $accountCheck->user_name);
                 Session::put('normalUserEmail', $accountCheck->user_email);
                 Session::put('normalUserRole', $accountCheck->user_role);
+                Session::put('normalUserFsLgin', $accountCheck->first_login);
+
+                ExptUsers::where('id', $accountCheck->id)->update(array(
+                    'first_login' => 0,
+                ));
             }
             else {
                 return "Wrong password";
