@@ -32,7 +32,6 @@ $( document ).ready(function () {
         var getUserEmail = $('#user-email').val();
         var getUserPass = $('#user-password').val();
 
-
         if (getUserEmail == '') {
             Swal.fire({
                 icon: 'error',
@@ -56,6 +55,9 @@ $( document ).ready(function () {
             })
             return false;
         }
+
+        $(this).addClass('d-none');
+        $('#login-loader').removeClass('d-none');
 
         data = {
             'userEmail_val' : getUserEmail,
@@ -93,10 +95,17 @@ $( document ).ready(function () {
                     return false;
                 }
 
+                $(this).addClass('d-none');
+                $('#login-loader').addClass('d-none');
+                $('#login-success').removeClass('d-none');
+
                 window.location.assign('/dashboard');
 
             },
             error: function (result) {
+                $(this).removeClass('d-none');
+                $('#login-loader').addClass('d-none');
+
                 Swal.fire({
                     icon: 'error',
                     title: 'Some error',
