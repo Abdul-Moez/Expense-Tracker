@@ -26,6 +26,7 @@ Route::post('/login_process', 'LoginController@loginProcess')->name('login_proce
 Route::group(['middleware' => ['normaluserlogin']], function () {
 
     Route::get('/dashboard', 'DashboardController@dashboard')->name('dashboard');
+    Route::post('/dash_process', 'DashboardController@dashProcess')->name('dashboard_process');
 
     Route::get('/dashboard/income', 'IncomeController@income')->name('income');
     Route::post('/income_process', 'IncomeController@incomeProcess')->name('income_process');

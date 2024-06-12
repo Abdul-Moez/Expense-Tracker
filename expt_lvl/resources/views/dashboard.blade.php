@@ -25,8 +25,8 @@
 
 <body>
 
-    <div id="big_loader" class="d-none my-2 justify-content-center align-items-center loader-body w-100 h-100 position-fixed m-0 top-0 mt-0" style="z-index: 999999">
-        <img src="{{ asset('assets/img/loader.gif') }}" class="img-fluid" alt="">
+    <div id="big_loader" class="my-2 justify-content-center align-items-center loader-body w-100 h-100 position-fixed m-0 top-0 mt-0" style="z-index: 999999">
+        <img src="{{ asset('assets/img/loader_new.gif') }}" class="img-fluid" alt="">
     </div>
 
     <div class="main-wrapper">
@@ -65,7 +65,7 @@
                         <span>{{ session::get('normalUserName') }}</span>
                     </a>
                     <div class="dropdown-menu">
-                        <!-- <a class="dropdown-item" href="profile.html">My Profile</a> -->
+                        <a class="dropdown-item" href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#edit_prof_data">Edit Profile</a>
                         <a class="dropdown-item logout-btn" href="javascript:void(0)">Logout</a>
                     </div>
                 </li>
@@ -76,8 +76,8 @@
                 <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false"><i
                         class="fa fa-ellipsis-v"></i></a>
                 <div class="dropdown-menu dropdown-menu-right">
-                    {{-- <a class="dropdown-item" href="profile.html">My Profile</a> --}}
-                    {{-- <a class="dropdown-item" href="profile.html">{{ session::get('normalUserName') }}</a> --}}
+                    <a class="dropdown-item" href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#edit_prof_data">Edit Profile</a>
+                    {{-- <a class="dropdown-item" href="#" disabled>{{ session::get('normalUserName') }}</a> --}}
                     <a class="dropdown-item logout-btn" href="javascript:void(0)">Logout</a>
                 </div>
             </div>
@@ -266,6 +266,66 @@
                 <iframe class="rounded-0" name="dashboard-iframe" frameborder="0" style="padding-top: 3.7rem !important;overflow:hidden;overflow-x:hidden;overflow-y:hidden;height:100%;width:100%;position:absolute;top:0px;left:0px;right:0px;bottom:0px" height="100%" width="100%"></iframe>
             </div>
 
+            <div id="edit_prof_data" class="modal custom-modal fade" data-bs-backdrop="static" role="dialog">
+                <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Edit your profile</h5>
+                            <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close" title="Close"><span aria-hidden="true">&times;</span></button>
+                        </div>
+                        <div class="modal-body">
+                            <form action="javascript:void(0);">
+                                <div class="row mx-auto p-0 m-0">
+                                    <div class="col-lg-6 col-md-12 p-0 pe-xxl-2 pe-xl-2 pe-lg-2 pe-md-0">
+                                        <div class="form-floating mb-3">
+                                            <input type="text" class="form-control" placeholder="Your name" id="edit_prof_name" name="edit_prof_name" value="{{ session::get('normalUserName') }}">
+                                            <label class="focus-label" for="edit_prof_name">Your name</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6 col-md-12 p-0 ps-xxl-2 ps-xl-2 ps-lg-2 ps-md-0">
+                                        <div class="form-floating mb-3">
+                                            <input type="email" class="form-control" placeholder="Your email" id="edit_prof_email" name="edit_prof_email" value="{{ session::get('normalUserEmail') }}">
+                                            <label class="focus-label" for="edit_prof_email">Your email</label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <hr>
+                                <h4 class="m-0">Update Password</h4>
+                                <small class="fs-14">note: Leave password fields empty if not changing.</small>
+                                <br>
+                                <br>
+                                <div class="row mx-auto p-0 m-0">
+                                    <div class="col-12 p-0">
+                                        <div class="form-floating mb-3">
+                                            <input type="password" class="form-control" placeholder="Enter current password" id="edit_prof_curr_pass" name="edit_prof_curr_pass">
+                                            <span class="fa fa-eye-slash" id="edit-prof-toggle-cur-password"></span>
+                                            <label class="focus-label" for="edit_prof_curr_pass">Enter current password</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6 col-md-12 p-0 pe-xxl-2 pe-xl-2 pe-lg-2 pe-md-0">
+                                        <div class="form-floating mb-3">
+                                            <input type="password" class="form-control" placeholder="Enter new password" id="edit_prof_new_pass" name="edit_prof_new_pass">
+                                            <span class="fa fa-eye-slash" id="edit-prof-toggle-new-password"></span>
+                                            <label class="focus-label" for="edit_prof_new_pass">Enter new password</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6 col-md-12 p-0 ps-xxl-2 ps-xl-2 ps-lg-2 ps-md-0">
+                                        <div class="form-floating mb-3">
+                                            <input type="password" class="form-control" placeholder="Confirm new password" id="edit_prof_cnfrm_new_pass" name="edit_prof_cnfrm_new_pass">
+                                            <span class="fa fa-eye-slash" id="edit-prof-toggle-cnfrm-new-password"></span>
+                                            <label class="focus-label" for="edit_prof_cnfrm_new_pass">Confirm new password</label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="w-100 d-flex justify-content-center">
+                                    <button type="submit" class="btn btn-success" id="update_prof_info" name="update_prof_info">Update</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
         </div>
 
     </div>
@@ -285,6 +345,9 @@
     <script src="{{ asset('assets/template_assets/js/app.js') }}"></script>
 
     <script>
+        $(document).ready(function () {
+            $('#big_loader').addClass('d-none');
+        });
         $(document).on('click', "#sidebar-menu > ul > li", function() {
             var firstLi = $(this);
             var firstLiAnchor = firstLi.find("a");

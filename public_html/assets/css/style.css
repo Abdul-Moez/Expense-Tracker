@@ -12,6 +12,29 @@
 	height: 30px;
 }
 /* Global styles Start here */
+#toggle-rep-password-register,
+#toggle-password-register,
+#toggle-password {
+  cursor: pointer;
+  margin-right: 1px;
+  position: absolute;
+  top: 15px;
+  right: 10px;
+}
+#edit-prof-toggle-new-password,
+#edit-prof-toggle-cnfrm-new-password,
+#edit-prof-toggle-cur-password{
+    cursor: pointer;
+    margin-right: 1px;
+    position: absolute;
+    bottom: 22px;
+    right: 10px;
+}
+.fs-18{font-size:18px;}
+.fs-17{font-size:17px;}
+.fs-16{font-size:16px;}
+.fs-15{font-size:15px;}
+.fs-14{font-size:14px;}
 .loader-body{
     background-color: #eee;
     height: 40px;

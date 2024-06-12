@@ -20,7 +20,6 @@ use Session;
 
 
 class DashboardController extends BaseController{
-
     public function dashboard() {
 
         // dd(Crypt::encrypt('Test'));
@@ -66,6 +65,60 @@ class DashboardController extends BaseController{
         $totalBalance = $totalIncomeValue - $totalExpenseValue;
 
         return view('dashboard', ['totalMonthlyExpenseValue' => $totalMonthlyExpenseValue, 'totalMonthlyIncomeValue' => $totalMonthlyIncomeValue, 'totalBalance' => $totalBalance, 'recentExpense' => $recentExpense, 'recentIncome' => $recentIncome]);
+    }
+
+    public function dashProcess(Request $request) {
+
+        $userName = trim($request->updateUserProfName_val);
+        $userEmail = trim($request->updateUserProfEmail_val);
+        $currPassword = trim($request->updateUserProfCurPass_val);
+        $newPassword = trim($request->updateUserProfNewPass_val);
+        $cnfrmNewPassword = trim($request->updateUserProfCnfrmNewPass_val);
+
+        if($userName != '') {
+            ExptUsers::where('id', session::get('normalUserId'))->update(array('user_name' => $userName));
+            session::forget('normalUserName');
+            session::put('normalUserName', $userName);
+        }else{
+            return 'name empty';
+        }
+
+        if($userEmail != '') {
+            ExptUsers::where('id', session::get('normalUserId'))->update(array('user_email' => $userEmail));
+            session::forget('normalUserEmail');
+            session::put('normalUserEmail', $userEmail);
+        }else{
+            return 'name empty';
+        }
+
+        if ($currPassword != '' && $newPassword == '' && $cnfrmNewPassword == '') {
+            return 'new password and confirm new password';
+        }
+        if ($currPassword == '' && $newPassword != '' && $cnfrmNewPassword == '') {
+            return 'current password and confirm new password';
+        }
+        if ($currPassword == '' && $newPassword == '' && $cnfrmNewPassword != '') {
+            return 'current password and new password';
+        }
+        if ($currPassword == '' && $newPassword != '' && $cnfrmNewPassword != '') {
+            return 'curr pass empty';
+        }
+        if ($currPassword != '' && $newPassword == '' && $cnfrmNewPassword != '') {
+            return 'cnfrm pass empty';
+        }
+        if ($currPassword != '' && $newPassword == '' && $cnfrmNewPassword != '') {
+            return 'new pass empty';
+        }
+        if($currPassword != '' && $newPassword != '' && $cnfrmNewPassword != '') {
+            $userCurrPass = ExptUsers::select('user_password')->where('id', session::get('normalUserId'))->first();
+            if ($userCurrPass->user_password == md5($newPassword) && $userCurrPass->user_password == md5($cnfrmNewPassword)) {
+                return 'pass same as old pass';
+            }
+            ExptUsers::where('id', session::get('normalUserId'))->update(array('user_password' => md5($cnfrmNewPassword)));
+        }
+
+        return 'updated';
+
     }
 
 }
