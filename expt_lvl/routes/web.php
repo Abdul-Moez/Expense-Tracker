@@ -19,6 +19,8 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', 'LoginController@login')->name('login');
 Route::get('/register', 'LoginController@register')->name('register');
+Route::get('/forgot_password.htm', 'LoginController@forgotPassword')->name('forgot_password');
+Route::get('/reset_password/{link}', 'LoginController@resetPassword')->name('reset_password');
 Route::post('/login_process', 'LoginController@loginProcess')->name('login_process');
 
 Route::group(['middleware' => ['normaluserlogin']], function () {

@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <meta name="csrf_token" content="{{ csrf_token() }}" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
-    <title>Login - Expense Tracker</title>
+    <title>Reset Password - Expense Tracker</title>
 
     <!-- FavIcon -->
     <link rel="shortcut icon" type="image/x-icon" href="{{ URL('assets/img/logo.png') }}">
@@ -24,6 +24,12 @@
 </head>
 
 <body class="account-page">
+    <?php
+
+        $url = request()->url();
+        $lastSegment = substr($url, strrpos($url, '/') + 1);
+
+    ?>
 
     <div class="main-wrapper">
         <div class="account-content">
@@ -35,33 +41,24 @@
 
                 <div class="account-box">
                     <div class="account-wrapper">
-                        <h3 class="account-title text-dark">Welcome,</h3>
-                        <p class="account-subtitle">Please Login!</p>
+                        <h3 class="account-title text-dark">Reset Password</h3>
+                        <p class="account-subtitle">Fill the fileds below to reset your password</p>
 
                         <form action="javascript.void(0);">
                             <div class="form-group">
-                                <input class="form-control" type="email" value="" id="user-email" placeholder="Email Address">
+                                <input class="form-control" type="text" id="resetNewPassword" name="resetNewPassword" placeholder="New Password">
                             </div>
                             <div class="form-group">
-                                <div class="position-relative">
-                                    <input class="form-control" type="password" value="" id="user-password" placeholder="Password">
-                                    <span class="fa fa-eye-slash" id="toggle-password"></span>
-                                </div>
-                                <div class="text-end mt-1">
-                                    <a href="{{ URL('/forgot_password.htm') }}">
-                                        Forgot your password?
-                                    </a>
-                                </div>
+                                <input class="form-control" type="text" id="resetConfirmNewPassword" name="resetConfirmNewPassword" placeholder="Confirm New Password">
                             </div>
-                            <div id="login-loader" class="my-2 d-none loader-body">
-								<img src="{{ URL('assets/img/loader.gif') }}" class="loader-img" alt="">
-							</div>
-							<div id="login-success" class="alert alert-success mt-2 d-none">Login Successfull redirecting</div>
+                            <input type="text" name="url_email" id="url_email" value="{{ $lastSegment }}" class="d-none">
+
+                            <div id="resetPass-loader" class="my-2 d-none loader-body">
+                                <img src="{{ URL('assets/img/loader.gif') }}" class="loader-img" alt="">
+                            </div>
+                            <div id="resetPass-success" class="alert alert-success mt-2 d-none">Your password has been reset please <a href="/">login</a>.</div>
                             <div class="form-group text-center">
-                                <button class="btn btn-primary account-btn" type="submit" id="user-login-btn">Login</button>
-                            </div>
-                            <div class="account-footer">
-                                <p>Don't have an account yet? <a href="{{ URL('/register') }}">Register Now!</a></p>
+                                <button class="btn btn-primary account-btn" id="resetPassBtn" name="resetPassBtn" type="submit">Reset Password</button>
                             </div>
                         </form>
                     </div>

@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <meta name="csrf_token" content="{{ csrf_token() }}" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
-    <title>Login - Expense Tracker</title>
+    <title>Forgot Password - Expense Tracker</title>
 
     <!-- FavIcon -->
     <link rel="shortcut icon" type="image/x-icon" href="{{ URL('assets/img/logo.png') }}">
@@ -35,33 +35,22 @@
 
                 <div class="account-box">
                     <div class="account-wrapper">
-                        <h3 class="account-title text-dark">Welcome,</h3>
-                        <p class="account-subtitle">Please Login!</p>
+                        <h3 class="account-title text-dark">Forgot Password?</h3>
+                        <p class="account-subtitle">Enter your email to get a password reset link</p>
 
                         <form action="javascript.void(0);">
                             <div class="form-group">
-                                <input class="form-control" type="email" value="" id="user-email" placeholder="Email Address">
+                                <input class="form-control" type="email" id="forgotPasswordEmail" name="forgotPasswordEmail" placeholder="Email Address">
                             </div>
-                            <div class="form-group">
-                                <div class="position-relative">
-                                    <input class="form-control" type="password" value="" id="user-password" placeholder="Password">
-                                    <span class="fa fa-eye-slash" id="toggle-password"></span>
-                                </div>
-                                <div class="text-end mt-1">
-                                    <a href="{{ URL('/forgot_password.htm') }}">
-                                        Forgot your password?
-                                    </a>
-                                </div>
+                            <div id="forgotPass-loader" class="my-2 d-none loader-body">
+                                <img src="{{ URL('assets/img/loader.gif') }}" class="loader-img" alt="">
                             </div>
-                            <div id="login-loader" class="my-2 d-none loader-body">
-								<img src="{{ URL('assets/img/loader.gif') }}" class="loader-img" alt="">
-							</div>
-							<div id="login-success" class="alert alert-success mt-2 d-none">Login Successfull redirecting</div>
+                            <div id="forgotPass-success" class="alert alert-success mt-2 d-none">We have sent you the link to reset your password on your registered email.</div>
                             <div class="form-group text-center">
-                                <button class="btn btn-primary account-btn" type="submit" id="user-login-btn">Login</button>
+                                <button class="btn btn-primary account-btn" id="forogtPassBtn" name="forogtPassBtn" type="submit">Reset Password</button>
                             </div>
                             <div class="account-footer">
-                                <p>Don't have an account yet? <a href="{{ URL('/register') }}">Register Now!</a></p>
+                                <p>Remember your password? <a href="/ep_login">Login</a></p>
                             </div>
                         </form>
                     </div>

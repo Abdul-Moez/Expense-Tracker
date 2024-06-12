@@ -241,6 +241,192 @@ $( document ).ready(function () {
 
     });
 
+    $(document).on('click', '#forogtPassBtn', function (e) {
+        e.preventDefault();
+
+        var getUserEmail = $('#forgotPasswordEmail').val();
+
+        if (getUserEmail == '') {
+            Swal.fire({
+                icon: 'error',
+                title: "Email can't be empty",
+            })
+            return false;
+        }
+
+        if (IsEmail(getUserEmail) == false) {
+            Swal.fire({
+                icon: 'error',
+                title: 'InValid Email',
+                text: 'Please enter valid email',
+            })
+            return false;
+        }
+
+        $('#forogtPassBtn').addClass('d-none');
+        $('#forgotPass-loader').removeClass('d-none');
+
+        data = {
+            'userEmail_val' : getUserEmail,
+            'login_process_val': "forgot_pass",
+        }
+
+        $.ajax({
+            url: '/login_process',
+            type: 'POST',
+            beforeSend: function (xhr) {
+                var token = $('meta[name="csrf_token"]').attr('content');
+                if (token) {
+                    return xhr.setRequestHeader('X-CSRF-TOKEN', token);
+                }
+            },
+            data: data,
+            success: function (response) {
+
+                if(response == "Wrong email") {
+                    $('#forogtPassBtn').removeClass('d-none');
+                    $('#forgotPass-loader').addClass('d-none');
+                    Swal.fire({
+                        title: 'Wrong Email!',
+                        text: "The Email you provided doesn't exist, please enter correct Email and then try again.",
+                        icon: 'error',
+                    })
+                    return false;
+                }
+
+                $('#forogtPassBtn').addClass('d-none');
+                $('#forgotPass-loader').addClass('d-none');
+                $('#forgotPass-success').removeClass('d-none');
+
+                window.location.assign('/dashboard');
+
+            },
+            error: function (result) {
+                $('#forogtPassBtn').removeClass('d-none');
+                $('#forgotPass-loader').addClass('d-none');
+
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Some error',
+                })
+                return false;
+            }
+        });
+
+    });
+
+    $(document).on('click','#resetPassBtn',function(e){
+        e.preventDefault();
+
+        var resetNewPass = $('#resetNewPassword').val();
+        var resetConfirmNewPass = $('#resetConfirmNewPassword').val();
+        var resetUrlEmail = $('#url_email').val();
+
+        if (resetNewPass == '') {
+            Swal.fire({
+                icon: "error",
+                title: "Error",
+                text: "New password can't be empty",
+            });
+            return false;
+        }
+        if (resetConfirmNewPass == '') {
+            Swal.fire({
+                icon: "error",
+                title: "Error",
+                text: "Confirm new password can't be empty",
+            });
+            return false;
+        }
+        if (resetNewPass !== resetConfirmNewPass) {
+            Swal.fire({
+                icon: "error",
+                title: "Not Same",
+                text: "The new password and confirm new password should be same",
+            });
+            return false;            
+        }
+        if (resetUrlEmail == '') {
+            Swal.fire({
+                icon: "error",
+                title: "Error",
+                text: "Please refresh the page and then try again",
+            });
+            return false;
+        }
+
+        var data = {
+            'login_process_val': "reset_pass",
+            'newPass_val': resetNewPass,
+            'confirmNewPass_val': resetConfirmNewPass,
+            'urlEmail_val': resetUrlEmail
+        };
+
+        $('#resetPass-loader').removeClass('d-none');
+        $('#resetPassBtn').addClass('d-none');
+
+        $.ajax({
+            url: '/login_process',
+            type: 'POST',
+            beforeSend: function (xhr) {
+                var token = $('meta[name="csrf_token"]').attr('content');
+                
+                if (token) {
+                    return xhr.setRequestHeader('X-CSRF-TOKEN', token);
+                }
+            },
+            data: data,
+            success: function (response) {
+
+                if (response == "email doesn't exsist") {
+                    Swal.fire({
+                        icon: "error",
+                        title: "Email Doesn't Exists",
+                        text: "The Email you provide doesn't exists in our database, Please enter correct email and then try again",
+                    });
+                    $('#resetPass-loader').addClass('d-none');
+                    $('#resetPassBtn').removeClass('d-none');
+                    return false;
+                }
+
+                Swal.fire({
+                    icon: "success",
+                    title: "Password Updated",
+                });
+
+                $('#resetPass-loader').addClass('d-none');
+                $('#resetPassBtn').removeAttr('id');
+                
+                $('#resetPass-success').removeClass('d-none');
+
+                $('#resetPasswordEmail').val('');
+
+                $('#resetNewPassword').attr('disabled', 'true');
+                $('#resetConfirmNewPassword').attr('disabled', 'true');
+                
+                $('#resetNewPassword').val('');
+                $('#resetConfirmNewPassword').val('');
+                
+                $('#resetNewPassword').removeAttr('id');
+                $('#resetConfirmNewPassword').removeAttr('id');
+                                
+                // window.location.assign(baseUrl + '/');
+
+                // window.location.assign('/ep_login');
+
+            },
+            error: function (result) {
+                Swal.fire({
+                    icon: "error",
+                    title: "Some Error",
+                });
+                $('#resetPass-loader').addClass('d-none');
+                $('#resetPassBtn').removeClass('d-none');
+                return false;                
+            }
+        });
+    });
+
     $(document).on('click', '.logout-btn', function (e) {
         e.preventDefault();
 

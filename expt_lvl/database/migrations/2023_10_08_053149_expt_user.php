@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('user_password', 60); // Max length of 60 characters
             $table->tinyInteger('user_role')->default(0); // Default value of 0
             $table->tinyInteger('first_login')->default(1); // Default value of 0
+            $table->tinyInteger('is_pw_updated')->default(0); // Default value of 0
             $table->tinyInteger('active')->default(1); // Default value of 1
             $table->timestamp('created_at')->default(DB::raw('CURRENT_TIMESTAMP'));
         });
