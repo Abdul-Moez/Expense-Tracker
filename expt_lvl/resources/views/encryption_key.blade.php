@@ -43,7 +43,7 @@
                                 <div class="position-relative">
                                     <input class="form-control" type="text" id="generatedKey" name="generatedKey" placeholder="Enter Your Encryption Key" autocomplete="off">
                                     @if (Session::get('normalUserFsLgin') == 1)
-                                    <button type="button" class="bg-transparent border-0" id="generate-key" data-bs-toggle="tooltip" data-bs-title="Click to generate encryption key"> <span class="fas fa-refresh"></span> </button>
+                                    <button type="button" id="generate-key" data-bs-toggle="tooltip" data-bs-title="Click to generate encryption key"> <span class="fas fa-refresh"></span> </button>
                                     @endif
                                 </div>
                             </div>
