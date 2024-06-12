@@ -21,3 +21,9 @@ Homestead.yaml
 Homestead.json
 /.vagrant
 .phpunit.result.cache
+
+
+# Custom Laravel Ignorerd Files
+
+/expt_lvl/.env
+/expt_lvl/vendor
