@@ -7387,7 +7387,8 @@ textarea.form-control {
   text-align: center;
 }
 .account-page .main-wrapper .account-content .account-logo img {
-  width: 100px;
+  /* width: 100px; */
+  width: 70px
 }
 .account-page .main-wrapper .account-content .account-box {
   background-color: #fff;
