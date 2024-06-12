@@ -219,9 +219,9 @@
                         @foreach ($recentExpense as $rsRecentExpense)
                           <tr>
                             <td>{{ $expenseId }}</td>
-                            <td>{{ \App\Http\Controllers\DashboardController::decrypt( $rsRecentExpense->account_name ) }}</td>
+                            <td>{{ \App\ASPLibraries\CustomFunctions::decrypt( $rsRecentExpense->account_name ) }}</td>
                             <td>{{ $rsRecentExpense->category_name }}</td>
-                            <td>{{ \App\Http\Controllers\DashboardController::decrypt( $rsRecentExpense->amount ) }} Rs</td>
+                            <td>{{ \App\ASPLibraries\CustomFunctions::decrypt( $rsRecentExpense->amount ) }} Rs</td>
                             <td>{{ $rsRecentExpense->date }}</td>
                           </tr>
                           <?php $expenseId++; ?>
@@ -254,9 +254,9 @@
                         @foreach ($recentIncome as $rsRecentIncome)
                           <tr>
                             <td>{{ $incomeId }}</td>
-                            <td>{{ \App\Http\Controllers\DashboardController::decrypt( $rsRecentIncome->account_name ) }}</td>
-                            <td>{{ \App\Http\Controllers\DashboardController::decrypt( $rsRecentIncome->source ) }}</td>
-                            <td>{{ \App\Http\Controllers\DashboardController::decrypt( $rsRecentIncome->amount ) }} Rs</td>
+                            <td>{{ \App\ASPLibraries\CustomFunctions::decrypt( $rsRecentIncome->account_name ) }}</td>
+                            <td>{{ \App\ASPLibraries\CustomFunctions::decrypt( $rsRecentIncome->source ) }}</td>
+                            <td>{{ \App\ASPLibraries\CustomFunctions::decrypt( $rsRecentIncome->amount ) }} Rs</td>
                             <td>{{ $rsRecentIncome->date }}</td>
                           </tr>
                           <?php $incomeId++; ?>

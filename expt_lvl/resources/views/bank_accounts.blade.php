@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <head>
     <meta charset="UTF-8">
+    <meta name="csrf_token" content="{{ csrf_token() }}" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Bank Accounts - Expense Tracker</title>
@@ -50,149 +51,124 @@
     <div class="content container-fluid">
 
       <div class="page-header my-3">
-        <div class="row align-items-center">
-          <div class="col">
-            <h3 class="page-title">Bank Accounts</h3>
+          <div class="row align-items-center">
+              <div class="col">
+                  <h3 class="page-title">Bank Accounts</h3>
+              </div>
+              <div class="col-auto float-end ms-auto">
+                  <a href="#" class="btn add-btn" data-bs-toggle="modal" data-bs-target="#add_bank_account"><i class="fa fa-plus"></i> Add Bank Accounts</a>
+              </div>
           </div>
-          <div class="col-auto float-end ms-auto">
-            <a href="#" class="btn add-btn" data-bs-toggle="modal" data-bs-target="#add_leave"><i class="fa fa-plus"></i> Add Bank Accounts</a>
-          </div>
-        </div>
       </div>
 
 
       <div class="row">
-        <div class="col-md-6">
-          <div class="stats-info">
-            <h6>High Balance Account</h6>
-            <h4>12 / 60</h4>
+          <div class="col-md-6">
+              <div class="stats-info">
+                  <h6>High Balance Account</h6>
+                  <h4>{{ $bankAccountNameDesc }}</h4>
+              </div>
           </div>
-        </div>
-        <div class="col-md-6">
-          <div class="stats-info">
-            <h6>Low Balance Account</h6>
-            <h4>8 <span>Today</span></h4>
+          <div class="col-md-6">
+              <div class="stats-info">
+                  <h6>Low Balance Account</h6>
+                  <h4>{{ $bankAccountNameAsc }}</h4>
+              </div>
           </div>
-        </div>
-        {{-- <div class="col-md-3">
-          <div class="stats-info">
-            <h6>Unplanned Leaves</h6>
-            <h4>0 <span>Today</span></h4>
+          {{-- <div class="col-md-3">
+              <div class="stats-info">
+                  <h6>Unplanned Leaves</h6>
+                  <h4>0 <span>Today</span></h4>
+              </div>
           </div>
-        </div>
-        <div class="col-md-3">
-          <div class="stats-info">
-            <h6>Pending Requests</h6>
-            <h4>12</h4>
-          </div>
-        </div> --}}
+          <div class="col-md-3">
+              <div class="stats-info">
+                  <h6>Pending Requests</h6>
+                  <h4>12</h4>
+              </div>
+          </div> --}}
       </div>
 
 
-      <div class="row filter-row">
-        <div class="col-sm-6 col-md-6 col-lg-4 col-xl-4 col-12 mb-3">
-          <div class="form-floating">
-            <input type="text" class="form-control">
-            <label class="focus-label">Bank Account Name</label>
+      <form class="row filter-row" action="javascript:void(0);">
+          <div class="col-xxl-3 col-xl-6 col-lg-12 mb-3">
+              <div class="form-floating">
+                  <input type="text" class="form-control" id="filter_account_name" name="filter_account_name">
+                  <label class="focus-label">Bank Account Name</label>
+              </div>
           </div>
-        </div>
-        <div class="col-sm-6 col-md-6 col-lg-4 col-xl-4 col-12 mb-3">
-          <div class="form-floating">
-            <input class="form-control" type="text">
-            <label class="focus-label">Bank Account Type</label>
+          <div class="col-xxl-3 col-xl-6 col-lg-12 mb-3">
+              <div class="form-floating">
+                  <input type="text" class="form-control" id="filter_account_number" name="filter_account_number">
+                  <label class="focus-label">Bank Account Number</label>
+              </div>
           </div>
-        </div>
-        <div class="col-sm-6 col-md-6 col-lg-4 col-xl-4 col-12 mb-3">
-          <button class="btn btn-success h-100 w-100"> Search </button>
-        </div>
-      </div>
+          <div class="row col-xxl-3 col-xl-6 col-lg-12 mx-auto">
+              <div class="col-xxl-6 col-xl-12 mb-3 p-0">
+                  <div class="form-floating">
+                      <select class="form-select" id="filter_account_type" name="filter_account_type">
+                          <option value="">Select Account Type</option>
+                          <option value="Personal">Personal</option>
+                          <option value="Savings">Savings</option>
+                          <option value="Business">Business</option>
+                          <option value="Cash Wallet">Cash Wallet</option>
+                      </select>
+                      <label class="focus-label">Bank Account Type</label>
+                  </div>
+              </div>
+              <div class="col-xxl-6 col-xl-12 mb-3 p-0">
+                  <div class="form-floating">
+                      <select class="form-select" id="filter_account_active" name="filter_account_active">
+                          <option value="">Select Active</option>
+                          <option value="1">Yes</option>
+                          <option value="0">No</option>
+                      </select>
+                      <label class="focus-label">Active</label>
+                  </div>
+              </div>
+          </div>
+          <div class="col-xxl-3 col-xl-6 col-lg-12 mb-3">
+              <button class="btn btn-success btn-block w-100 h-100" name="filter_account_btn" id="filter_account_btn" type="submit"> Search </button>
+          </div>
+      </form>
 
-      <div class="row">
-        <div class="col-md-12">
-          <div class="table-responsive">
-            <table class="table table-striped custom-table mb-0 datatable">
-              <thead>
-                <tr>
-                  <th>Account Name</th>
-                  <th>Account Type</th>
-                  <th>Account Number</th>
-                  <th class="text-end">Actions</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>
-                    <h2 class="table-avatar">
-                      <a href="profile.html" class="avatar"><img alt src="assets/img/profiles/avatar-09.jpg"></a>
-                      <a href="#">Richard Miles <span>Web Developer</span></a>
-                    </h2>
-                  </td>
-                  <td>Casual Leave</td>
-                  <td>123456789</td>
-                  <td class="text-end">
-                    <div class="dropdown dropdown-action">
-                      <a href="#" class="action-icon dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false"><i class="material-icons">more_vert</i></a>
-                      <div class="dropdown-menu dropdown-menu-right">
-                        <a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#edit_leave"><i class="fa fa-pencil m-r-5"></i> Edit</a>
-                        <a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#delete_approve"><i class="fa fa-trash-o m-r-5"></i> Delete</a>
-                      </div>
-                    </div>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
+      <div class="row bank_accounts_body">
+        @include('ajax/ajax_bank_account_body')
       </div>
     </div>
 
 
-    <div id="add_leave" class="modal custom-modal fade" role="dialog">
+    <div id="add_bank_account" class="modal custom-modal fade" role="dialog">
       <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title">Add Leave</h5>
+            <h5 class="modal-title">Add Bank Account</h5>
             <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
               <span aria-hidden="true">&times;</span>
             </button>
           </div>
           <div class="modal-body">
-            <form>
-              <div class="form-group">
-                <label>Leave Type <span class="text-danger">*</span></label>
-                <select class="select">
-                  <option>Select Leave Type</option>
-                  <option>Casual Leave 12 Days</option>
-                  <option>Medical Leave</option>
-                  <option>Loss of Pay</option>
+            <form action="javascript:void(0)">
+              <div class="form-floating mb-3">
+                <input class="form-control" type="text" id="add_bank_account_name" name="add_bank_account_name" required>
+                <label>Account Name <span class="text-danger">*</span></label>
+              </div>
+              <div class="form-floating mb-3">
+                <select class="form-select" id="add_bank_account_type" name="add_bank_account_type" required>
+                    <option value="">Select Account Type</option>
+                    <option value="Personal">Personal</option>
+                    <option value="Savings">Savings</option>
+                    <option value="Business">Business</option>
+                    <option value="Cash Wallet">Cash Wallet</option>
                 </select>
+                <label class="focus-label">Select Account Type <span class="text-danger">*</span></label>
               </div>
-              <div class="form-group">
-                <label>From <span class="text-danger">*</span></label>
-                <div class="cal-icon">
-                  <input class="form-control datetimepicker" type="text">
-                </div>
+              <div class="form-floating mb-3">
+                <input class="form-control" type="text" id="add_bank_account_number" name="add_bank_account_number" required>
+                <label>Account Number <span class="text-danger">*</span></label>
               </div>
-              <div class="form-group">
-                <label>To <span class="text-danger">*</span></label>
-                <div class="cal-icon">
-                  <input class="form-control datetimepicker" type="text">
-                </div>
-              </div>
-              <div class="form-group">
-                <label>Number of days <span class="text-danger">*</span></label>
-                <input class="form-control" readonly type="text">
-              </div>
-              <div class="form-group">
-                <label>Remaining Leaves <span class="text-danger">*</span></label>
-                <input class="form-control" readonly value="12" type="text">
-              </div>
-              <div class="form-group">
-                <label>Leave Reason <span class="text-danger">*</span></label>
-                <textarea rows="4" class="form-control"></textarea>
-              </div>
-              <div class="submit-section">
-                <button class="btn btn-primary submit-btn">Submit</button>
+              <div class="w-100 d-flex justify-content-center">
+                <button class="btn btn-primary submit-btn" id="add_bank_account_btn">Add Account</button>
               </div>
             </form>
           </div>
@@ -201,52 +177,16 @@
     </div>
 
 
-    <div id="edit_leave" class="modal custom-modal fade" role="dialog">
+    <div id="edit_bank_account" class="modal custom-modal fade" role="dialog">
       <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title">Edit Leave</h5>
+            <h5 class="modal-title">Edit Bank Account</h5>
             <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
               <span aria-hidden="true">&times;</span>
             </button>
           </div>
-          <div class="modal-body">
-            <form>
-              <div class="form-group">
-                <label>Leave Type <span class="text-danger">*</span></label>
-                <select class="select">
-                  <option>Select Leave Type</option>
-                  <option>Casual Leave 12 Days</option>
-                </select>
-              </div>
-              <div class="form-group">
-                <label>From <span class="text-danger">*</span></label>
-                <div class="cal-icon">
-                  <input class="form-control datetimepicker" value="01-01-2019" type="text">
-                </div>
-              </div>
-              <div class="form-group">
-                <label>To <span class="text-danger">*</span></label>
-                <div class="cal-icon">
-                  <input class="form-control datetimepicker" value="01-01-2019" type="text">
-                </div>
-              </div>
-              <div class="form-group">
-                <label>Number of days <span class="text-danger">*</span></label>
-                <input class="form-control" readonly type="text" value="2">
-              </div>
-              <div class="form-group">
-                <label>Remaining Leaves <span class="text-danger">*</span></label>
-                <input class="form-control" readonly value="12" type="text">
-              </div>
-              <div class="form-group">
-                <label>Leave Reason <span class="text-danger">*</span></label>
-                <textarea rows="4" class="form-control">Going to hospital</textarea>
-              </div>
-              <div class="submit-section">
-                <button class="btn btn-primary submit-btn">Save</button>
-              </div>
-            </form>
+          <div class="modal-body edit_bank_account_body">
           </div>
         </div>
       </div>
