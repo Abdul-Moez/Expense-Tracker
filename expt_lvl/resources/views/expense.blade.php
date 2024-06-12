@@ -25,8 +25,8 @@
 </head>
 <body>
 
-    <div id="big_loader" class="d-none my-2 justify-content-center align-items-center loader-body w-100 h-100 position-fixed m-0 top-0 mt-0" style="z-index: 999999">
-        <img src="{{ URL("assets/img/loader.gif") }}" class="img-fluid" alt="">
+    <div id="big_loader" class="my-2 justify-content-center align-items-center loader-body w-100 h-100 position-fixed m-0 top-0 mt-0" style="z-index: 999999">
+        <img src="{{ URL("assets/img/loader_new.gif") }}" class="img-fluid" alt="">
     </div>
 
     @include('includes/dynamic_sidebar')
@@ -252,6 +252,9 @@
 <script src="{{ URL('assets/template_assets/js/dataTables.bootstrap4.min.js') }}"></script>
 
 <script>
+    $(document).ready(function () {
+        $('#big_loader').addClass('d-none');
+    });
     $(document).on('click', "#sidebar-menu > ul > li", function() {
         var firstLi = $(this);
         var firstLiAnchor = firstLi.find("a");
