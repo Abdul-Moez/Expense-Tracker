@@ -7420,6 +7420,8 @@ textarea.form-control {
   height: 46px;
   border-radius: 4px;
 }
+.account-page .main-wrapper .account-content .account-box #toggle-rep-password-register,
+.account-page .main-wrapper .account-content .account-box #toggle-password-register,
 .account-page .main-wrapper .account-content .account-box #toggle-password {
   cursor: pointer;
   margin-right: 1px;

@@ -76,6 +76,14 @@ class LoginController extends BaseController{
             $InerContact->user_password = md5($request->getRegisterUserPass_val);
             $InerContact->save();
 
+            $regUsrDataGet = ExptUsers::select('user_role', 'first_login')->where('id', $InerContact->id)->first();
+
+            Session::put('normalUserId', $InerContact->id);
+            Session::put('normalUserName', $InerContact->user_name);
+            Session::put('normalUserEmail', $InerContact->user_email);
+            Session::put('normalUserRole', $regUsrDataGet->user_role);
+            Session::put('normalUserFsLgin', $regUsrDataGet->first_login);
+
         }        
 
     }
@@ -121,6 +129,7 @@ class LoginController extends BaseController{
         Session::forget('normalUserName');
         Session::forget('normalUserEmail');
         Session::forget('normalUserRole');
+        Session::forget('normalUserFsLgin');
 
         return 'logout successfull';
     }

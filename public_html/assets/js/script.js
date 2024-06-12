@@ -25,6 +25,18 @@ $( document ).ready(function () {
             return attr === 'password' ? 'text' : 'password';
         });
     });
+    $(document).on('click', '#toggle-password-register', function () {
+        $('#toggle-password-register').toggleClass('fa-eye-slash fa-eye');
+        $('#user-register-pass').attr('type', function (_, attr) {
+            return attr === 'password' ? 'text' : 'password';
+        });
+    });
+    $(document).on('click', '#toggle-rep-password-register', function () {
+        $('#toggle-rep-password-register').toggleClass('fa-eye-slash fa-eye');
+        $('#user-register-repass').attr('type', function (_, attr) {
+            return attr === 'password' ? 'text' : 'password';
+        });
+    });
 
     $(document).on('click', '#user-login-btn', function (e) {
         e.preventDefault();
@@ -56,7 +68,7 @@ $( document ).ready(function () {
             return false;
         }
 
-        $(this).addClass('d-none');
+        $('#user-login-btn').addClass('d-none');
         $('#login-loader').removeClass('d-none');
 
         data = {
@@ -78,6 +90,8 @@ $( document ).ready(function () {
             success: function (response) {
 
                 if(response == "Wrong email") {
+                    $('#user-login-btn').removeClass('d-none');
+                    $('#login-loader').addClass('d-none');
                     Swal.fire({
                         title: 'Wrong Email!',
                         text: "The Email you provided doesn't exist, please enter correct Email and then try again.",
@@ -87,6 +101,8 @@ $( document ).ready(function () {
                 }
 
                 if(response == "Wrong password") {
+                    $('#user-login-btn').removeClass('d-none');
+                    $('#login-loader').addClass('d-none');
                     Swal.fire({
                         title: 'Wrong Password!',
                         text: "The Credentials you provided doesn't match any account, please enter correct credentials and then try again.",
@@ -95,7 +111,7 @@ $( document ).ready(function () {
                     return false;
                 }
 
-                $(this).addClass('d-none');
+                $('#user-login-btn').addClass('d-none');
                 $('#login-loader').addClass('d-none');
                 $('#login-success').removeClass('d-none');
 
@@ -103,7 +119,7 @@ $( document ).ready(function () {
 
             },
             error: function (result) {
-                $(this).removeClass('d-none');
+                $('#user-login-btn').removeClass('d-none');
                 $('#login-loader').addClass('d-none');
 
                 Swal.fire({
@@ -171,6 +187,9 @@ $( document ).ready(function () {
             return false;
         }
 
+        $('#user-register-btn').addClass('d-none');
+        $('#register-loader').removeClass('d-none');
+
         data = {
             'getRegisterUserName_val' : getRegisterUserName,
             'getRegisterUserEmail_val' : getRegisterUserEmail,
@@ -192,6 +211,8 @@ $( document ).ready(function () {
             success: function (response) {
 
                 if(response == "email exists") {
+                    $('#user-register-btn').removeClass('d-none');
+                    $('#register-loader').addClass('d-none');
                     Swal.fire({
                         icon: 'error',
                         title: 'Email Exists!',
@@ -200,10 +221,16 @@ $( document ).ready(function () {
                     return false;
                 }
 
+                $('#user-register-btn').addClass('d-none');
+                $('#register-loader').addClass('d-none');
+                $('#register-success').removeClass('d-none');
+
                 window.location.assign('/dashboard');
 
             },
             error: function (result) {
+                $('#user-register-btn').removeClass('d-none');
+                $('#register-loader').addClass('d-none');
                 Swal.fire({
                     icon: 'error',
                     title: 'Some error',
