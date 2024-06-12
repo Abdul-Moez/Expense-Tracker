@@ -95,7 +95,7 @@
           <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false"><i class="fa fa-ellipsis-v"></i></a>
           <div class="dropdown-menu dropdown-menu-right">
             {{-- <a class="dropdown-item" href="profile.html">My Profile</a> --}}
-            <a class="dropdown-item" href="profile.html">{{ session::get('normalUserName') }}</a>
+            {{-- <a class="dropdown-item" href="profile.html">{{ session::get('normalUserName') }}</a> --}}
             <a class="dropdown-item logout-btn" href="javascript:void(0)">Logout</a>
           </div>
         </div>
