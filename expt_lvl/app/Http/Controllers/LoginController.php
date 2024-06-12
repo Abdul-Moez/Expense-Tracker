@@ -84,6 +84,10 @@ class LoginController extends BaseController{
             Session::put('normalUserRole', $regUsrDataGet->user_role);
             Session::put('normalUserFsLgin', $regUsrDataGet->first_login);
 
+            ExptUsers::where('id', $InerContact->id)->update(array(
+                'first_login' => 0,
+            ));
+
         }        
 
     }
@@ -159,7 +163,8 @@ class LoginController extends BaseController{
             Mail::send([], [], function ($message) use ($NHtml) {
                 $message->to(Session::get('usersEmail'), Session::get('usersName'))
                 ->subject('Expense Tracker - Password Reset Link')
-                ->setBody($NHtml['Content'], 'text/html');
+                // ->setBody($NHtml['Content'], 'text/html');
+                ->html($NHtml['Content']);
                 $message->from('support@expensetracker.com', 'Expense Tracker');
                 $message->replyto('no-reply@expensetracker.com', 'Expense Tracker');
                 $message->priority(1);
