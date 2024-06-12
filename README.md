@@ -86,7 +86,7 @@ The application will be accessible at `http://localhost:8000` in your web browse
   <li>Allow user to add sources separately</li>
   <li>Allow user to export data in .pdf and .xlsx format</li>
   <li>Allow user to edit their profile</li>
-  <li>Allow user to reset their password</li>
+  <li><s>Allow user to reset their password</s></li>
 </ul>
 
 ### License
