@@ -13,35 +13,15 @@
     <link rel="stylesheet" href="{{ URL('assets/bootstrap/bootstrap.min.css') }}">
     <!-- Cutom CSS -->
     <link rel="stylesheet" href="{{ URL('assets/css/style.css') }}">
-    <!-- Animate CSS -->
-    <link rel="stylesheet" href="{{ URL('assets/css/animate.css') }}">
     <!-- Font Awesome CSS -->
     <link rel="stylesheet" href="{{ URL('assets/fontawesome/all.min.css') }}">
     <!-- Sweet Alert CSS -->
     <link rel="stylesheet" href="{{ URL('assets/sweet_alert/sweetalert2.min.css') }}">
-    <!-- Slick Slider CSS -->
-    <link rel="stylesheet" href="{{ URL('assets/slick_slider/css/slick.css') }}">
 
-    <!-- Template Assets Fontawesome CSS -->
-    <link rel="stylesheet" href="{{ URL('assets/template_assets/plugins/fontawesome/css/fontawesome.min.css') }}">
-    <!-- Template Assets Fontawesome All CSS -->
-    <link rel="stylesheet" href="{{ URL('assets/template_assets/plugins/fontawesome/css/all.min.css') }}">
-    <!-- Template Assets Line Awesome CSS -->
-    <link rel="stylesheet" href="{{ URL('assets/template_assets/css/line-awesome.min.css') }}">
-    <!-- Template Assets Material CSS -->
-    <link rel="stylesheet" href="{{ URL('assets/template_assets/css/material.css') }}">
-    <!-- Template Assets Fontawesome CSS -->
-    <link rel="stylesheet" href="{{ URL('assets/template_assets/css/font-awesome.min.css') }}">
-    <!-- Template Assets Moris CSS -->
-    <link rel="stylesheet" href="{{ URL('assets/template_assets//plugins/morris/morris.css') }}">
     <!-- Template Assets Style CSS -->
     <link rel="stylesheet" href="{{ URL('assets/template_assets/css/style.css') }}">
     <!-- Template Assets Bootstrap Datatables CSS -->
     <link rel="stylesheet" href="{{ URL('assets/template_assets/css/dataTables.bootstrap4.min.css') }}">
-    <!-- Template Assets Select 2 CSS -->
-    <link rel="stylesheet" href="{{ URL('assets/template_assets/css/select2.min.css') }}">
-    <!-- Template Assets Bootstrap DateTimePicker CSS -->
-    <link rel="stylesheet" href="{{ URL('assets/template_assets/css/bootstrap-datetimepicker.min.css') }}">
 </head>
 
 <body>
@@ -277,36 +257,13 @@
     <script src="{{ URL('/assets/js/script.js') }}"></script>
     <!-- Sweet Alert Js -->
     <script src="{{ URL('/assets/sweet_alert/sweetalert2.min.js') }}"></script>
-    <!-- Slick Slider Js -->
-    <script src="{{ URL('/assets/slick_slider/js/slick.min.js') }}"></script>
 
-
-    <!-- Template Assets Layout Js -->
-    <script src="{{ URL('assets/template_assets/js/layout.js') }}"></script>
-    <!-- Template Assets Theme Settings Js -->
-    <script src="{{ URL('assets/template_assets/js/theme-settings.js') }}"></script>
-    <!-- Template Assets Slim Scroll Js -->
-    <script src="{{ URL('assets/template_assets/js/jquery.slimscroll.min.js') }}"></script>
-    <!-- Template Assets Greedy Nav Js -->
-    <script src="{{ URL('assets/template_assets/js/greedynav.js') }}"></script>
-    <!-- Template Assets Morris Js -->
-    <script src="{{ URL('assets/template_assets/plugins/morris/morris.min.js') }}"></script>
-    <!-- Template Assets Raphael Js -->
-    <script src="{{ URL('assets/template_assets/plugins/raphael/raphael.min.js') }}"></script>
-    <!-- Template Assets Chart Js -->
-    <script src="{{ URL('assets/template_assets/js/chart.js') }}"></script>
     <!-- Template Assets App Js -->
     <script src="{{ URL('assets/template_assets/js/app.js') }}"></script>
-    <!-- Template Assets Select 2 Js -->
-    <script src="{{ URL('assets/template_assets/js/select2.min.js') }}"></script>
     <!-- Template Assets Jquery Datatables Js -->
     <script src="{{ URL('assets/template_assets/js/jquery.dataTables.min.js') }}"></script>
     <!-- Template Assets Bootstrap Datatables Js -->
     <script src="{{ URL('assets/template_assets/js/dataTables.bootstrap4.min.js') }}"></script>
-    <!-- Template Assets Moment Js -->
-    <script src="{{ URL('assets/template_assets/js/moment.min.js') }}"></script>
-    <!-- Template Assets Bootstrap Datetimepicker Js -->
-    <script src="{{ URL('assets/template_assets/js/bootstrap-datetimepicker.min.js') }}"></script>
 
 	<script>
 		$(document).on('click', "#sidebar-menu > ul > li", function() {
