@@ -50,7 +50,7 @@
                                 <button class="btn btn-primary account-btn" id="forogtPassBtn" name="forogtPassBtn" type="submit">Reset Password</button>
                             </div>
                             <div class="account-footer">
-                                <p>Remember your password? <a href="/ep_login">Login</a></p>
+                                <p>Remember your password? <a href="/">Login</a></p>
                             </div>
                         </form>
                     </div>
