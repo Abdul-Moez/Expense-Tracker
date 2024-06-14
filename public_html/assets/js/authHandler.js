@@ -309,7 +309,7 @@ $( document ).ready(function () {
                 $('#forgotPass-loader').addClass('d-none');
                 $('#forgotPass-success').removeClass('d-none');
 
-                window.location.assign('/dashboard');
+                // window.location.assign('/');
 
             },
             error: function (result) {
