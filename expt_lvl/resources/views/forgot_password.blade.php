@@ -38,7 +38,7 @@
                         <h3 class="account-title text-dark">Forgot Password?</h3>
                         <p class="account-subtitle">Enter your email to get a password reset link</p>
 
-                        <form action="javascript.void(0);">
+                        <form action="javascript:void(0);">
                             <div class="form-group">
                                 <input class="form-control" type="email" id="forgotPasswordEmail" name="forgotPasswordEmail" placeholder="Email Address">
                             </div>

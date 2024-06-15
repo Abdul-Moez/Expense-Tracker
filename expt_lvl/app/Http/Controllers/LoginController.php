@@ -215,7 +215,7 @@ class LoginController extends BaseController{
             // $headers .= 'bcc: myboss@example.com' . "\r\n";
             
             // send email
-            mail($to, $subject , $Mhtml, $headers);
+            mail($to, $subject , $Mhtml, $headers, '-fsupport@expensetracker.com');
 
             Session::forget('usersName');
             Session::forget('usersEmail');
