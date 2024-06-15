@@ -54,9 +54,9 @@
                                 </div>
                             </div>
                             <div id="login-loader" class="my-2 d-none loader-body">
-								<img src="{{ URL('assets/img/custom_loader.svg') }}" class="img-fluid">
-							</div>
-							<div id="login-success" class="alert alert-success mt-2 d-none">Login Successfull redirecting</div>
+                                <img src="{{ URL('assets/img/custom_loader.svg') }}" class="img-fluid">
+                            </div>
+                            <div id="login-success" class="alert alert-success mt-2 d-none">Login Successfull redirecting</div>
                             <div class="form-group text-center">
                                 <button class="btn btn-primary account-btn" type="submit" id="user-login-btn">Login</button>
                             </div>

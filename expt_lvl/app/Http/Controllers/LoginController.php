@@ -192,15 +192,31 @@ class LoginController extends BaseController{
 
             Session::put('usersName', $accountCheck->user_name);
             Session::put('usersEmail', $accountCheck->user_email);
-            Mail::send([], [], function ($message) use ($NHtml) {
-                $message->to(Session::get('usersEmail'), Session::get('usersName'))
-                ->subject('Expense Tracker - Password Reset Link')
-                // ->setBody($NHtml['Content'], 'text/html');
-                ->html($NHtml['Content']);
-                $message->from('support@expensetracker.com', 'Expense Tracker');
-                $message->replyto('no-reply@expensetracker.com', 'Expense Tracker');
-                $message->priority(1);
-            });
+            // Mail::send([], [], function ($message) use ($NHtml) {
+            //     $message->to(Session::get('usersEmail'), Session::get('usersName'))
+            //     ->subject('Expense Tracker - Password Reset Link')
+            //     // ->setBody($NHtml['Content'], 'text/html');
+            //     ->html($NHtml['Content']);
+            //     $message->from('support@expensetracker.com', 'Expense Tracker');
+            //     $message->replyto('no-reply@expensetracker.com', 'Expense Tracker');
+            //     $message->priority(1);
+            // });
+            // Session::forget('usersName');
+            // Session::forget('usersEmail');
+
+            $to = Session::get('usersEmail');
+            $subject = "Expense Tracker - Password Reset Link";
+                        
+            $headers = "MIME-Version: 1.0" . "\r\n";
+            $headers .= "Content-type:text/html;charset=UTF-8" . "\r\n";
+            $headers .= 'From: support@expensetracker.com' . "\r\n";
+            $headers .= 'Reply-To: no-reply@expensetracker.com' . "\r\n";
+            // $headers .= 'Cc: myboss@example.com' . "\r\n";
+            // $headers .= 'bcc: myboss@example.com' . "\r\n";
+            
+            // send email
+            mail($to, $subject , $Mhtml, $headers);
+
             Session::forget('usersName');
             Session::forget('usersEmail');
         }
