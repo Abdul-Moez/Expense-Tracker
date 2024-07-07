@@ -23,6 +23,8 @@ Route::get('/forgot_password.htm', 'LoginController@forgotPassword')->name('forg
 Route::get('/reset_password/{link}', 'LoginController@resetPassword')->name('reset_password');
 Route::post('/login_process', 'LoginController@loginProcess')->name('login_process');
 
+Route::post('/api/appApiRoute', 'AppApiController@loginProcess')->name('app_api_login_process');
+
 Route::group(['middleware' => ['normaluserlogin']], function () {
     
     Route::get('/encryption_key', 'LoginController@generate_key')->name('generate_key');
